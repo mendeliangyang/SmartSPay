@@ -6,6 +6,7 @@
 package com.smart.smartspay.repository;
 
 import com.smart.smartspay.entity.UserDetailEntity;
+import com.smart.smartspay.entity.Userdetail;
 import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
@@ -13,8 +14,8 @@ import java.util.List;
  *
  * @author Administrator
  */
-public interface UserDetailRepository extends CrudRepository<UserDetailEntity, Long> {
+public interface UserDetailRepository extends CrudRepository<Userdetail, String> {
 
-    List<UserDetailEntity> findByUserName(String userName);
+    List<Userdetail> findByUserName(String userName);
 
 }

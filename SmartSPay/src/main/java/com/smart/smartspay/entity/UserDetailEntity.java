@@ -5,6 +5,7 @@
  */
 package com.smart.smartspay.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,7 +19,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "USERDETAIL")
-public class UserDetailEntity {
+public class UserDetailEntity implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long userId;

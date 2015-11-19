@@ -6,6 +6,7 @@
 package com.smart.smartspay.controller;
 
 import com.smart.smartspay.entity.UserDetailEntity;
+import com.smart.smartspay.entity.Userdetail;
 import com.smart.smartspay.repository.UserDetailRepository;
 import com.smart.smartspay.util.SmartLog4j;
 import org.springframework.http.MediaType;
@@ -35,8 +36,12 @@ public class UserDetailController {
     public String test(@RequestBody String param) throws Exception {
         //analyzeParamJackson.transferReviveRSParamModel(param, OperateTypeEnum.update);
         SmartLog4j.LogInfo(param);
-        UserDetailEntity userEntity = new UserDetailEntity();
-        userEntity.setUserName("abcd");
+//        UserDetailEntity userEntity = new UserDetailEntity();
+//        userEntity.setUserName("abcd");
+        
+        Userdetail userEntity = new Userdetail();
+        userEntity.setUserName("撒阿达");
+        userEntity.setUPassword("adfaf");
         userDetailRepository.save(userEntity);
         return "tead阿达t";
     }

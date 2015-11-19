@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.smart_SmartSPay_war_1.0PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.smart.smartspay.entity.Advice</class>
+    <class>com.smart.smartspay.entity.Userdetail</class>
+    <class>com.smart.smartspay.entity.Contact</class>
+    <class>com.smart.smartspay.entity.Reply</class>
+    <class>com.smart.smartspay.entity.Communityuser</class>
+    <class>com.smart.smartspay.entity.Note</class>
+    <class>com.smart.smartspay.entity.Notelaud</class>
+    <class>com.smart.smartspay.entity.Consume</class>
+    <class>com.smart.smartspay.entity.Consumeyearmonth</class>
+    <class>com.smart.smartspay.entity.Paychannel</class>
+    <class>com.smart.smartspay.entity.Consumetype</class>
+    <class>com.smart.smartspay.entity.Notify</class>
+    <class>com.smart.smartspay.entity.Community</class>
+    <class>com.smart.smartspay.entity.Usernotify</class>
+    <class>com.smart.smartspay.entity.Branch</class>
+    <class>com.smart.smartspay.entity.Version</class>
+    <class>com.smart.smartspay.entity.Actonlog</class>
+    <class>com.smart.smartspay.entity.Accountbind</class>
+    <class>com.smart.smartspay.entity.Actonls</class>
+    <class>com.smart.smartspay.entity.Accountbindls</class>
+    <class>com.smart.smartspay.entity.Acton</class>
+    <class>com.smart.smartspay.entity.Myaccount</class>
+    <class>com.smart.smartspay.entity.Myaccountls</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://220.231.153.66:8006/smartpay?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+    </properties>
+  </persistence-unit>
+</persistence>
