@@ -18,9 +18,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -38,6 +38,7 @@ import javax.persistence.JoinColumn;
     @NamedQuery(name = "Notify.findByBranchAuth", query = "SELECT n FROM Notify n WHERE n.branchAuth = :branchAuth"),
     @NamedQuery(name = "Notify.findByCommunityId", query = "SELECT n FROM Notify n WHERE n.communityId = :communityId")})
 public class Notify implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -48,15 +49,18 @@ public class Notify implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date putDate;
 //    @Basic(optional = false)
-//    private String branchId;
+    
+    @JoinColumn(name = "BranchId", referencedColumnName = "BranchId")
+    @ManyToOne(optional = false)
+    private Branch branchId;
     @Basic(optional = false)
     private int branchAuth;
     @Basic(optional = false)
     private String communityId;
-    
-    @OneToOne(cascade = CascadeType.DETACH,optional = false,fetch = FetchType.EAGER)
-     @JoinColumn(name="Branch_BranchId", nullable=true)
-    private Branch branchId;
+
+//    @OneToOne(cascade = CascadeType.DETACH,optional = false,fetch = FetchType.EAGER)
+//     @JoinColumn(name="Branch_BranchId", nullable=true)
+//    private Branch branchId;
 
 //    public Branch getBranchContext() {
 //        return branchContext;
@@ -65,15 +69,13 @@ public class Notify implements Serializable {
 //    public void setBranchContext(Branch branchContext) {
 //        this.branchContext = branchContext;
 //    }
-    
-        public Branch getBranchId() {
+    public Branch getBranchId() {
         return branchId;
     }
 
     public void setBranchId(Branch branchId) {
         this.branchId = branchId;
     }
-    
 
     public Notify() {
     }
@@ -122,8 +124,6 @@ public class Notify implements Serializable {
         this.putDate = putDate;
     }
 
-
-
     public int getBranchAuth() {
         return branchAuth;
     }
@@ -164,5 +164,5 @@ public class Notify implements Serializable {
     public String toString() {
         return "com.smart.smartspay.entity.Notify[ notifyId=" + notifyId + " ]";
     }
-    
+
 }
