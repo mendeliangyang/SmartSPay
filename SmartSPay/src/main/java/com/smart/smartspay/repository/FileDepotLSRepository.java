@@ -5,16 +5,13 @@
  */
 package com.smart.smartspay.repository;
 
-import com.smart.smartspay.entity.Userdetail;
+import com.smart.smartspay.entity.FiledepotLs;
 import org.springframework.data.repository.CrudRepository;
-import java.util.List;
 
 /**
  *
  * @author Administrator
  */
-public interface UserDetailRepository extends CrudRepository<Userdetail, String> {
-
-    List<Userdetail> findByUserName(String userName);
-
+public interface FileDepotLSRepository extends CrudRepository<FiledepotLs, String> {
+    
 }

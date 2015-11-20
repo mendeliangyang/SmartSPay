@@ -21,11 +21,19 @@ public class ResponseFormationJson {
         return retCode_Key;
     }
 
-    public static String FormationResponseSucess(JSONObject jsonObject) {
+    public static String FormationResponseSucess(Object jsonObject) {
         return FormationResponse(ResponseResultCode.Success, "", jsonObject);
     }
 
-    public static String FormationResponse(ResponseResultCode code, String retMsg, JSONObject retContext) {
+    public static String FormationResponse(ResponseResultCode code, String retMsg) {
+        return FormationResponse(code, retMsg, null);
+    }
+
+    public static String FormationResponse(ResponseResultCode code, Exception exception) {
+        return FormationResponse(code, exception.getLocalizedMessage(), null);
+    }
+
+    public static String FormationResponse(ResponseResultCode code, String retMsg, Object retContext) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate(retCode_Key, code.toString());
         jsonObject.accumulate(retMsg_Key, retMsg);

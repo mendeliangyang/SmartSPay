@@ -8,10 +8,12 @@ package com.smart.smartspay.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Version.findAll", query = "SELECT v FROM Version v"),
@@ -34,14 +37,20 @@ public class Version implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String versionId;
     @Basic(optional = false)
+    @Column(nullable = false, length = 20)
     private String num;
+    @Column(length = 400)
     private String content;
+    @Column(length = 200)
     private String resorceLink;
     @Basic(optional = false)
+    @Column(nullable = false)
     private int upType;
     @Basic(optional = false)
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date putDate;
 

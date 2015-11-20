@@ -14,6 +14,7 @@ import com.smart.smartspay.entity.Userdetail;
 import com.smart.smartspay.repository.NotifyRepository;
 import com.smart.smartspay.util.DateJsonValueProcessor;
 import com.smart.smartspay.util.ResponseFormationJson;
+import com.smart.smartspay.util.ResponseResultCode;
 import com.smart.smartspay.util.SmartLog4j;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,11 +58,13 @@ public class NotifyController {
 
         String firstNotifyId = UtileSmart.getStringFromMap(paramMap, paramKey_notifyId);
 
-        Notify notify = notifyRepository.findBynotifyId(firstNotifyId);
-
+        Notify notify = notifyRepository.findOne(firstNotifyId);
+        if (notify == null) {
+            return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorNotFound, String.format("notifyId:'%s' don't exist", firstNotifyId), null);
+        }
         Pageable pageable = new PageRequest(UtileSmart.getIntFromMap(paramMap, paramKey_pageIndex), UtileSmart.getIntFromMap(paramMap, paramKey_pageSize), Direction.DESC, "PutDate");
 
-        Page<Notify> notifys = notifyRepository.findByputDateBefore(notify.getPutDate(), pageable);
+        Page<Notify> notifys = notifyRepository.findByPutDateBefore(notify.getPutDate(), pageable);
 
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());

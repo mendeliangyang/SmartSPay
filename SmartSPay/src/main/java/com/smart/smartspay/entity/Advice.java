@@ -8,10 +8,14 @@ package com.smart.smartspay.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,13 +25,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Advice.findAll", query = "SELECT a FROM Advice a"),
     @NamedQuery(name = "Advice.findByAdviceId", query = "SELECT a FROM Advice a WHERE a.adviceId = :adviceId"),
     @NamedQuery(name = "Advice.findByContent", query = "SELECT a FROM Advice a WHERE a.content = :content"),
     @NamedQuery(name = "Advice.findByPutDate", query = "SELECT a FROM Advice a WHERE a.putDate = :putDate"),
-    @NamedQuery(name = "Advice.findByUserId", query = "SELECT a FROM Advice a WHERE a.userId = :userId"),
     @NamedQuery(name = "Advice.findByProcessFlag", query = "SELECT a FROM Advice a WHERE a.processFlag = :processFlag"),
     @NamedQuery(name = "Advice.findByProcessDate", query = "SELECT a FROM Advice a WHERE a.processDate = :processDate"),
     @NamedQuery(name = "Advice.findByProcessReply", query = "SELECT a FROM Advice a WHERE a.processReply = :processReply")})
@@ -35,18 +39,23 @@ public class Advice implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String adviceId;
     @Basic(optional = false)
+    @Column(nullable = false, length = 400)
     private String content;
     @Basic(optional = false)
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date putDate;
-    @Basic(optional = false)
-    private String userId;
     private Integer processFlag;
     @Temporal(TemporalType.TIMESTAMP)
     private Date processDate;
+    @Column(length = 400)
     private String processReply;
+    @JoinColumn(name = "UserId", referencedColumnName = "UserId", nullable = false)
+    @ManyToOne(optional = false)
+    private Userdetail userId;
 
     public Advice() {
     }
@@ -55,11 +64,10 @@ public class Advice implements Serializable {
         this.adviceId = adviceId;
     }
 
-    public Advice(String adviceId, String content, Date putDate, String userId) {
+    public Advice(String adviceId, String content, Date putDate) {
         this.adviceId = adviceId;
         this.content = content;
         this.putDate = putDate;
-        this.userId = userId;
     }
 
     public String getAdviceId() {
@@ -86,14 +94,6 @@ public class Advice implements Serializable {
         this.putDate = putDate;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public Integer getProcessFlag() {
         return processFlag;
     }
@@ -116,6 +116,14 @@ public class Advice implements Serializable {
 
     public void setProcessReply(String processReply) {
         this.processReply = processReply;
+    }
+
+    public Userdetail getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Userdetail userId) {
+        this.userId = userId;
     }
 
     @Override

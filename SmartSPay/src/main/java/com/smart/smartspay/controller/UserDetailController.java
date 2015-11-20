@@ -5,7 +5,6 @@
  */
 package com.smart.smartspay.controller;
 
-import com.smart.smartspay.entity.UserDetailEntity;
 import com.smart.smartspay.entity.Userdetail;
 import com.smart.smartspay.repository.UserDetailRepository;
 import com.smart.smartspay.util.SmartLog4j;

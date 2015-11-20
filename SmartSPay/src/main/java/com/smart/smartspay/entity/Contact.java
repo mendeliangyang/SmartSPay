@@ -7,10 +7,14 @@ package com.smart.smartspay.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -18,11 +22,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Contact.findAll", query = "SELECT c FROM Contact c"),
     @NamedQuery(name = "Contact.findByContactId", query = "SELECT c FROM Contact c WHERE c.contactId = :contactId"),
-    @NamedQuery(name = "Contact.findByBranchId", query = "SELECT c FROM Contact c WHERE c.branchId = :branchId"),
     @NamedQuery(name = "Contact.findByOffice", query = "SELECT c FROM Contact c WHERE c.office = :office"),
     @NamedQuery(name = "Contact.findByContactName", query = "SELECT c FROM Contact c WHERE c.contactName = :contactName"),
     @NamedQuery(name = "Contact.findByGender", query = "SELECT c FROM Contact c WHERE c.gender = :gender"),
@@ -34,17 +38,26 @@ public class Contact implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String contactId;
-    private String branchId;
+    @Column(length = 60)
     private String office;
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String contactName;
     private Integer gender;
+    @Column(length = 20)
     private String mobilePhone;
+    @Column(length = 40)
     private String phone;
+    @Column(length = 100)
     private String email;
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String communityId;
+    @JoinColumn(name = "BranchId", referencedColumnName = "BranchId")
+    @ManyToOne
+    private Branch branchId;
 
     public Contact() {
     }
@@ -65,14 +78,6 @@ public class Contact implements Serializable {
 
     public void setContactId(String contactId) {
         this.contactId = contactId;
-    }
-
-    public String getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
     }
 
     public String getOffice() {
@@ -129,6 +134,14 @@ public class Contact implements Serializable {
 
     public void setCommunityId(String communityId) {
         this.communityId = communityId;
+    }
+
+    public Branch getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Branch branchId) {
+        this.branchId = branchId;
     }
 
     @Override

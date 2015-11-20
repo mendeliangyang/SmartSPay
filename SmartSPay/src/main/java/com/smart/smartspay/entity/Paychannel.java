@@ -7,10 +7,12 @@ package com.smart.smartspay.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -18,6 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Paychannel.findAll", query = "SELECT p FROM Paychannel p"),
@@ -31,11 +34,14 @@ public class Paychannel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String payChannlId;
     private Integer payType;
     private Integer certificateType;
     private Integer accountKind;
+    @Column(length = 200)
     private String accountName;
+    @Column(length = 200)
     private String description;
 
     public Paychannel() {

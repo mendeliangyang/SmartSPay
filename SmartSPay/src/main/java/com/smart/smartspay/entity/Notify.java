@@ -6,27 +6,30 @@
 package com.smart.smartspay.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import javax.persistence.OneToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Notify.findAll", query = "SELECT n FROM Notify n"),
@@ -34,48 +37,32 @@ import javax.persistence.ManyToOne;
     @NamedQuery(name = "Notify.findByTitle", query = "SELECT n FROM Notify n WHERE n.title = :title"),
     @NamedQuery(name = "Notify.findByContent", query = "SELECT n FROM Notify n WHERE n.content = :content"),
     @NamedQuery(name = "Notify.findByPutDate", query = "SELECT n FROM Notify n WHERE n.putDate = :putDate"),
-    @NamedQuery(name = "Notify.findByBranchId", query = "SELECT n FROM Notify n WHERE n.branchId = :branchId"),
     @NamedQuery(name = "Notify.findByBranchAuth", query = "SELECT n FROM Notify n WHERE n.branchAuth = :branchAuth"),
     @NamedQuery(name = "Notify.findByCommunityId", query = "SELECT n FROM Notify n WHERE n.communityId = :communityId")})
 public class Notify implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String notifyId;
+    @Column(length = 80)
     private String title;
+    @Column(length = 400)
     private String content;
     @Basic(optional = false)
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date putDate;
-//    @Basic(optional = false)
-    
-    @JoinColumn(name = "BranchId", referencedColumnName = "BranchId")
-    @ManyToOne(optional = false)
-    private Branch branchId;
     @Basic(optional = false)
+    @Column(nullable = false)
     private int branchAuth;
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String communityId;
-
-//    @OneToOne(cascade = CascadeType.DETACH,optional = false,fetch = FetchType.EAGER)
-//     @JoinColumn(name="Branch_BranchId", nullable=true)
-//    private Branch branchId;
-
-//    public Branch getBranchContext() {
-//        return branchContext;
-//    }
-//
-//    public void setBranchContext(Branch branchContext) {
-//        this.branchContext = branchContext;
-//    }
-    public Branch getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(Branch branchId) {
-        this.branchId = branchId;
-    }
+    
+    @JoinColumn(name = "BranchId", referencedColumnName = "BranchId", nullable = false)
+    @ManyToOne(optional = false)
+    private Branch branchId;
 
     public Notify() {
     }
@@ -84,10 +71,9 @@ public class Notify implements Serializable {
         this.notifyId = notifyId;
     }
 
-    public Notify(String notifyId, Date putDate, String branchId, int branchAuth, String communityId) {
+    public Notify(String notifyId, Date putDate, int branchAuth, String communityId) {
         this.notifyId = notifyId;
         this.putDate = putDate;
-//        this.branchId = branchId;
         this.branchAuth = branchAuth;
         this.communityId = communityId;
     }
@@ -140,6 +126,14 @@ public class Notify implements Serializable {
         this.communityId = communityId;
     }
 
+    public Branch getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Branch branchId) {
+        this.branchId = branchId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -164,5 +158,5 @@ public class Notify implements Serializable {
     public String toString() {
         return "com.smart.smartspay.entity.Notify[ notifyId=" + notifyId + " ]";
     }
-
+    
 }

@@ -5,22 +5,22 @@
  */
 package com.smart.smartspay.repository;
 
-import com.smart.smartspay.entity.Notify;
+import com.smart.smartspay.entity.Note;
 import java.util.Date;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-
 /**
  *
  * @author Administrator
  */
-public interface NotifyRepository extends PagingAndSortingRepository<Notify, String> {
+public interface NoteRepository extends PagingAndSortingRepository<Note, String> {
 
-    Notify findOne(String notifyId);
+    Note findOne(String notifyId);
 
-    Page<Notify> findByPutDateBefore(Date putDate, Pageable pageable);
+    Page<Note> findByPutDateBefore(Date putDate, Pageable pageable);
 
-    Page<Notify> findAll(Pageable pageable);
+    Page<Note> findAll(Pageable pageable);
+
 }

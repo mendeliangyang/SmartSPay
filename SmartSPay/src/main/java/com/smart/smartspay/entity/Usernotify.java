@@ -8,10 +8,14 @@ package com.smart.smartspay.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,27 +25,30 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usernotify.findAll", query = "SELECT u FROM Usernotify u"),
     @NamedQuery(name = "Usernotify.findByUserNotifyId", query = "SELECT u FROM Usernotify u WHERE u.userNotifyId = :userNotifyId"),
-    @NamedQuery(name = "Usernotify.findByNotifyId", query = "SELECT u FROM Usernotify u WHERE u.notifyId = :notifyId"),
     @NamedQuery(name = "Usernotify.findByReadStatus", query = "SELECT u FROM Usernotify u WHERE u.readStatus = :readStatus"),
-    @NamedQuery(name = "Usernotify.findByUserId", query = "SELECT u FROM Usernotify u WHERE u.userId = :userId"),
     @NamedQuery(name = "Usernotify.findByReadDate", query = "SELECT u FROM Usernotify u WHERE u.readDate = :readDate")})
 public class Usernotify implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false)
     private Integer userNotifyId;
     @Basic(optional = false)
-    private String notifyId;
-    @Basic(optional = false)
+    @Column(nullable = false)
     private int readStatus;
-    @Basic(optional = false)
-    private String userId;
     @Temporal(TemporalType.TIMESTAMP)
     private Date readDate;
+    @JoinColumn(name = "NotifyId", referencedColumnName = "NotifyId", nullable = false)
+    @ManyToOne(optional = false)
+    private Notify notifyId;
+    @JoinColumn(name = "UserId", referencedColumnName = "UserId", nullable = false)
+    @ManyToOne(optional = false)
+    private Userdetail userId;
 
     public Usernotify() {
     }
@@ -50,11 +57,9 @@ public class Usernotify implements Serializable {
         this.userNotifyId = userNotifyId;
     }
 
-    public Usernotify(Integer userNotifyId, String notifyId, int readStatus, String userId) {
+    public Usernotify(Integer userNotifyId, int readStatus) {
         this.userNotifyId = userNotifyId;
-        this.notifyId = notifyId;
         this.readStatus = readStatus;
-        this.userId = userId;
     }
 
     public Integer getUserNotifyId() {
@@ -65,14 +70,6 @@ public class Usernotify implements Serializable {
         this.userNotifyId = userNotifyId;
     }
 
-    public String getNotifyId() {
-        return notifyId;
-    }
-
-    public void setNotifyId(String notifyId) {
-        this.notifyId = notifyId;
-    }
-
     public int getReadStatus() {
         return readStatus;
     }
@@ -81,20 +78,28 @@ public class Usernotify implements Serializable {
         this.readStatus = readStatus;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public Date getReadDate() {
         return readDate;
     }
 
     public void setReadDate(Date readDate) {
         this.readDate = readDate;
+    }
+
+    public Notify getNotifyId() {
+        return notifyId;
+    }
+
+    public void setNotifyId(Notify notifyId) {
+        this.notifyId = notifyId;
+    }
+
+    public Userdetail getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Userdetail userId) {
+        this.userId = userId;
     }
 
     @Override

@@ -7,10 +7,14 @@ package com.smart.smartspay.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -18,21 +22,24 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Notelaud.findAll", query = "SELECT n FROM Notelaud n"),
     @NamedQuery(name = "Notelaud.findByLaudId", query = "SELECT n FROM Notelaud n WHERE n.laudId = :laudId"),
-    @NamedQuery(name = "Notelaud.findByNoteId", query = "SELECT n FROM Notelaud n WHERE n.noteId = :noteId"),
     @NamedQuery(name = "Notelaud.findByUserId", query = "SELECT n FROM Notelaud n WHERE n.userId = :userId")})
 public class Notelaud implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false)
     private Integer laudId;
     @Basic(optional = false)
-    private String noteId;
-    @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String userId;
+    @JoinColumn(name = "NoteId", referencedColumnName = "NoteId", nullable = false)
+    @ManyToOne(optional = false)
+    private Note noteId;
 
     public Notelaud() {
     }
@@ -41,9 +48,8 @@ public class Notelaud implements Serializable {
         this.laudId = laudId;
     }
 
-    public Notelaud(Integer laudId, String noteId, String userId) {
+    public Notelaud(Integer laudId, String userId) {
         this.laudId = laudId;
-        this.noteId = noteId;
         this.userId = userId;
     }
 
@@ -55,20 +61,20 @@ public class Notelaud implements Serializable {
         this.laudId = laudId;
     }
 
-    public String getNoteId() {
-        return noteId;
-    }
-
-    public void setNoteId(String noteId) {
-        this.noteId = noteId;
-    }
-
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Note getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(Note noteId) {
+        this.noteId = noteId;
     }
 
     @Override

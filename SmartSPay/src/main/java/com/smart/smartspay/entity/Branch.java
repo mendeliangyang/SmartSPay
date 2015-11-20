@@ -6,31 +6,51 @@
 package com.smart.smartspay.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@Table(name = "branch")
+@NamedQueries({
+    @NamedQuery(name = "Branch.findAll", query = "SELECT b FROM Branch b"),
+    @NamedQuery(name = "Branch.findByBranchId", query = "SELECT b FROM Branch b WHERE b.branchId = :branchId"),
+    @NamedQuery(name = "Branch.findByBranchName", query = "SELECT b FROM Branch b WHERE b.branchName = :branchName"),
+    @NamedQuery(name = "Branch.findByBranchUpId", query = "SELECT b FROM Branch b WHERE b.branchUpId = :branchUpId"),
+    @NamedQuery(name = "Branch.findByBranchLevel", query = "SELECT b FROM Branch b WHERE b.branchLevel = :branchLevel"),
+    @NamedQuery(name = "Branch.findByCommunityId", query = "SELECT b FROM Branch b WHERE b.communityId = :communityId")})
 public class Branch implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String branchId;
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String branchName;
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String branchUpId;
     private Integer branchLevel;
     @Basic(optional = false)
+    @Column(nullable = false, length = 40)
     private String communityId;
+   
+   
 
     public Branch() {
     }
@@ -85,6 +105,8 @@ public class Branch implements Serializable {
     public void setCommunityId(String communityId) {
         this.communityId = communityId;
     }
+
+    
 
     @Override
     public int hashCode() {

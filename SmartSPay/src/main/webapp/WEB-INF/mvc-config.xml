@@ -23,6 +23,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     
     <context:component-scan base-package="com.smart.smartspay.config"/>
     <context:component-scan base-package="com.smart.smartspay.task"/>
+    <context:component-scan base-package="com.smart.smartspay.service"/>
     <context:component-scan base-package="com.smart.smartspay.controller"/>
     
     
@@ -39,7 +40,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
   
         <!-- one of the several properties available; the maximum file size in bytes -->
-        <!--<property name="maxUploadSizePerFile" value="5242880"/>-->
+<!--        <property name="defaultEncoding" value="UTF-8" />  
+        <property name="maxUploadSizePerFile" value="5242880"/>-->
     </bean>
     <mvc:default-servlet-handler />
 </beans>

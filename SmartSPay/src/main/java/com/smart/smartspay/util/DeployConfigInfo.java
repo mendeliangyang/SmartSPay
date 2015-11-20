@@ -27,6 +27,8 @@ public class DeployConfigInfo {
             sb.delete(0, sb.length());
             deployLogPath = sb.append(deployRootPath).append("Log").toString();
             sb.delete(0, sb.length());
+            deployDepotPath = sb.append(deployRootPath).append("Depot").toString();
+            sb.delete(0, sb.length());
         }
         return deployRootPath;
     }
@@ -39,5 +41,15 @@ public class DeployConfigInfo {
             //throw new Exception("have't load DeployLogPath.");
         }
         return deployLogPath;
+    }
+
+    private static String deployDepotPath = null;
+
+    public static String getDeployDepotPath() throws Exception {
+        if (deployDepotPath == null || deployDepotPath.isEmpty()) {
+            getDelplyRootPath();
+            //throw new Exception("have't load DeployLogPath.");
+        }
+        return deployDepotPath;
     }
 }

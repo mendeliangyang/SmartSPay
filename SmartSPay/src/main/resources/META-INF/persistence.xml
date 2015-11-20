@@ -25,6 +25,8 @@
     <class>com.smart.smartspay.entity.Acton</class>
     <class>com.smart.smartspay.entity.Myaccount</class>
     <class>com.smart.smartspay.entity.Myaccountls</class>
+    <class>com.smart.smartspay.entity.FiledepotLs</class>
+    <class>com.smart.smartspay.entity.Filedepot</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://220.231.153.66:8006/smartpay?zeroDateTimeBehavior=convertToNull"/>

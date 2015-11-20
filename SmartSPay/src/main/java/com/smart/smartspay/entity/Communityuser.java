@@ -7,8 +7,11 @@ package com.smart.smartspay.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -19,29 +22,29 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
+@Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@Table(name = "communityuser")
+@NamedQueries({
+    @NamedQuery(name = "Communityuser.findAll", query = "SELECT c FROM Communityuser c"),
+    @NamedQuery(name = "Communityuser.findById", query = "SELECT c FROM Communityuser c WHERE c.id = :id")})
 public class Communityuser implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(nullable = false)
     private Integer id;
-    @Basic(optional = false)
-    private String communityId;
-    @Basic(optional = false)
-    private String userId;
+    @JoinColumn(name = "CommunityId", referencedColumnName = "CommunityId", nullable = false)
+    @ManyToOne(optional = false)
+    private Community communityId;
+    @JoinColumn(name = "UserId", referencedColumnName = "UserId", nullable = false)
+    @ManyToOne(optional = false)
+    private Userdetail userId;
 
     public Communityuser() {
     }
 
     public Communityuser(Integer id) {
         this.id = id;
-    }
-
-    public Communityuser(Integer id, String communityId, String userId) {
-        this.id = id;
-        this.communityId = communityId;
-        this.userId = userId;
     }
 
     public Integer getId() {
@@ -52,19 +55,19 @@ public class Communityuser implements Serializable {
         this.id = id;
     }
 
-    public String getCommunityId() {
+    public Community getCommunityId() {
         return communityId;
     }
 
-    public void setCommunityId(String communityId) {
+    public void setCommunityId(Community communityId) {
         this.communityId = communityId;
     }
 
-    public String getUserId() {
+    public Userdetail getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Userdetail userId) {
         this.userId = userId;
     }
 
