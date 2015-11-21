@@ -5,14 +5,17 @@
  */
 package com.smart.smartspay.service;
 
+import com.smart.smartspay.entity.BaseFileDepot;
 import com.smart.smartspay.entity.Filedepot;
 import com.smart.smartspay.entity.FiledepotLs;
 import com.smart.smartspay.exception.NotFoundException;
 import com.smart.smartspay.repository.FileDepotLSRepository;
 import com.smart.smartspay.repository.FileDepotRepository;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.annotation.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,4 +57,14 @@ public class FileDepotService {
         }
     }
 
+    public List<Filedepot> getFilesByOwnId(String ownId) {
+        return fileDepotRepository.findByOwnId(ownId);
+    }
+
+    public <T extends BaseFileDepot> Page<T> getFilesByOwn(Page<T> owns) {
+        for (T content : owns.getContent()) {
+            content.setFileDetail(getFilesByOwnId(content.getFileOwnId()));
+        }
+        return owns;
+    }
 }

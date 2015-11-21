@@ -29,18 +29,9 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Filedepot.findAll", query = "SELECT f FROM Filedepot f"),
-    @NamedQuery(name = "Filedepot.findByFileId", query = "SELECT f FROM Filedepot f WHERE f.fileId = :fileId"),
-    @NamedQuery(name = "Filedepot.findByFName", query = "SELECT f FROM Filedepot f WHERE f.fName = :fName"),
-    @NamedQuery(name = "Filedepot.findByFPath", query = "SELECT f FROM Filedepot f WHERE f.fPath = :fPath"),
-    @NamedQuery(name = "Filedepot.findByFSummary", query = "SELECT f FROM Filedepot f WHERE f.fSummary = :fSummary"),
-    @NamedQuery(name = "Filedepot.findByOwnId", query = "SELECT f FROM Filedepot f WHERE f.ownId = :ownId"),
-    @NamedQuery(name = "Filedepot.findByOwnFileType", query = "SELECT f FROM Filedepot f WHERE f.ownFileType = :ownFileType"),
-    @NamedQuery(name = "Filedepot.findByUploadDate", query = "SELECT f FROM Filedepot f WHERE f.uploadDate = :uploadDate")})
+
 public class Filedepot implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(nullable = false, length = 40)
@@ -52,10 +43,10 @@ public class Filedepot implements Serializable {
     private String fName;
     @Basic(optional = false)
     @Column(nullable = false, length = 400)
-    private String fPath;
+    private transient String fPath;
     @Column(length = 60)
 //    @Expose
-    private String fSummary;
+    private transient String fSummary;
     @Basic(optional = false)
     @Column(nullable = false, length = 40)
     private String ownId;

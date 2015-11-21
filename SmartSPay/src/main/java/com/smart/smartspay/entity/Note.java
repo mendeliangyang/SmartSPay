@@ -8,6 +8,7 @@ package com.smart.smartspay.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
@@ -42,7 +44,7 @@ import org.hibernate.annotations.GenericGenerator;
     @NamedQuery(name = "Note.findByLaudCount", query = "SELECT n FROM Note n WHERE n.laudCount = :laudCount"),
     @NamedQuery(name = "Note.findByReadCount", query = "SELECT n FROM Note n WHERE n.readCount = :readCount"),
     @NamedQuery(name = "Note.findByCommunityId", query = "SELECT n FROM Note n WHERE n.communityId = :communityId")})
-public class Note implements Serializable {
+public class Note extends BaseFileDepot implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -174,6 +176,11 @@ public class Note implements Serializable {
     @Override
     public String toString() {
         return "com.smart.smartspay.entity.Note[ noteId=" + noteId + " ]";
+    }
+
+    @Override
+    public String getFileOwnId() {
+        return getNoteId();
     }
 
 }

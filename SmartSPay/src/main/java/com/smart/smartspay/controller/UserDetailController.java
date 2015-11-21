@@ -11,19 +11,13 @@ import com.smart.smartscommon.util.gsonsmart.SmartExclusionStrategy;
 import com.smart.smartspay.entity.Userdetail;
 import com.smart.smartspay.repository.UserDetailRepository;
 import com.smart.smartspay.util.ResponseFormationJson;
-import com.smart.smartspay.util.SmartLog4j;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.Resource;
 
 /**

@@ -9,6 +9,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonElement;
 import com.smart.smartscommon.util.gsonsmart.GsonUtilSmart;
+import java.util.List;
 
 /**
  *
@@ -18,18 +19,31 @@ public class ResponseFormationJson {
 
     private final static String retCode_Key = "retCode";
     private final static String retMsg_Key = "retMsg";
-    private final static String retContext_Key = "Context";
+    private final static String retContext_Key = "context";
 
     public static String getRetCode_Key() {
         return retCode_Key;
     }
 
-    public static String FormationResponseSucess(Object jsonObject) {
+    public static <T> String FormationResponseSucess() {
+        return FormationResponse(ResponseResultCode.Success, "", null);
+    }
+
+    public static <T> String FormationResponseSucess(T jsonObject) {
         return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(jsonObject));
     }
 
-    public static String FormationResponseSucess(Object jsonObject, ExclusionStrategy exclude) {
+    public static <T> String FormationResponseSucess(T jsonObject, ExclusionStrategy exclude) {
+
         return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild(exclude).toJsonTree(jsonObject));
+    }
+
+    public static String FormationResponseSucess(long total, List<?> jsonObject, ExclusionStrategy exclude) {
+        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild(exclude).toJsonTree(new PageJson(total, jsonObject)));
+    }
+
+    public static String FormationResponseSucess(long total, List<?> jsonObject) {
+        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(new PageJson(total, jsonObject)));
     }
 
     public static String FormationResponse(ResponseResultCode code, String retMsg) {

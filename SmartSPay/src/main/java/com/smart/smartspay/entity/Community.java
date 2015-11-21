@@ -26,10 +26,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Community.findAll", query = "SELECT c FROM Community c"),
-    @NamedQuery(name = "Community.findByCommunityId", query = "SELECT c FROM Community c WHERE c.communityId = :communityId"),
-    @NamedQuery(name = "Community.findByCommunityName", query = "SELECT c FROM Community c WHERE c.communityName = :communityName")})
 public class Community implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

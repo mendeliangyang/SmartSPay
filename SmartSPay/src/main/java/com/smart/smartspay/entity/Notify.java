@@ -31,15 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Notify.findAll", query = "SELECT n FROM Notify n"),
-    @NamedQuery(name = "Notify.findByNotifyId", query = "SELECT n FROM Notify n WHERE n.notifyId = :notifyId"),
-    @NamedQuery(name = "Notify.findByTitle", query = "SELECT n FROM Notify n WHERE n.title = :title"),
-    @NamedQuery(name = "Notify.findByContent", query = "SELECT n FROM Notify n WHERE n.content = :content"),
-    @NamedQuery(name = "Notify.findByPutDate", query = "SELECT n FROM Notify n WHERE n.putDate = :putDate"),
-    @NamedQuery(name = "Notify.findByBranchAuth", query = "SELECT n FROM Notify n WHERE n.branchAuth = :branchAuth"),
-    @NamedQuery(name = "Notify.findByCommunityId", query = "SELECT n FROM Notify n WHERE n.communityId = :communityId")})
+
 public class Notify implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -59,7 +53,7 @@ public class Notify implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false, length = 40)
     private String communityId;
-    
+
     @JoinColumn(name = "BranchId", referencedColumnName = "BranchId", nullable = false)
     @ManyToOne(optional = false)
     private Branch branchId;
@@ -158,5 +152,5 @@ public class Notify implements Serializable {
     public String toString() {
         return "com.smart.smartspay.entity.Notify[ notifyId=" + notifyId + " ]";
     }
-    
+
 }

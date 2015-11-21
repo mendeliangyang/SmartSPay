@@ -18,4 +18,7 @@ public interface FileDepotRepository extends CrudRepository<Filedepot, String> {
     Long countByFNameAndOwnId(String fName, String ownId);
 
     List<Filedepot> findByFileIdInOrOwnIdInOrOwnFileTypeIn(List<String> fileIds, List<String> ownIds, List<String> ownFileTypes);
+
+    List<Filedepot> findByOwnId(String ownId);
+
 }
