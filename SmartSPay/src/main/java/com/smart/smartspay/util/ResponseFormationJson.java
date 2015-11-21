@@ -5,7 +5,10 @@
  */
 package com.smart.smartspay.util;
 
-import net.sf.json.JSONObject;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.smart.smartscommon.util.gsonsmart.GsonUtilSmart;
 
 /**
  *
@@ -22,7 +25,11 @@ public class ResponseFormationJson {
     }
 
     public static String FormationResponseSucess(Object jsonObject) {
-        return FormationResponse(ResponseResultCode.Success, "", jsonObject);
+        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(jsonObject));
+    }
+
+    public static String FormationResponseSucess(Object jsonObject, ExclusionStrategy exclude) {
+        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild(exclude).toJsonTree(jsonObject));
     }
 
     public static String FormationResponse(ResponseResultCode code, String retMsg) {
@@ -33,11 +40,11 @@ public class ResponseFormationJson {
         return FormationResponse(code, exception.getLocalizedMessage(), null);
     }
 
-    public static String FormationResponse(ResponseResultCode code, String retMsg, Object retContext) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.accumulate(retCode_Key, code.toString());
-        jsonObject.accumulate(retMsg_Key, retMsg);
-        jsonObject.accumulate(retContext_Key, retContext);
+    public static String FormationResponse(ResponseResultCode code, String retMsg, JsonElement retContext) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(retCode_Key, code.toString());
+        jsonObject.addProperty(retMsg_Key, retMsg);
+        jsonObject.add(retContext_Key, retContext);
         return jsonObject.toString();
     }
 

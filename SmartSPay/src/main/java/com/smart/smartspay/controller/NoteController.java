@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import com.google.gson.Gson;
 
 /**
  *
@@ -63,12 +64,11 @@ public class NoteController {
         Pageable pageable = new PageRequest(UtileSmart.getIntFromMap(paramMap, paramKey_pageIndex), UtileSmart.getIntFromMap(paramMap, paramKey_pageSize), Sort.Direction.DESC, "PutDate");
         
         Page<Note> notes = noteRepository.findByPutDateBefore(note.getPutDate(), pageable);
-        
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
-        JSONObject jsonObject = JSONObject.fromObject(notes, jsonConfig);
-        
-        return ResponseFormationJson.FormationResponseSucess(jsonObject);
+
+//        JsonConfig jsonConfig = new JsonConfig();
+//        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
+//        JSONObject jsonObject = JSONObject.fromObject(notes, jsonConfig);
+        return ResponseFormationJson.FormationResponseSucess(notes);
     }
     
     @RequestMapping(value = "/putNote", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -98,12 +98,11 @@ public class NoteController {
         note.setPutUserId(user);
         
         noteRepository.save(note);
-        
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
-        JSONObject jsonObject = JSONObject.fromObject(note, jsonConfig);
-        
-        return ResponseFormationJson.FormationResponseSucess(jsonObject);
+
+//        JsonConfig jsonConfig = new JsonConfig();
+//        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
+//        JSONObject jsonObject = JSONObject.fromObject(note, jsonConfig);
+        return ResponseFormationJson.FormationResponseSucess(note);
     }
     
     @RequestMapping(value = "/freshNote", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -119,11 +118,10 @@ public class NoteController {
         Pageable pageable = new PageRequest(0, UtileSmart.getIntFromMap(paramMap, paramKey_pageSize), Sort.Direction.DESC, "PutDate");
         
         Page<Note> notes = noteRepository.findAll(pageable);
-        
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
-        JSONObject jsonObject = JSONObject.fromObject(notes, jsonConfig);
-        
-        return ResponseFormationJson.FormationResponseSucess(jsonObject);
+
+//        JsonConfig jsonConfig = new JsonConfig();
+//        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
+//        JSONObject jsonObject = JSONObject.fromObject(notes, jsonConfig);
+        return ResponseFormationJson.FormationResponseSucess(notes);
     }
 }

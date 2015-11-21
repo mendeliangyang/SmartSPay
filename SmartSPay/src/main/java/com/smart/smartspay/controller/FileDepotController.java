@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import com.google.gson.Gson;
 
 /**
  *
@@ -43,13 +44,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/FileDepot")
 public class FileDepotController {
-
+    
     @Resource
     FileDepotRepository fileDepotRepository;
-
+    
     @Resource
     FileDepotService fileDepotService;
-
+    
     @Resource
     WebSiteConfig webSiteConfig;
 
@@ -71,7 +72,7 @@ public class FileDepotController {
         } catch (Exception ex) {
             return ResponseFormationJson.FormationResponse(ResponseResultCode.Error, ex.getLocalizedMessage());//responseFormat.formationResultToString(ResponseResultCode.Error, ex);
         }
-
+        
     }
 
 //    @RequestMapping(value = "/UpBase64File", method = RequestMethod.POST, consumes = {org.springframework.http.MediaType.APPLICATION_JSON_VALUE}, produces = {org.springframework.http.MediaType.APPLICATION_JSON_VALUE})
@@ -243,14 +244,14 @@ public class FileDepotController {
      * @throws Exception
      */
     public FileDepotParamModel analyzeUpLoadFileJsonStr(String strJson) throws Exception {
-
+        
         String paramKey_context = "context";
         String paramKey_ownid = "ownId";
         String paramKey_fileDes = "fileDes";
         String paramKey_filename = "fileName";
         String paramKey_fileType = "fileType";
         String paramKey_fileId = "fileId";
-
+        
         FileDepotParamModel paramModel = null;
         JSONObject jsonObj = null, jsonTempContext = null, jsonTempFileDesc = null;
         JSONArray jsonContext = null, jsonFileDes = null;
@@ -262,12 +263,12 @@ public class FileDepotController {
                 throw new NotFoundException("FileDepotParamError no context array.");
             }
             jsonContext = jsonObj.getJSONArray(paramKey_context);
-
+            
             for (Object contextObj : jsonContext) {
                 jsonTempContext = (JSONObject) contextObj;
                 paramModel.ownid = jsonTempContext.getString(paramKey_ownid);
                 jsonFileDes = jsonTempContext.getJSONArray(paramKey_fileDes);
-
+                
                 for (Object fileDescObj : jsonFileDes) {
                     jsonTempFileDesc = (JSONObject) fileDescObj;
                     fileDetailModel = new DepotFileDetailModel();
@@ -293,12 +294,12 @@ public class FileDepotController {
      * @throws Exception
      */
     public FileDepotParamModel analyzeNormalJsonStr(String strJson) throws Exception {
-
+        
         String paramKey_context = "context";
         String paramKey_ownIds = "ownIds";
         String paramKey_fileIds = "fileIds";
         String paramKey_fileTypes = "fileTypes";
-
+        
         FileDepotParamModel paramModel = null;
         JSONObject jsonObj = null, jsonTempContext = null;
         JSONObject jsonContext = null;
@@ -310,7 +311,7 @@ public class FileDepotController {
                 throw new NotFoundException("FileDepotParamError no context array.");
             }
             jsonContext = jsonObj.getJSONObject(paramKey_context);
-
+            
             if (jsonContext.containsKey(paramKey_fileIds)) {
                 //paramModel.fileIds jsonContext.getJSONArray(paramKey_fileIds);
                 paramModel.fileIds = UtileSmart.JSONArrayToListStr(jsonContext.getJSONArray(paramKey_fileIds));
@@ -323,7 +324,7 @@ public class FileDepotController {
                 paramModel.ownFileTypes = UtileSmart.JSONArrayToListStr(jsonContext.getJSONArray(paramKey_fileTypes));
 //                jsonContext.getJSONArray(paramKey_fileTypes);
             }
-
+            
             return paramModel;
         } catch (Exception e) {
             throw new Exception("analyze FileParamModel error.:" + e.getLocalizedMessage());
@@ -341,7 +342,7 @@ public class FileDepotController {
      * @return
      */
     private String SaveUpLoadFile(List< MultipartFile> uploadFiles, FileDepotParamModel paramModel) throws Exception {
-
+        
         String strSvcFileLocalName = null, strUpFileName = null, strTempFilePath = null;
         StringBuffer sbTemp = new StringBuffer();
         StringBuffer sbFilePathTemp = new StringBuffer();
@@ -391,11 +392,11 @@ public class FileDepotController {
                 }
                 //判断数据库是否存在 ownid 和 fpath重复的数据，如果有数据重复不能上传文件
                 long fileDBCount = fileDepotRepository.countByFNameAndOwnId(paramModel.ownid, strUpFileName);
-
+                
                 if (fileDBCount != 0) {
                     return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorFileRepeat, "file binded");
                 }
-
+                
                 tempFile.transferTo(new File(strSvcFileLocalName));
 
                 //本次文件保存成功，设置本地路径值，后续操作失败可以返回删除保存的文件
@@ -427,7 +428,7 @@ public class FileDepotController {
             UtileSmart.FreeObjects(strSvcFileLocalName, strUpFileName, strTempFilePath,
                     sbTemp, sbFilePathTemp, fileDepots, paramModel, tempFileDetailModel);
         }
-
+        
     }
 
     /**
@@ -443,7 +444,7 @@ public class FileDepotController {
                 }
             }
         }
-
+        
     }
 
 //    /**
@@ -554,12 +555,10 @@ public class FileDepotController {
                 sb.delete(0, sb.length());
             }
 
-            JsonConfig jsonConfig = new JsonConfig();
-            jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
-//            JSONObject jsonObject = JSONObject.fromObject(fileDepots, jsonConfig);
-            JSONArray jsonArray = JSONArray.fromObject(fileDepots, jsonConfig);
-
-            return ResponseFormationJson.FormationResponseSucess(jsonArray);
+//            JsonConfig jsonConfig = new JsonConfig();
+//            jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
+//            JSONArray jsonArray = JSONArray.fromObject(fileDepots, jsonConfig);
+            return ResponseFormationJson.FormationResponseSucess(fileDepots);
         } catch (Exception e) {
             return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorDB, e);
         }

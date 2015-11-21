@@ -5,6 +5,7 @@
  */
 package com.smart.smartspay.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -53,6 +54,7 @@ public class Filedepot implements Serializable {
     @Column(nullable = false, length = 400)
     private String fPath;
     @Column(length = 60)
+//    @Expose
     private String fSummary;
     @Basic(optional = false)
     @Column(nullable = false, length = 40)
@@ -64,8 +66,8 @@ public class Filedepot implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date uploadDate;
-    
-    @Transient 
+
+    @Transient
     private String HttpPath;
 
     public String getHttpPath() {
@@ -75,7 +77,6 @@ public class Filedepot implements Serializable {
     public void setHttpPath(String HttpPath) {
         this.HttpPath = HttpPath;
     }
-    
 
     public Filedepot() {
     }

@@ -29,9 +29,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
+//import net.sf.json.JSONArray;
+//import net.sf.json.JSONObject;
+//import net.sf.json.JsonConfig;
+import com.google.gson.Gson;
 
 /**
  *
@@ -66,20 +67,17 @@ public class NotifyController {
 
         Page<Notify> notifys = notifyRepository.findByPutDateBefore(notify.getPutDate(), pageable);
 
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
-        JSONObject jsonObject = JSONObject.fromObject(notifys, jsonConfig);
-
-        return ResponseFormationJson.FormationResponseSucess(jsonObject);
+//        JsonConfig jsonConfig = new JsonConfig();
+//        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
+//        JSONObject jsonObject = JSONObject.fromObject(notifys, jsonConfig);
+        return ResponseFormationJson.FormationResponseSucess(notifys);
     }
 
     @RequestMapping(value = "/freshNotify", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String freshNotify(@RequestBody String param) throws Exception {
         String paramKey_pageSize = "pageSize";
-        Map<String, Object> paramMap = null;
-
-        paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
 
         AnalyzeParam.AnalyzeParamToMap(param, paramMap);
 
@@ -87,10 +85,9 @@ public class NotifyController {
 
         Page<Notify> notifys = notifyRepository.findAll(pageable);
 
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
-        JSONObject jsonObject = JSONObject.fromObject(notifys, jsonConfig);
-
-        return ResponseFormationJson.FormationResponseSucess(jsonObject);
+//        JsonConfig jsonConfig = new JsonConfig();
+//        jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
+//        JSONObject jsonObject = JSONObject.fromObject(notifys, jsonConfig);
+        return ResponseFormationJson.FormationResponseSucess(notifys);
     }
 }
