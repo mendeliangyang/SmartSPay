@@ -7,6 +7,8 @@ package com.smart.smartspay.service;
 
 import com.smart.smartspay.entity.Note;
 import com.smart.smartspay.entity.Notelaud;
+import com.smart.smartspay.exception.NotFoundException;
+import com.smart.smartspay.exception.RepeatOperateException;
 import com.smart.smartspay.repository.NoteLaudRepository;
 import com.smart.smartspay.repository.NoteRepository;
 import javax.annotation.Resource;
@@ -35,11 +37,14 @@ public class NoteService {
     }
 
     @Transactional
-    public void laudNote(String noteId, String userId) {
+    public void laudNote(String noteId, String userId) throws NotFoundException, RepeatOperateException {
         Note note = noteReository.findOne(noteId);
+        if (note == null) {
+            throw new NotFoundException("note not found.id:" + noteId);
+        }
         Long laund = noteLaudRepository.countByNoteIdAndUserId(note, userId);
         if (laund != 0) {
-            return;
+            throw new RepeatOperateException(String.format("the user repeat laud. '%s' ", userId));
         }
 
         int readCount = note.getLaudCount();
