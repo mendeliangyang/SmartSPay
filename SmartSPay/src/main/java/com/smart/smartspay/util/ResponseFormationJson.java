@@ -39,6 +39,10 @@ public class ResponseFormationJson {
         return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(jsonObject));
     }
 
+    public static <T> String FormationResponseSucess(T jsonObject) {
+        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(jsonObject));
+    }
+
     public static <T> String FormationResponseSucess(T jsonObject, ExclusionStrategy exclude) {
 
         return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild(exclude).toJsonTree(jsonObject));
@@ -59,7 +63,6 @@ public class ResponseFormationJson {
 //    public static String FormationResponseSucess(long total, List<?> jsonObject) {
 //        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(new PageJson(total, jsonObject)));
 //    }
-
     public static String FormationResponse(ResponseResultCode code, String retMsg) {
         return FormationResponse(code, retMsg, null);
     }

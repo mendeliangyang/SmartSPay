@@ -24,16 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Contact.findAll", query = "SELECT c FROM Contact c"),
-    @NamedQuery(name = "Contact.findByContactId", query = "SELECT c FROM Contact c WHERE c.contactId = :contactId"),
-    @NamedQuery(name = "Contact.findByOffice", query = "SELECT c FROM Contact c WHERE c.office = :office"),
-    @NamedQuery(name = "Contact.findByContactName", query = "SELECT c FROM Contact c WHERE c.contactName = :contactName"),
-    @NamedQuery(name = "Contact.findByGender", query = "SELECT c FROM Contact c WHERE c.gender = :gender"),
-    @NamedQuery(name = "Contact.findByMobilePhone", query = "SELECT c FROM Contact c WHERE c.mobilePhone = :mobilePhone"),
-    @NamedQuery(name = "Contact.findByPhone", query = "SELECT c FROM Contact c WHERE c.phone = :phone"),
-    @NamedQuery(name = "Contact.findByEmail", query = "SELECT c FROM Contact c WHERE c.email = :email"),
-    @NamedQuery(name = "Contact.findByCommunityId", query = "SELECT c FROM Contact c WHERE c.communityId = :communityId")})
 public class Contact implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

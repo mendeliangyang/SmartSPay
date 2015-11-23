@@ -10,8 +10,14 @@ import com.smart.smartscommon.util.UtileSmart;
 import com.smart.smartscommon.util.gsonsmart.SmartExclusionStrategy;
 import com.smart.smartspay.entity.Userdetail;
 import com.smart.smartspay.repository.UserDetailRepository;
+import com.smart.smartspay.service.UserService;
+import com.smart.smartspay.sign.SignCommon;
+import com.smart.smartspay.sign.SignInformationModel;
 import com.smart.smartspay.util.ResponseFormationJson;
+import com.smart.smartspay.util.UserUtile;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +38,67 @@ public class UserDetailController {
     @Resource
     private UserDetailRepository userDetailRepository;
 
+    @Resource
+    UserService userService;
+
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String registerUser(@RequestBody String param) throws Exception {
+
+        String paramKey_userName = "userName";
+        String paramKey_uPassword = "uPassword";
+        String paramKey_verifyPhone = "verifyPhone";
+        String paramKey_nickName = "nickName";
+        String paramKey_verifyCode = "verifyCode";
+
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
+
+        //todo verify  user mobliePhone and verifyCode
+        UtileSmart.getStringFromMap(paramMap, paramKey_verifyCode);
+
+        Userdetail user = new Userdetail();
+        String nickName = UtileSmart.tryGetStringFromMap(paramMap, paramKey_nickName);
+        String userName = UtileSmart.getStringFromMap(paramMap, paramKey_userName);
+        nickName = (nickName == null ? userName : nickName);
+        user.setUserId(UtileSmart.getUUID());
+        user.setNickName(nickName);
+        user.setUserName(userName);
+        user.setVerifyPhone(UtileSmart.getStringFromMap(paramMap, paramKey_verifyPhone));
+        user.setUPassword(UserUtile.UserPasswordMD5Convert(UtileSmart.getStringFromMap(paramMap, paramKey_uPassword)));
+        user.setSignUpTime(new Date());
+        userService.registerUser(user);
+        return ResponseFormationJson.FormationResponseSucess(user);
+
+    }
+
+    @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String modifyPassword(@RequestBody String param) throws Exception {
+
+        String paramKey_userName = "userName";
+        String paramKey_verifyCode = "verifyCode";
+        String paramKey_uPassword = "uPassword";
+
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+
+        //todo verify verifyCode
+        UtileSmart.getStringFromMap(paramMap, paramKey_verifyCode);
+
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
+        Userdetail user = new Userdetail();
+        user.setUserName(UtileSmart.getStringFromMap(paramMap, paramKey_userName));
+        user.setUPassword(UserUtile.UserPasswordMD5Convert(UtileSmart.getStringFromMap(paramMap, paramKey_uPassword)));
+        userService.modifyPassword(user);
+
+        return ResponseFormationJson.FormationResponseSucess();
+
+    }
+
     @RequestMapping(value = "/getUserDetail", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String test(@RequestBody String param) throws Exception {
+    public String getUserDetail(@RequestBody String param) throws Exception {
 
         String paramKey_userId = "userId";
         Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -46,6 +110,29 @@ public class UserDetailController {
         exclude.put(String.class, new String[]{"idCard"});
 
         return ResponseFormationJson.FormationResponseSucess(userDetail, new SmartExclusionStrategy(exclude));
+
+    }
+
+    @RequestMapping(value = "/signOn", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String SignOn(@RequestBody String param) throws Exception {
+
+        String paramKey_userName = "userName";
+        String paramKey_uPassword = "uPassword";
+
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+
+        Userdetail userdeatil = userDetailRepository.getUserDetail(UtileSmart.getStringFromMap(paramMap, paramKey_userName), UtileSmart.getStringFromMap(paramMap, paramKey_uPassword));
+        //登录成功，返回用户信息
+        SignInformationModel signModel = SignCommon.SignIn(userdeatil.getUserId(), null, null);
+
+        return ResponseFormationJson.FormationResponseSucess(signModel.token);
+    }
+
+    @RequestMapping(value = "/signOut", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String signOut(@RequestBody String param) {
+        return ResponseFormationJson.FormationResponseSucess();
 
     }
 }

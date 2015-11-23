@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-public class Userdetail implements Serializable {
+public class Userdetail implements Serializable, SmartReponseFormation {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -40,8 +41,8 @@ public class Userdetail implements Serializable {
     @Column(nullable = false, length = 40)
     private String userName;
     @Basic(optional = false)
-    @Column(nullable = false, length = 40)
-    private transient String uPassword;
+    @Column(nullable = false, length = 40) //transient
+    private String uPassword;
     @Column(length = 40)
     private String nickName;
     @Column(length = 20)
@@ -162,8 +163,6 @@ public class Userdetail implements Serializable {
         this.signOnTime = signOnTime;
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -188,5 +187,5 @@ public class Userdetail implements Serializable {
     public String toString() {
         return "com.smart.smartspay.entity.Userdetail[ userId=" + userId + " ]";
     }
-    
+
 }
