@@ -418,7 +418,7 @@ public class FileDepotController {
             //保存数据到数据库
             fileDepotService.saveFiles(fileDepots);
             saveFlag = 0;
-            return ResponseFormationJson.FormationResponseSucess(null);
+            return ResponseFormationJson.FormationResponseSucess();
         } catch (Exception e) {
             return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorDB, e);
         } finally {

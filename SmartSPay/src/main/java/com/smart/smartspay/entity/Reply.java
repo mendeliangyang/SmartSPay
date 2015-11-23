@@ -10,15 +10,15 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -27,27 +27,31 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Reply.findAll", query = "SELECT r FROM Reply r"),
-    @NamedQuery(name = "Reply.findByReplyId", query = "SELECT r FROM Reply r WHERE r.replyId = :replyId"),
-    @NamedQuery(name = "Reply.findByLinkReplyId", query = "SELECT r FROM Reply r WHERE r.linkReplyId = :linkReplyId"),
-    @NamedQuery(name = "Reply.findByConntext", query = "SELECT r FROM Reply r WHERE r.conntext = :conntext"),
-    @NamedQuery(name = "Reply.findByPutDate", query = "SELECT r FROM Reply r WHERE r.putDate = :putDate")})
-public class Reply implements Serializable {
+public class Reply implements Serializable, SmartReponseFormation {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(nullable = false, length = 40)
+    @Column(name = "ReplyId", nullable = false, length = 40)
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
     private String replyId;
-    @Column(length = 40)
+    @Basic(optional = false)
+    @Column(name = "MasterId", nullable = false, length = 40)
+    private String masterId;
+    @Column(name = "LinkReplyId", length = 40)
     private String linkReplyId;
-    @Column(length = 400)
+    @Column(name = "Conntext", length = 400)
     private String conntext;
+    @Column(name = "PutDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date putDate;
-    @JoinColumn(name = "NoteId", referencedColumnName = "NoteId", nullable = false)
-    @ManyToOne(optional = false)
-    private Note noteId;
+    @Basic(optional = false)
+    @Column(name = "ReplyType", nullable = false)
+    private int replyType;
+    @Basic(optional = false)
+    @Column(name = "UserId", nullable = false, length = 40)
+    private String userId;
 
     public Reply() {
     }
@@ -56,12 +60,27 @@ public class Reply implements Serializable {
         this.replyId = replyId;
     }
 
+    public Reply(String replyId, String masterId, int replyType, String userId) {
+        this.replyId = replyId;
+        this.masterId = masterId;
+        this.replyType = replyType;
+        this.userId = userId;
+    }
+
     public String getReplyId() {
         return replyId;
     }
 
     public void setReplyId(String replyId) {
         this.replyId = replyId;
+    }
+
+    public String getMasterId() {
+        return masterId;
+    }
+
+    public void setMasterId(String masterId) {
+        this.masterId = masterId;
     }
 
     public String getLinkReplyId() {
@@ -88,12 +107,20 @@ public class Reply implements Serializable {
         this.putDate = putDate;
     }
 
-    public Note getNoteId() {
-        return noteId;
+    public int getReplyType() {
+        return replyType;
     }
 
-    public void setNoteId(Note noteId) {
-        this.noteId = noteId;
+    public void setReplyType(int replyType) {
+        this.replyType = replyType;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -120,5 +147,5 @@ public class Reply implements Serializable {
     public String toString() {
         return "com.smart.smartspay.entity.Reply[ replyId=" + replyId + " ]";
     }
-    
+
 }

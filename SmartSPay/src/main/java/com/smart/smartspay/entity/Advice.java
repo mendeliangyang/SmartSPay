@@ -27,15 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Advice.findAll", query = "SELECT a FROM Advice a"),
-    @NamedQuery(name = "Advice.findByAdviceId", query = "SELECT a FROM Advice a WHERE a.adviceId = :adviceId"),
-    @NamedQuery(name = "Advice.findByContent", query = "SELECT a FROM Advice a WHERE a.content = :content"),
-    @NamedQuery(name = "Advice.findByPutDate", query = "SELECT a FROM Advice a WHERE a.putDate = :putDate"),
-    @NamedQuery(name = "Advice.findByProcessFlag", query = "SELECT a FROM Advice a WHERE a.processFlag = :processFlag"),
-    @NamedQuery(name = "Advice.findByProcessDate", query = "SELECT a FROM Advice a WHERE a.processDate = :processDate"),
-    @NamedQuery(name = "Advice.findByProcessReply", query = "SELECT a FROM Advice a WHERE a.processReply = :processReply")})
-public class Advice implements Serializable {
+
+public class Advice implements Serializable, SmartReponseFormation  {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

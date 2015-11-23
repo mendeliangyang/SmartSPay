@@ -5,7 +5,6 @@
     <class>com.smart.smartspay.entity.Advice</class>
     <class>com.smart.smartspay.entity.Userdetail</class>
     <class>com.smart.smartspay.entity.Contact</class>
-    <class>com.smart.smartspay.entity.Reply</class>
     <class>com.smart.smartspay.entity.Communityuser</class>
     <class>com.smart.smartspay.entity.Note</class>
     <class>com.smart.smartspay.entity.Notelaud</class>
@@ -27,6 +26,7 @@
     <class>com.smart.smartspay.entity.Myaccountls</class>
     <class>com.smart.smartspay.entity.FiledepotLs</class>
     <class>com.smart.smartspay.entity.Filedepot</class>
+    <class>com.smart.smartspay.entity.Reply</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://220.231.153.66:8006/smartpay?zeroDateTimeBehavior=convertToNull"/>

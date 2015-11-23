@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,14 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Branch.findAll", query = "SELECT b FROM Branch b"),
-    @NamedQuery(name = "Branch.findByBranchId", query = "SELECT b FROM Branch b WHERE b.branchId = :branchId"),
-    @NamedQuery(name = "Branch.findByBranchName", query = "SELECT b FROM Branch b WHERE b.branchName = :branchName"),
-    @NamedQuery(name = "Branch.findByBranchUpId", query = "SELECT b FROM Branch b WHERE b.branchUpId = :branchUpId"),
-    @NamedQuery(name = "Branch.findByBranchLevel", query = "SELECT b FROM Branch b WHERE b.branchLevel = :branchLevel"),
-    @NamedQuery(name = "Branch.findByCommunityId", query = "SELECT b FROM Branch b WHERE b.communityId = :communityId")})
-public class Branch implements Serializable {
+public class Branch implements Serializable, SmartReponseFormation {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -49,8 +45,6 @@ public class Branch implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false, length = 40)
     private String communityId;
-   
-   
 
     public Branch() {
     }
@@ -106,8 +100,6 @@ public class Branch implements Serializable {
         this.communityId = communityId;
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -132,5 +124,5 @@ public class Branch implements Serializable {
     public String toString() {
         return "com.smart.smartspay.entity.Branch[ branchId=" + branchId + " ]";
     }
-    
+
 }

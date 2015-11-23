@@ -6,6 +6,8 @@
 package com.smart.smartspay.service;
 
 import com.smart.smartspay.entity.Note;
+import com.smart.smartspay.entity.Notelaud;
+import com.smart.smartspay.repository.NoteLaudRepository;
 import com.smart.smartspay.repository.NoteRepository;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class NoteService {
     @Resource
     NoteRepository noteReository;
 
+    @Resource
+    NoteLaudRepository noteLaudRepository;
+
     @Transactional
     public void readNote(String noteId) {
         Note note = noteReository.findOne(noteId);
@@ -30,10 +35,20 @@ public class NoteService {
     }
 
     @Transactional
-    public void laudNote(String noteId) {
+    public void laudNote(String noteId, String userId) {
         Note note = noteReository.findOne(noteId);
+        Long laund = noteLaudRepository.countByNoteIdAndUserId(note, userId);
+        if (laund != 0) {
+            return;
+        }
+
         int readCount = note.getLaudCount();
         note.setLaudCount(++readCount);
         noteReository.save(note);
+        Notelaud notelaud = new Notelaud();
+        notelaud.setNoteId(note);
+        notelaud.setUserId(userId);
+        noteLaudRepository.save(notelaud);
+
     }
 }

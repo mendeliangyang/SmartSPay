@@ -44,7 +44,7 @@ import org.hibernate.annotations.GenericGenerator;
     @NamedQuery(name = "Note.findByLaudCount", query = "SELECT n FROM Note n WHERE n.laudCount = :laudCount"),
     @NamedQuery(name = "Note.findByReadCount", query = "SELECT n FROM Note n WHERE n.readCount = :readCount"),
     @NamedQuery(name = "Note.findByCommunityId", query = "SELECT n FROM Note n WHERE n.communityId = :communityId")})
-public class Note extends BaseFileDepot implements Serializable {
+public class Note extends BaseFileDepot implements Serializable, SmartReponseFormation {
 
     private static final long serialVersionUID = 1L;
     @Id

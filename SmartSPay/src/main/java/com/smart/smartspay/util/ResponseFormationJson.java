@@ -9,7 +9,9 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonElement;
 import com.smart.smartscommon.util.gsonsmart.GsonUtilSmart;
+import com.smart.smartspay.entity.SmartReponseFormation;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  *
@@ -25,11 +27,15 @@ public class ResponseFormationJson {
         return retCode_Key;
     }
 
-    public static <T> String FormationResponseSucess() {
+    public static String FormationResponseSucess() {
         return FormationResponse(ResponseResultCode.Success, "", null);
     }
 
-    public static <T> String FormationResponseSucess(T jsonObject) {
+    public static <T extends SmartReponseFormation> String FormationResponseSucess(T jsonObject) {
+        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(jsonObject));
+    }
+
+    public static <T extends SmartReponseFormation> String FormationResponseSucess(List<T> jsonObject) {
         return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(jsonObject));
     }
 
@@ -38,13 +44,21 @@ public class ResponseFormationJson {
         return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild(exclude).toJsonTree(jsonObject));
     }
 
-    public static String FormationResponseSucess(long total, List<?> jsonObject, ExclusionStrategy exclude) {
-        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild(exclude).toJsonTree(new PageJson(total, jsonObject)));
+    public static <T> String FormationResponseSucess(Page<T> context) {
+        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(new PageJson(context.getTotalElements(), context.getContent())));
     }
 
-    public static String FormationResponseSucess(long total, List<?> jsonObject) {
-        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(new PageJson(total, jsonObject)));
+    public static <T> String FormationResponseSucess(Page<T> context, ExclusionStrategy exclude) {
+        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild(exclude).toJsonTree(new PageJson(context.getTotalElements(), context.getContent())));
     }
+
+//    public static <T> String FormationResponseSucess(long total, List<T> jsonObject, ExclusionStrategy exclude) {
+//        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild(exclude).toJsonTree(new PageJson(total, jsonObject)));
+//    }
+//
+//    public static String FormationResponseSucess(long total, List<?> jsonObject) {
+//        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(new PageJson(total, jsonObject)));
+//    }
 
     public static String FormationResponse(ResponseResultCode code, String retMsg) {
         return FormationResponse(code, retMsg, null);

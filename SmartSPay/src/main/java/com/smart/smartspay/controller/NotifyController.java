@@ -57,7 +57,7 @@ public class NotifyController {
 
         Page<Notify> notifys = notifyRepository.findByPutDateBefore(notify.getPutDate(), pageable);
 
-        return ResponseFormationJson.FormationResponseSucess(notifys.getTotalElements(), notifys.getContent());
+        return ResponseFormationJson.FormationResponseSucess(notifys);
     }
 
     @RequestMapping(value = "/freshNotify", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -71,6 +71,6 @@ public class NotifyController {
         Pageable pageable = new PageRequest(0, UtileSmart.getIntFromMap(paramMap, paramKey_pageSize), Direction.DESC, "PutDate");
 
         Page<Notify> notifys = notifyRepository.findAll(pageable);
-        return ResponseFormationJson.FormationResponseSucess(notifys.getTotalElements(), notifys.getContent());
+        return ResponseFormationJson.FormationResponseSucess(notifys);
     }
 }

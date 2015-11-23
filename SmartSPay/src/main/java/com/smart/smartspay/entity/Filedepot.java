@@ -30,7 +30,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 
-public class Filedepot implements Serializable {
+public class Filedepot implements Serializable, SmartReponseFormation {
 
     @Id
     @Basic(optional = false)
