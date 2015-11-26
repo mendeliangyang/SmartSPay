@@ -14,6 +14,7 @@ import com.smart.smartspay.service.UserService;
 import com.smart.smartspay.sign.SignCommon;
 import com.smart.smartspay.sign.SignInformationModel;
 import com.smart.smartspay.util.ResponseFormationJson;
+import com.smart.smartspay.util.ResponseResultCode;
 import com.smart.smartspay.util.UserUtile;
 import java.util.Date;
 import java.util.HashMap;
@@ -82,7 +83,7 @@ public class UserDetailController {
         String paramKey_uPassword = "uPassword";
 
         Map<String, Object> paramMap = new HashMap<String, Object>();
-
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
         //todo verify verifyCode
         UtileSmart.getStringFromMap(paramMap, paramKey_verifyCode);
 
@@ -122,7 +123,12 @@ public class UserDetailController {
 
         Map<String, Object> paramMap = new HashMap<String, Object>();
 
-        Userdetail userdeatil = userDetailRepository.getUserDetail(UtileSmart.getStringFromMap(paramMap, paramKey_userName), UtileSmart.getStringFromMap(paramMap, paramKey_uPassword));
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
+        Userdetail userdeatil = userDetailRepository.getUserDetail(UtileSmart.getStringFromMap(paramMap, paramKey_userName),
+                UserUtile.UserPasswordMD5Convert(UtileSmart.getStringFromMap(paramMap, paramKey_uPassword)));
+        if (userdeatil == null) {
+            return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorUserOrPwd, "user don't exist.");
+        }
         //登录成功，返回用户信息
         SignInformationModel signModel = SignCommon.SignIn(userdeatil.getUserId(), null, null);
 

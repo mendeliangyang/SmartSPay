@@ -33,11 +33,11 @@ public class UserService {
         }
         countTemp = userdetailRepository.countByUserName(userdetail.getUserName());
         if (countTemp != 0) {
-            throw new UserNameExistException("nickName exist.");
+            throw new UserNameExistException("userName exist.");
         }
         countTemp = userdetailRepository.countByVerifyPhone(userdetail.getVerifyPhone());
         if (countTemp != 0) {
-            throw new UserVerifyPhoneExistException("nickName exist.");
+            throw new UserVerifyPhoneExistException("verifyPhone exist.");
         }
 
         userdetailRepository.save(userdetail);
@@ -47,7 +47,7 @@ public class UserService {
     @Transactional
     public void modifyPassword(Userdetail user) throws NotFoundException {
 
-        Userdetail userdetail = userdetailRepository.findByUserName(user.getUserId());
+        Userdetail userdetail = userdetailRepository.findByUserName(user.getUserName());
         if (userdetail == null) {
             throw new NotFoundException("user name don't exist.");
         }

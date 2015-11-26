@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/Util")
 public class UtilController {
 
-    @RequestMapping(value = "/getRegisterVerifyCode", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/sendVerifyCode", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getRegisterVerifyCode(@RequestBody String param) throws Exception {
 

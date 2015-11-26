@@ -5,6 +5,7 @@
  */
 package com.smart.smartspay.repository;
 
+import com.smart.smartspay.entity.Branch;
 import com.smart.smartspay.entity.Contact;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface ContactRepository extends PagingAndSortingRepository<Contact, String> {
 
-    Page<Contact> findByBranchId(String branchId, Pageable pageable);
+    Page<Contact> findByBranchId(Branch branchId, Pageable pageable);
 
     Page<Contact> findByContactNameContaining(String contactName, Pageable pageable);
 }

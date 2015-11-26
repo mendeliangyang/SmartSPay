@@ -7,6 +7,7 @@ package com.smart.smartspay.controller;
 
 import com.smart.smartscommon.util.AnalyzeParam;
 import com.smart.smartscommon.util.UtileSmart;
+import com.smart.smartscommon.util.gsonsmart.SmartExclusionStrategy;
 import com.smart.smartspay.entity.Branch;
 import com.smart.smartspay.entity.Contact;
 import com.smart.smartspay.repository.ContactRepository;
@@ -45,9 +46,14 @@ public class ContactController {
 
         AnalyzeParam.AnalyzeParamToMap(param, paramMap);
 
-        Page<Contact> contacts = contactRepository.findByBranchId(UtileSmart.getStringFromMap(paramMap, paramKey_branchUpId), new PageRequest(UtileSmart.getIntFromMap(paramMap, CommonParamKey.ParamKey_PageIndex), UtileSmart.getIntFromMap(paramMap, CommonParamKey.ParamKey_PageSize)));
+        Branch branch = new Branch();
+        branch.setBranchId(UtileSmart.getStringFromMap(paramMap, paramKey_branchUpId));
 
-        return ResponseFormationJson.FormationResponseSucess(contacts);
+        Page<Contact> contacts = contactRepository.findByBranchId(branch, new PageRequest(UtileSmart.getIntFromMap(paramMap, CommonParamKey.ParamKey_PageIndex), UtileSmart.getIntFromMap(paramMap, CommonParamKey.ParamKey_PageSize)));
+
+        Map<Class<?>, String[]> exclude = new HashMap<Class<?>, String[]>();
+        exclude.put(Branch.class, new String[]{"branchId"});
+        return ResponseFormationJson.FormationResponseSucess(contacts, new SmartExclusionStrategy(exclude));
     }
 
     @RequestMapping(value = "/getContactByNameContain", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -63,7 +69,9 @@ public class ContactController {
 
         Page<Contact> contacts = contactRepository.findByContactNameContaining(UtileSmart.getStringFromMap(paramMap, paramKey_contactName), new PageRequest(UtileSmart.getIntFromMap(paramMap, CommonParamKey.ParamKey_PageIndex), UtileSmart.getIntFromMap(paramMap, CommonParamKey.ParamKey_PageSize)));
 
-        return ResponseFormationJson.FormationResponseSucess(contacts);
+        Map<Class<?>, String[]> exclude = new HashMap<Class<?>, String[]>();
+        exclude.put(Branch.class, new String[]{"branchId"});
+        return ResponseFormationJson.FormationResponseSucess(contacts, new SmartExclusionStrategy(exclude));
     }
 
 }
