@@ -254,7 +254,7 @@ public class FileDepotController {
             jsonObj = JSONObject.fromObject(strJson);
             paramModel = new FileDepotParamModel();
             if (!jsonObj.containsKey(paramKey_context)) {
-                throw new NotFoundException("FileDepotParamError no context array.");
+                throw new NotFoundException(ResponseResultCode.ErrorParam, "FileDepotParamError no context array.");
             }
             jsonContext = jsonObj.getJSONArray(paramKey_context);
 
@@ -274,7 +274,8 @@ public class FileDepotController {
             }
             return paramModel;
         } catch (Exception e) {
-            throw new Exception("analyze FileParamModel error.:" + e.getLocalizedMessage());
+//            throw new Exception("analyze FileParamModel error.:" + e.getLocalizedMessage());
+            throw e;
         } finally {
             UtileSmart.FreeObjects(paramModel, jsonObj, jsonTempContext, jsonTempFileDesc, fileDetailModel, jsonFileDes);
         }
@@ -302,7 +303,7 @@ public class FileDepotController {
             jsonObj = JSONObject.fromObject(strJson);
             paramModel = new FileDepotParamModel();
             if (!jsonObj.containsKey(paramKey_context)) {
-                throw new NotFoundException("FileDepotParamError no context array.");
+                throw new NotFoundException(ResponseResultCode.ErrorParam, "FileDepotParamError no context array.");
             }
             jsonContext = jsonObj.getJSONObject(paramKey_context);
 
@@ -321,7 +322,8 @@ public class FileDepotController {
 
             return paramModel;
         } catch (Exception e) {
-            throw new Exception("analyze FileParamModel error.:" + e.getLocalizedMessage());
+//            throw new Exception("analyze FileParamModel error.:" + e.getLocalizedMessage());
+            throw e;
         } finally {
             UtileSmart.FreeObjects(paramModel, jsonObj, fileDetailModel);
         }

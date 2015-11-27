@@ -97,6 +97,29 @@ public class UserDetailController {
 
     }
 
+    @RequestMapping(value = "/modifyPassword2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String modifyPassword2(@RequestBody String param) throws Exception {
+
+        String paramKey_userName = "userName";
+        String paramKey_overPassword = "overPassword";
+        String paramKey_uPassword = "uPassword";
+
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
+        //todo verify verifyCode
+        UtileSmart.getStringFromMap(paramMap, paramKey_overPassword);
+
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
+        Userdetail user = new Userdetail();
+        user.setUserName(UtileSmart.getStringFromMap(paramMap, paramKey_userName));
+        user.setUPassword(UserUtile.UserPasswordMD5Convert(UtileSmart.getStringFromMap(paramMap, paramKey_overPassword)));
+        userService.modifyPassword2(user, UserUtile.UserPasswordMD5Convert(UtileSmart.getStringFromMap(paramMap, paramKey_uPassword)));
+
+        return ResponseFormationJson.FormationResponseSucess();
+
+    }
+
     @RequestMapping(value = "/getUserDetail", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getUserDetail(@RequestBody String param) throws Exception {
@@ -131,8 +154,10 @@ public class UserDetailController {
         }
         //登录成功，返回用户信息
         SignInformationModel signModel = SignCommon.SignIn(userdeatil.getUserId(), null, null);
-
-        return ResponseFormationJson.FormationResponseSucess(signModel.token);
+        Map<String, Object> results = new HashMap<String, Object>();
+        results.put("token", signModel.token);
+        results.put("userdetail", userdeatil);
+        return ResponseFormationJson.FormationResponseSucess(results);
     }
 
     @RequestMapping(value = "/signOut", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

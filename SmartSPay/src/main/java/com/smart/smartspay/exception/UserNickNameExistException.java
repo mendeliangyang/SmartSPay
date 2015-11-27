@@ -5,25 +5,31 @@
  */
 package com.smart.smartspay.exception;
 
+import com.smart.smartspay.util.ResponseResultCode;
+
 /**
  *
  * @author Administrator
  */
-public class UserNickNameExistException extends Exception {
+public class UserNickNameExistException extends SmartBaseException {
 
     public UserNickNameExistException() {
         super();
     }
 
+    public UserNickNameExistException(ResponseResultCode resultCode, String message) {
+        super(resultCode, message);
+    }
+
     public UserNickNameExistException(String message) {
-        super(message);
+        super(ResponseResultCode.ErrorExistUserNickName, message);
     }
 
-    public UserNickNameExistException(Throwable throwable) {
-        super(throwable);
+    public UserNickNameExistException(ResponseResultCode resultCode, Throwable throwable) {
+        super(resultCode, throwable);
     }
 
-    public UserNickNameExistException(String message, Throwable throwable) {
-        super(message, throwable);
+    public UserNickNameExistException(ResponseResultCode resultCode, String message, Throwable throwable) {
+        super(resultCode, message, throwable);
     }
 }

@@ -5,25 +5,31 @@
  */
 package com.smart.smartspay.exception;
 
+import com.smart.smartspay.util.ResponseResultCode;
+
 /**
  *
  * @author Administrator
  */
-public class NotFoundException extends Exception {
+public class NotFoundException extends SmartBaseException {
 
     public NotFoundException() {
         super();
     }
 
-    public NotFoundException(String message) {
-        super(message);
+    public NotFoundException(ResponseResultCode resultCode, String message) {
+        super(resultCode, message);
     }
 
-    public NotFoundException(Throwable throwable) {
-        super(throwable);
+    public NotFoundException( String message) {
+        super(ResponseResultCode.ErrorNotFound, message);
     }
 
-    public NotFoundException(String message, Throwable throwable) {
-        super(message, throwable);
+    public NotFoundException(ResponseResultCode resultCode, Throwable throwable) {
+        super(resultCode, throwable);
+    }
+
+    public NotFoundException(ResponseResultCode resultCode, String message, Throwable throwable) {
+        super(resultCode, message, throwable);
     }
 }

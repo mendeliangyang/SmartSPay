@@ -11,6 +11,7 @@ import com.smart.smartspay.entity.FiledepotLs;
 import com.smart.smartspay.exception.NotFoundException;
 import com.smart.smartspay.repository.FileDepotLSRepository;
 import com.smart.smartspay.repository.FileDepotRepository;
+import com.smart.smartspay.util.ResponseResultCode;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class FileDepotService {
             if (fileDepot.getFileId() != null && !fileDepot.getFileId().isEmpty()) {
                 tempFileDepot = fileDepotRepository.findOne(fileDepot.getFileId());
                 if (tempFileDepot == null) {
-                    throw new NotFoundException(String.format("fileId '%s' does not exist.", fileDepot.getFileId()));
+                    throw new NotFoundException(ResponseResultCode.ErrorFileUnExistOnDB, String.format("fileId '%s' does not exist.", fileDepot.getFileId()));
                 }
                 tempFiledepotLs = new FiledepotLs();
                 tempFiledepotLs.setFName(tempFileDepot.getFName());

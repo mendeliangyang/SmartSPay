@@ -5,25 +5,31 @@
  */
 package com.smart.smartspay.exception;
 
+import com.smart.smartspay.util.ResponseResultCode;
+
 /**
  *
  * @author Administrator
  */
-public class UserVerifyPhoneExistException extends Exception {
+public class UserVerifyPhoneExistException extends SmartBaseException {
 
     public UserVerifyPhoneExistException() {
         super();
     }
 
+    public UserVerifyPhoneExistException(ResponseResultCode resultCode, String message) {
+        super(resultCode, message);
+    }
+
     public UserVerifyPhoneExistException(String message) {
-        super(message);
+        super(ResponseResultCode.ErrorExistVerifyPhone, message);
     }
 
-    public UserVerifyPhoneExistException(Throwable throwable) {
-        super(throwable);
+    public UserVerifyPhoneExistException(ResponseResultCode resultCode, Throwable throwable) {
+        super(resultCode, throwable);
     }
 
-    public UserVerifyPhoneExistException(String message, Throwable throwable) {
-        super(message, throwable);
+    public UserVerifyPhoneExistException(ResponseResultCode resultCode, String message, Throwable throwable) {
+        super(resultCode, message, throwable);
     }
 }

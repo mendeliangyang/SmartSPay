@@ -13,10 +13,12 @@ public enum ResponseResultCode {
      * 2000 标识 社区金融系统错误
      */
     Error("1000"), Success("0000"), ErrorSignToken("1002"), ErrorParam("1001"), ErrorBase64Error("1003"), ErrorDB("1004"), ErrorBase64ConvertFile("1005"),
+    ErrorRepeat("1006"),
     ErrorFileExist("1201"), ErrorFileRepeat("1202"),//文件关联关系重复
-    ErrorFileType("1203"),//文件类型错误
+    ErrorFileType("1203"),
+    ErrorFileUnExistOnDB("1204"),//文件类型错误
     ErrorUserOrPwd("2002"), ErrorUserName("2003"), ErrorExistAccount("2004"), ErrorExistUser("2005"), ErrorUnExistAccount("2006"), ErrorExistAccountBind("2007"),
-    
+    ErrorExistUserNickName("2008"), ErrorExistVerifyPhone("2009"),
     ErrorNotFound("4001") //指定资源没有找到
     ;
 

@@ -11,6 +11,7 @@ import com.smart.smartspay.exception.UserNameExistException;
 import com.smart.smartspay.exception.UserNickNameExistException;
 import com.smart.smartspay.exception.UserVerifyPhoneExistException;
 import com.smart.smartspay.repository.UserDetailRepository;
+import com.smart.smartspay.util.ResponseResultCode;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,20 @@ public class UserService {
         }
 
         userdetail.setUPassword(user.getUPassword());
+
+        userdetailRepository.save(userdetail);
+
+    }
+
+    @Transactional
+    public void modifyPassword2(Userdetail user, String uPassword) throws NotFoundException {
+
+        Userdetail userdetail = userdetailRepository.getUserDetail(user.getUserName(), user.getUPassword());
+        if (userdetail == null) {
+            throw new NotFoundException("user name or password error.");
+        }
+
+        userdetail.setUPassword(uPassword);
 
         userdetailRepository.save(userdetail);
 

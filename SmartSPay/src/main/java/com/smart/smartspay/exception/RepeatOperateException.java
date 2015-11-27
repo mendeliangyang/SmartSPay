@@ -5,25 +5,31 @@
  */
 package com.smart.smartspay.exception;
 
+import com.smart.smartspay.util.ResponseResultCode;
+
 /**
  *
  * @author Administrator
  */
-public class RepeatOperateException extends Exception {
+public class RepeatOperateException extends SmartBaseException {
 
     public RepeatOperateException() {
         super();
     }
 
+    public RepeatOperateException(ResponseResultCode resultCode, String message) {
+        super(resultCode, message);
+    }
+
     public RepeatOperateException(String message) {
-        super(message);
+        super(ResponseResultCode.ErrorRepeat, message);
     }
 
-    public RepeatOperateException(Throwable throwable) {
-        super(throwable);
+    public RepeatOperateException(ResponseResultCode resultCode, Throwable throwable) {
+        super(resultCode, throwable);
     }
 
-    public RepeatOperateException(String message, Throwable throwable) {
-        super(message, throwable);
+    public RepeatOperateException(ResponseResultCode resultCode, String message, Throwable throwable) {
+        super(resultCode, message, throwable);
     }
 }
