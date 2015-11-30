@@ -56,4 +56,21 @@ public class NoteService {
         noteLaudRepository.save(notelaud);
 
     }
+
+    @Transactional
+    public void cancellaudNote(String noteId, String userId) throws NotFoundException, RepeatOperateException {
+        Note note = noteReository.findOne(noteId);
+        if (note == null) {
+            throw new NotFoundException("note not found.id:" + noteId);
+        }
+        Notelaud laund = noteLaudRepository.findByNoteIdAndUserId(note, userId);
+        if (laund == null) {
+            throw new RepeatOperateException(String.format("the user repeat laud. '%s' ", userId));
+        }
+
+        int readCount = note.getLaudCount();
+        note.setLaudCount(--readCount);
+        noteReository.save(note);
+        noteLaudRepository.delete(laund);
+    }
 }

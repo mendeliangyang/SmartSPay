@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Notelaud.findAll", query = "SELECT n FROM Notelaud n"),
     @NamedQuery(name = "Notelaud.findByLaudId", query = "SELECT n FROM Notelaud n WHERE n.laudId = :laudId"),
     @NamedQuery(name = "Notelaud.findByUserId", query = "SELECT n FROM Notelaud n WHERE n.userId = :userId")})
-public class Notelaud implements Serializable {
+public class Notelaud implements Serializable,SmartReponseFormation {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

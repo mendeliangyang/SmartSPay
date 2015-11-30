@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 //        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 //        ReviveRSParamModel paramModel = mapper.readValue(hsr.getInputStream(), ReviveRSParamModel.class);
 
-        System.out.println(hsr.getParameterMap().toString());
+        //System.out.println(hsr.getParameterMap().toString());
         
         return true;
     }
@@ -31,13 +31,13 @@ public class LoginInterceptor implements HandlerInterceptor {
     public void postHandle(javax.servlet.http.HttpServletRequest hsr, javax.servlet.http.HttpServletResponse hsr1, Object o, ModelAndView mav) throws Exception {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         
-        System.out.println("post");
+        //System.out.println("post");
     }
 
     @Override
     public void afterCompletion(javax.servlet.http.HttpServletRequest hsr, javax.servlet.http.HttpServletResponse hsr1, Object o, Exception excptn) throws Exception {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        System.out.println("after");
+        //System.out.println("after");
     }
 
 }

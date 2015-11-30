@@ -15,5 +15,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface NoteLaudRepository extends PagingAndSortingRepository<Notelaud, String> {
 
-    Long countByNoteIdAndUserId(Note noteId, String userId);
+    Long countByNoteIdAndUserId(Note noteId,String userId);
+    Notelaud findByNoteIdAndUserId(Note noteId, String userId);
 }

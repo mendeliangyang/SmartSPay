@@ -9,7 +9,9 @@ import com.smart.smartscommon.util.AnalyzeParam;
 import com.smart.smartscommon.util.UtileSmart;
 import com.smart.smartspay.entity.Filedepot;
 import com.smart.smartspay.entity.Note;
+import com.smart.smartspay.entity.Notelaud;
 import com.smart.smartspay.entity.Userdetail;
+import com.smart.smartspay.repository.NoteLaudRepository;
 import com.smart.smartspay.repository.NoteRepository;
 import com.smart.smartspay.service.FileDepotService;
 import com.smart.smartspay.service.NoteService;
@@ -45,8 +47,10 @@ public class NoteController {
     private FileDepotService fileDepotService;
     
     @Resource
-    
     NoteService noteService;
+    
+    @Resource
+    NoteLaudRepository noteLaudRepository;
     
     @RequestMapping(value = "/getNote", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -155,5 +159,41 @@ public class NoteController {
         noteService.laudNote(UtileSmart.getStringFromMap(paramMap, paramKey_noteId), UtileSmart.getStringFromMap(paramMap, paramKey_userId));
         
         return ResponseFormationJson.FormationResponseSucess();
+    }
+    
+    @RequestMapping(value = "/cancellaudNote", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String cancellaudNote(@RequestBody String param) throws Exception {
+        String paramKey_noteId = "noteId";
+        String paramKey_userId = "userId";
+        Map<String, Object> paramMap = null;
+        
+        paramMap = new HashMap<String, Object>();
+        
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
+        
+        noteService.cancellaudNote(UtileSmart.getStringFromMap(paramMap, paramKey_noteId), UtileSmart.getStringFromMap(paramMap, paramKey_userId));
+        
+        return ResponseFormationJson.FormationResponseSucess();
+    }
+    
+    @RequestMapping(value = "/checkLaundNote", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String checkLaundNote(@RequestBody String param) throws Exception {
+        String paramKey_noteId = "noteId";
+        String paramKey_userId = "userId";
+        Map<String, Object> paramMap = null;
+        
+        paramMap = new HashMap<String, Object>();
+        
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
+        
+        Note note = new Note();
+        
+        note.setNoteId(UtileSmart.getStringFromMap(paramMap, paramKey_noteId));
+        
+        Notelaud noteLaud= noteLaudRepository.findByNoteIdAndUserId(note, UtileSmart.getStringFromMap(paramMap, paramKey_userId));
+        
+        return ResponseFormationJson.FormationResponseSucess(noteLaud);
     }
 }
