@@ -11,6 +11,7 @@ import com.smart.smartspay.entity.FiledepotLs;
 import com.smart.smartspay.exception.NotFoundException;
 import com.smart.smartspay.repository.FileDepotLSRepository;
 import com.smart.smartspay.repository.FileDepotRepository;
+import com.smart.smartspay.task.WebSiteConfig;
 import com.smart.smartspay.util.ResponseResultCode;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,9 @@ public class FileDepotService {
 
     @Resource
     FileDepotLSRepository fileDepotLsRepository;
+
+    @Resource
+    WebSiteConfig webSiteConfig;
 
     @Transactional
     public void saveFiles(Set<Filedepot> fileDepots) throws NotFoundException {
@@ -59,7 +63,14 @@ public class FileDepotService {
     }
 
     public List<Filedepot> getFilesByOwnId(String ownId) {
-        return fileDepotRepository.findByOwnId(ownId);
+        List<Filedepot> filedepots = fileDepotRepository.findByOwnId(ownId);
+        StringBuffer sb = new StringBuffer();
+        for (Filedepot fileDepot : filedepots) {
+            sb.append(webSiteConfig.getWebSiteHttpDepotPath()).append(fileDepot.getFPath().replace('\\', '/'));
+            fileDepot.setHttpPath(sb.toString());
+            sb.delete(0, sb.length());
+        }
+        return filedepots;
     }
 
     public <T extends BaseFileDepot> Page<T> getFilesByOwn(Page<T> owns) {

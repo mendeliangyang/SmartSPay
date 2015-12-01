@@ -266,8 +266,8 @@ public class FileDepotController {
                 for (Object fileDescObj : jsonFileDes) {
                     jsonTempFileDesc = (JSONObject) fileDescObj;
                     fileDetailModel = new DepotFileDetailModel();
-                    fileDetailModel.fileName = UtileSmart.TryGetJsonString(jsonTempFileDesc, paramKey_filename);
-                    fileDetailModel.fileOwnType = UtileSmart.TryGetJsonString(jsonTempFileDesc, paramKey_fileType);
+                    fileDetailModel.fileName = UtileSmart.GetJsonString(jsonTempFileDesc, paramKey_filename);
+                    fileDetailModel.fileOwnType = UtileSmart.GetJsonString(jsonTempFileDesc, paramKey_fileType);
                     fileDetailModel.fileId = UtileSmart.TryGetJsonString(jsonTempFileDesc, paramKey_fileId);
                     paramModel.addFileDetail(fileDetailModel);
                 }

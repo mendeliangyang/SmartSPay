@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,7 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-public class Reply implements Serializable, SmartReponseFormation {
+public class Reply extends BaseFileDepot implements Serializable, SmartReponseFormation {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,9 +51,12 @@ public class Reply implements Serializable, SmartReponseFormation {
     @Basic(optional = false)
     @Column(name = "ReplyType", nullable = false)
     private int replyType;
-    @Basic(optional = false)
-    @Column(name = "UserId", nullable = false, length = 40)
-    private String userId;
+//    @Basic(optional = false)
+//    @Column(name = "UserId", nullable = false, length = 40)
+//    private String userId;
+    @JoinColumn(name = "UserId", referencedColumnName = "UserId", nullable = false)
+    @ManyToOne(optional = false)
+    private Userdetail userId;
 
     public Reply() {
     }
@@ -64,7 +69,7 @@ public class Reply implements Serializable, SmartReponseFormation {
         this.replyId = replyId;
         this.masterId = masterId;
         this.replyType = replyType;
-        this.userId = userId;
+//        this.userId = userId;
     }
 
     public String getReplyId() {
@@ -115,11 +120,11 @@ public class Reply implements Serializable, SmartReponseFormation {
         this.replyType = replyType;
     }
 
-    public String getUserId() {
+    public Userdetail getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Userdetail userId) {
         this.userId = userId;
     }
 
@@ -146,6 +151,11 @@ public class Reply implements Serializable, SmartReponseFormation {
     @Override
     public String toString() {
         return "com.smart.smartspay.entity.Reply[ replyId=" + replyId + " ]";
+    }
+
+    @Override
+    public String getFileOwnId() {
+        return this.replyId;
     }
 
 }

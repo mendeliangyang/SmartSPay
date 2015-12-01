@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -33,10 +35,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Version.findByResorceLink", query = "SELECT v FROM Version v WHERE v.resorceLink = :resorceLink"),
     @NamedQuery(name = "Version.findByUpType", query = "SELECT v FROM Version v WHERE v.upType = :upType"),
     @NamedQuery(name = "Version.findByPutDate", query = "SELECT v FROM Version v WHERE v.putDate = :putDate")})
-public class Version implements Serializable {
+public class Version implements Serializable, SmartReponseFormation {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
     @Column(nullable = false, length = 40)
     private String versionId;
     @Basic(optional = false)
@@ -140,5 +145,5 @@ public class Version implements Serializable {
     public String toString() {
         return "com.smart.smartspay.entity.Version[ versionId=" + versionId + " ]";
     }
-    
+
 }

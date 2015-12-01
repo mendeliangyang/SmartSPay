@@ -21,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
-public class Userdetail implements Serializable, SmartReponseFormation {
+public class Userdetail extends BaseFileDepot implements Serializable, SmartReponseFormation {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -186,6 +185,11 @@ public class Userdetail implements Serializable, SmartReponseFormation {
     @Override
     public String toString() {
         return "com.smart.smartspay.entity.Userdetail[ userId=" + userId + " ]";
+    }
+
+    @Override
+    public String getFileOwnId() {
+        return this.userId;
     }
 
 }

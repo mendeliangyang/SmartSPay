@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -28,11 +30,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(catalog = "smartpay", schema = "")
 @XmlRootElement
 
-public class Advice implements Serializable, SmartReponseFormation  {
+public class Advice implements Serializable, SmartReponseFormation {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(nullable = false, length = 40)
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
     private String adviceId;
     @Basic(optional = false)
     @Column(nullable = false, length = 400)
@@ -143,5 +148,5 @@ public class Advice implements Serializable, SmartReponseFormation  {
     public String toString() {
         return "com.smart.smartspay.entity.Advice[ adviceId=" + adviceId + " ]";
     }
-    
+
 }

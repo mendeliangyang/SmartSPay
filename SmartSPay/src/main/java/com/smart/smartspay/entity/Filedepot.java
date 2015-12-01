@@ -43,7 +43,7 @@ public class Filedepot implements Serializable, SmartReponseFormation {
     private String fName;
     @Basic(optional = false)
     @Column(nullable = false, length = 400)
-    private transient String fPath;
+    private String fPath;
     @Column(length = 60)
 //    @Expose
     private transient String fSummary;
