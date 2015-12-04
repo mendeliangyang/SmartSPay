@@ -10,7 +10,6 @@
     <class>com.smart.smartspay.entity.Notelaud</class>
     <class>com.smart.smartspay.entity.Consume</class>
     <class>com.smart.smartspay.entity.Consumeyearmonth</class>
-    <class>com.smart.smartspay.entity.Paychannel</class>
     <class>com.smart.smartspay.entity.Consumetype</class>
     <class>com.smart.smartspay.entity.Notify</class>
     <class>com.smart.smartspay.entity.Community</class>
@@ -28,6 +27,21 @@
     <class>com.smart.smartspay.entity.Filedepot</class>
     <class>com.smart.smartspay.entity.Reply</class>
     <class>com.smart.smartspay.entity.Notify_1</class>
+    <class>com.smart.smartspay.entity.Dealtype</class>
+    <class>com.smart.smartspay.entity.Actonstory</class>
+    <class>com.smart.smartspay.entity.Itemlog</class>
+    <class>com.smart.smartspay.entity.Item</class>
+    <class>com.smart.smartspay.entity.Accountissue</class>
+    <class>com.smart.smartspay.entity.Myaccountstory</class>
+    <class>com.smart.smartspay.entity.Dealinterface</class>
+    <class>com.smart.smartspay.entity.Dealrulestory</class>
+    <class>com.smart.smartspay.entity.Ledger</class>
+    <class>com.smart.smartspay.entity.Actchannel</class>
+    <class>com.smart.smartspay.entity.Accountbindstory</class>
+    <class>com.smart.smartspay.entity.Dealrule</class>
+    <class>com.smart.smartspay.entity.Ledgerlog</class>
+    <class>com.smart.smartspay.entity.Dealinterfacelog</class>
+    <class>com.smart.smartspay.entity.Actchannelstory</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://220.231.153.66:8006/smartpay?zeroDateTimeBehavior=convertToNull"/>
