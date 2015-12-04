@@ -370,7 +370,7 @@ public class FileDepotController {
                 FileHelper.CheckFileExist(sbTemp.toString());
                 tempFileDetailModel = paramModel.getFileDetailModel(strUpFileName);
                 if (tempFileDetailModel == null) {
-                    return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorParam, String.format("param error"));
+                    return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorParam, String.format("param error. param does not contain  '%s' fileName.",strUpFileName));
                 }
                 //判断如果类型应该是纯字符串，如果包含 文件路径分隔符(File.separator) 错误路径
                 if (tempFileDetailModel.fileOwnType.indexOf(File.separator) > 0) {

@@ -28,31 +28,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/Advice")
 public class AdviceController {
-
+    
     @Resource
     AdviceRepository adviceRepository;
-
+    
     @RequestMapping(value = "/putAdvice", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String putAdvice(@RequestBody String param) throws Exception {
-
+        
         String paramKey_content = "content";
         String paramKey_userId = "userId";
-
+        
         Map<String, Object> paramMap = new HashMap<String, Object>();
-
+        
         AnalyzeParam.AnalyzeParamToMap(param, paramMap);
         
         Advice advice = new Advice();
-        Userdetail userdetail  = new Userdetail();
+        Userdetail userdetail = new Userdetail();
         userdetail.setUserId(UtileSmart.getStringFromMap(paramMap, paramKey_userId));
         advice.setContent(UtileSmart.getStringFromMap(paramMap, paramKey_content));
         advice.setUserId(userdetail);
         advice.setPutDate(new Date());
-        
+        advice.setAdviceId(UtileSmart.getUUID());
         adviceRepository.save(advice);
-
-        return ResponseFormationJson.FormationResponseSucess();
-
+        
+        return ResponseFormationJson.FormationResponseSucess(advice);
+        
     }
 }
