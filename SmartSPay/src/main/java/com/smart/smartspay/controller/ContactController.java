@@ -74,4 +74,24 @@ public class ContactController {
         return ResponseFormationJson.FormationResponseSucess(contacts, new SmartExclusionStrategy(exclude));
     }
 
+    @RequestMapping(value = "/getContactByBranchAndNameContain", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String getContactByBranchAndNameContain(@RequestBody String param) throws Exception {
+        String paramKey_contactName = "contactName";
+        String paramKey_branchId = "branchId";
+
+        Map<String, Object> paramMap = null;
+
+        paramMap = new HashMap<String, Object>();
+
+        AnalyzeParam.AnalyzeParamToMap(param, paramMap);
+        Branch branch = new Branch();
+        branch.setBranchId(UtileSmart.getStringFromMap(paramMap, paramKey_branchId));
+        Page<Contact> contacts = contactRepository.findByBranchIdAndContactNameContaining(branch, UtileSmart.getStringFromMap(paramMap, paramKey_contactName), new PageRequest(UtileSmart.getIntFromMap(paramMap, CommonParamKey.ParamKey_PageIndex), UtileSmart.getIntFromMap(paramMap, CommonParamKey.ParamKey_PageSize)));
+
+        Map<Class<?>, String[]> exclude = new HashMap<Class<?>, String[]>();
+        exclude.put(Branch.class, new String[]{"branchId"});
+        return ResponseFormationJson.FormationResponseSucess(contacts, new SmartExclusionStrategy(exclude));
+    }
+
 }

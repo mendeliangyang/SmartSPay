@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,20 +28,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "myaccountstory", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Myaccountstory.findAll", query = "SELECT m FROM Myaccountstory m"),
-    @NamedQuery(name = "Myaccountstory.findByAccountId", query = "SELECT m FROM Myaccountstory m WHERE m.accountId = :accountId"),
-    @NamedQuery(name = "Myaccountstory.findByAccountNum", query = "SELECT m FROM Myaccountstory m WHERE m.accountNum = :accountNum"),
-    @NamedQuery(name = "Myaccountstory.findByAccountIssue", query = "SELECT m FROM Myaccountstory m WHERE m.accountIssue = :accountIssue"),
-    @NamedQuery(name = "Myaccountstory.findByUserId", query = "SELECT m FROM Myaccountstory m WHERE m.userId = :userId"),
-    @NamedQuery(name = "Myaccountstory.findByMasterRealName", query = "SELECT m FROM Myaccountstory m WHERE m.masterRealName = :masterRealName"),
-    @NamedQuery(name = "Myaccountstory.findByMasterVerifyPhone", query = "SELECT m FROM Myaccountstory m WHERE m.masterVerifyPhone = :masterVerifyPhone"),
-    @NamedQuery(name = "Myaccountstory.findByValidStatus", query = "SELECT m FROM Myaccountstory m WHERE m.validStatus = :validStatus"),
-    @NamedQuery(name = "Myaccountstory.findByPutTime", query = "SELECT m FROM Myaccountstory m WHERE m.putTime = :putTime"),
-    @NamedQuery(name = "Myaccountstory.findByInvalidTime", query = "SELECT m FROM Myaccountstory m WHERE m.invalidTime = :invalidTime"),
-    @NamedQuery(name = "Myaccountstory.findByItemId", query = "SELECT m FROM Myaccountstory m WHERE m.itemId = :itemId")})
+    @NamedQuery(name = "Myaccountstory.findAll", query = "SELECT m FROM Myaccountstory m")})
 public class Myaccountstory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "AccountStoryId", nullable = false)
+    private Integer accountStoryId;
     @Basic(optional = false)
     @Column(name = "AccountId", nullable = false, length = 40)
     private String accountId;
@@ -61,24 +57,33 @@ public class Myaccountstory implements Serializable {
     @Column(name = "PutTime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date putTime;
-    @Column(name = "InvalidTime")
+    @Column(name = "OperationTime")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date invalidTime;
+    private Date operationTime;
     @Column(name = "ItemId", length = 20)
     private String itemId;
 
     public Myaccountstory() {
     }
 
-    public Myaccountstory(String accountId) {
-        this.accountId = accountId;
+    public Myaccountstory(Integer accountStoryId) {
+        this.accountStoryId = accountStoryId;
     }
 
-    public Myaccountstory(String accountId, String accountNum, String accountIssue, String userId) {
+    public Myaccountstory(Integer accountStoryId, String accountId, String accountNum, String accountIssue, String userId) {
+        this.accountStoryId = accountStoryId;
         this.accountId = accountId;
         this.accountNum = accountNum;
         this.accountIssue = accountIssue;
         this.userId = userId;
+    }
+
+    public Integer getAccountStoryId() {
+        return accountStoryId;
+    }
+
+    public void setAccountStoryId(Integer accountStoryId) {
+        this.accountStoryId = accountStoryId;
     }
 
     public String getAccountId() {
@@ -145,12 +150,12 @@ public class Myaccountstory implements Serializable {
         this.putTime = putTime;
     }
 
-    public Date getInvalidTime() {
-        return invalidTime;
+    public Date getOperationTime() {
+        return operationTime;
     }
 
-    public void setInvalidTime(Date invalidTime) {
-        this.invalidTime = invalidTime;
+    public void setOperationTime(Date operationTime) {
+        this.operationTime = operationTime;
     }
 
     public String getItemId() {
@@ -164,7 +169,7 @@ public class Myaccountstory implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (accountId != null ? accountId.hashCode() : 0);
+        hash += (accountStoryId != null ? accountStoryId.hashCode() : 0);
         return hash;
     }
 
@@ -175,7 +180,7 @@ public class Myaccountstory implements Serializable {
             return false;
         }
         Myaccountstory other = (Myaccountstory) object;
-        if ((this.accountId == null && other.accountId != null) || (this.accountId != null && !this.accountId.equals(other.accountId))) {
+        if ((this.accountStoryId == null && other.accountStoryId != null) || (this.accountStoryId != null && !this.accountStoryId.equals(other.accountStoryId))) {
             return false;
         }
         return true;
@@ -183,7 +188,7 @@ public class Myaccountstory implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Myaccountstory[ accountId=" + accountId + " ]";
+        return "com.smart.smartspay.entity.Myaccountstory[ accountStoryId=" + accountStoryId + " ]";
     }
     
 }

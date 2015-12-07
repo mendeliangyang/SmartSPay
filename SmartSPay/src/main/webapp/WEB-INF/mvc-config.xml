@@ -26,6 +26,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <context:component-scan base-package="com.smart.smartspay.service"/>
     <context:component-scan base-package="com.smart.smartspay.controller"/>
     <context:component-scan base-package="com.smart.smartspay.controllerExterior"/>
+    <context:component-scan base-package="com.smart.smartspay.controllerDeal"/>
     
     
     <!--<context:component-scan base-package="com.smart.smartspay.aop"/>-->

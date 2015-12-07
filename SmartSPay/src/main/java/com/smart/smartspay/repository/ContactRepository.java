@@ -20,4 +20,6 @@ public interface ContactRepository extends PagingAndSortingRepository<Contact, S
     Page<Contact> findByBranchId(Branch branchId, Pageable pageable);
 
     Page<Contact> findByContactNameContaining(String contactName, Pageable pageable);
+
+    Page<Contact> findByBranchIdAndContactNameContaining(Branch branchId, String contactName, Pageable pageable);
 }

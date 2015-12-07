@@ -20,7 +20,7 @@ public class CheckVerifySignValidity implements Runnable {
             Iterator iterator = SignCommon.SignRecords.iterator();
             while (iterator.hasNext()) {
                 SignInformationModel next = (SignInformationModel) iterator.next();
-                if (new Date().getTime() - next.signDateTime >= (1000 * SignCommon.SignVerifyTimeOut)) {
+                if (new Date().getTime() - next.getSignDateTime() >= (1000 * SignCommon.SignVerifyTimeOut)) {
                     SignCommon.SignRecords.remove(next);
                 }
             }

@@ -6,12 +6,12 @@
 package com.smart.smartspay.repository;
 
 import com.smart.smartspay.entity.Myaccountstory;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Administrator
  */
-public interface MyaccountStoryRepository extends Repository<Myaccountstory, String>{
+public interface MyaccountStoryRepository extends PagingAndSortingRepository<Myaccountstory, String>{
     
 }

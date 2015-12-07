@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,13 +25,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "ledger", catalog = "smartpay", schema = "")
+@Table(name = "ledgerstory", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ledger.findAll", query = "SELECT l FROM Ledger l")})
-public class Ledger implements Serializable {
+    @NamedQuery(name = "Ledgerstory.findAll", query = "SELECT l FROM Ledgerstory l")})
+public class Ledgerstory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "LedgerStoryId", nullable = false)
+    private Integer ledgerStoryId;
     @Basic(optional = false)
     @Column(name = "LedgerId", nullable = false, length = 40)
     private String ledgerId;
@@ -62,14 +68,15 @@ public class Ledger implements Serializable {
     @Column(name = "ledgerStatus", nullable = false)
     private int ledgerStatus;
 
-    public Ledger() {
+    public Ledgerstory() {
     }
 
-    public Ledger(String ledgerId) {
-        this.ledgerId = ledgerId;
+    public Ledgerstory(Integer ledgerStoryId) {
+        this.ledgerStoryId = ledgerStoryId;
     }
 
-    public Ledger(String ledgerId, String userId, String userAccountNum, String userAccountIssue, double accountBalance, String itemId, long dealSeq, Date putLedgerDateTime, int ledgerStatus) {
+    public Ledgerstory(Integer ledgerStoryId, String ledgerId, String userId, String userAccountNum, String userAccountIssue, double accountBalance, String itemId, long dealSeq, Date putLedgerDateTime, int ledgerStatus) {
+        this.ledgerStoryId = ledgerStoryId;
         this.ledgerId = ledgerId;
         this.userId = userId;
         this.userAccountNum = userAccountNum;
@@ -79,6 +86,14 @@ public class Ledger implements Serializable {
         this.dealSeq = dealSeq;
         this.putLedgerDateTime = putLedgerDateTime;
         this.ledgerStatus = ledgerStatus;
+    }
+
+    public Integer getLedgerStoryId() {
+        return ledgerStoryId;
+    }
+
+    public void setLedgerStoryId(Integer ledgerStoryId) {
+        this.ledgerStoryId = ledgerStoryId;
     }
 
     public String getLedgerId() {
@@ -164,18 +179,18 @@ public class Ledger implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ledgerId != null ? ledgerId.hashCode() : 0);
+        hash += (ledgerStoryId != null ? ledgerStoryId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Ledger)) {
+        if (!(object instanceof Ledgerstory)) {
             return false;
         }
-        Ledger other = (Ledger) object;
-        if ((this.ledgerId == null && other.ledgerId != null) || (this.ledgerId != null && !this.ledgerId.equals(other.ledgerId))) {
+        Ledgerstory other = (Ledgerstory) object;
+        if ((this.ledgerStoryId == null && other.ledgerStoryId != null) || (this.ledgerStoryId != null && !this.ledgerStoryId.equals(other.ledgerStoryId))) {
             return false;
         }
         return true;
@@ -183,7 +198,7 @@ public class Ledger implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Ledger[ ledgerId=" + ledgerId + " ]";
+        return "com.smart.smartspay.entity.Ledgerstory[ ledgerStoryId=" + ledgerStoryId + " ]";
     }
     
 }

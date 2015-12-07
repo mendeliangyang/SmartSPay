@@ -6,12 +6,12 @@
 package com.smart.smartspay.repository;
 
 import com.smart.smartspay.entity.Ledger;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Administrator
  */
-public interface LedgerRepository extends Repository<Ledger, String>{
+public interface LedgerRepository extends PagingAndSortingRepository<Ledger, String>{
     
 }

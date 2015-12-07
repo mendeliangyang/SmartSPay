@@ -26,18 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "myaccount", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Myaccount.findAll", query = "SELECT m FROM Myaccount m"),
-    @NamedQuery(name = "Myaccount.findByAccountId", query = "SELECT m FROM Myaccount m WHERE m.accountId = :accountId"),
-    @NamedQuery(name = "Myaccount.findByAccountNum", query = "SELECT m FROM Myaccount m WHERE m.accountNum = :accountNum"),
-    @NamedQuery(name = "Myaccount.findByAccountIssue", query = "SELECT m FROM Myaccount m WHERE m.accountIssue = :accountIssue"),
-    @NamedQuery(name = "Myaccount.findByUserId", query = "SELECT m FROM Myaccount m WHERE m.userId = :userId"),
-    @NamedQuery(name = "Myaccount.findByMasterRealName", query = "SELECT m FROM Myaccount m WHERE m.masterRealName = :masterRealName"),
-    @NamedQuery(name = "Myaccount.findByMasterVerifyPhone", query = "SELECT m FROM Myaccount m WHERE m.masterVerifyPhone = :masterVerifyPhone"),
-    @NamedQuery(name = "Myaccount.findByValidStatus", query = "SELECT m FROM Myaccount m WHERE m.validStatus = :validStatus"),
-    @NamedQuery(name = "Myaccount.findByPutTime", query = "SELECT m FROM Myaccount m WHERE m.putTime = :putTime"),
-    @NamedQuery(name = "Myaccount.findByInvalidTime", query = "SELECT m FROM Myaccount m WHERE m.invalidTime = :invalidTime"),
-    @NamedQuery(name = "Myaccount.findByItemId", query = "SELECT m FROM Myaccount m WHERE m.itemId = :itemId")})
-public class Myaccount implements Serializable {
+    @NamedQuery(name = "Myaccount.findAll", query = "SELECT m FROM Myaccount m")})
+public class Myaccount implements Serializable,SmartReponseFormation {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -61,9 +51,9 @@ public class Myaccount implements Serializable {
     @Column(name = "PutTime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date putTime;
-    @Column(name = "InvalidTime")
+    @Column(name = "OperationTime")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date invalidTime;
+    private Date operationTime;
     @Column(name = "ItemId", length = 20)
     private String itemId;
 
@@ -145,12 +135,12 @@ public class Myaccount implements Serializable {
         this.putTime = putTime;
     }
 
-    public Date getInvalidTime() {
-        return invalidTime;
+    public Date getOperationTime() {
+        return operationTime;
     }
 
-    public void setInvalidTime(Date invalidTime) {
-        this.invalidTime = invalidTime;
+    public void setOperationTime(Date operationTime) {
+        this.operationTime = operationTime;
     }
 
     public String getItemId() {

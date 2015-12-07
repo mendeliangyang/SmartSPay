@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,16 +23,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "ledger", catalog = "smartpay", schema = "")
+@Table(name = "ledgerdeallog", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ledger.findAll", query = "SELECT l FROM Ledger l")})
-public class Ledger implements Serializable {
+    @NamedQuery(name = "Ledgerdeallog.findAll", query = "SELECT l FROM Ledgerdeallog l")})
+public class Ledgerdeallog implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "LedgerId", nullable = false, length = 40)
-    private String ledgerId;
+    @EmbeddedId
+    protected LedgerdeallogPK ledgerdeallogPK;
     @Basic(optional = false)
     @Column(name = "UserId", nullable = false, length = 40)
     private String userId;
@@ -49,44 +47,37 @@ public class Ledger implements Serializable {
     @Column(name = "ItemId", nullable = false, length = 20)
     private String itemId;
     @Basic(optional = false)
-    @Column(name = "DealSeq", nullable = false)
-    private long dealSeq;
-    @Basic(optional = false)
-    @Column(name = "PutLedgerDateTime", nullable = false)
+    @Column(name = "DealDateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date putLedgerDateTime;
-    @Column(name = "OperationDateTime")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date operationDateTime;
-    @Basic(optional = false)
-    @Column(name = "ledgerStatus", nullable = false)
-    private int ledgerStatus;
+    private Date dealDateTime;
 
-    public Ledger() {
+    public Ledgerdeallog() {
     }
 
-    public Ledger(String ledgerId) {
-        this.ledgerId = ledgerId;
+    public Ledgerdeallog(LedgerdeallogPK ledgerdeallogPK) {
+        this.ledgerdeallogPK = ledgerdeallogPK;
     }
 
-    public Ledger(String ledgerId, String userId, String userAccountNum, String userAccountIssue, double accountBalance, String itemId, long dealSeq, Date putLedgerDateTime, int ledgerStatus) {
-        this.ledgerId = ledgerId;
+    public Ledgerdeallog(LedgerdeallogPK ledgerdeallogPK, String userId, String userAccountNum, String userAccountIssue, double accountBalance, String itemId, Date dealDateTime) {
+        this.ledgerdeallogPK = ledgerdeallogPK;
         this.userId = userId;
         this.userAccountNum = userAccountNum;
         this.userAccountIssue = userAccountIssue;
         this.accountBalance = accountBalance;
         this.itemId = itemId;
-        this.dealSeq = dealSeq;
-        this.putLedgerDateTime = putLedgerDateTime;
-        this.ledgerStatus = ledgerStatus;
+        this.dealDateTime = dealDateTime;
     }
 
-    public String getLedgerId() {
-        return ledgerId;
+    public Ledgerdeallog(String ledgerId, long dealSeq) {
+        this.ledgerdeallogPK = new LedgerdeallogPK(ledgerId, dealSeq);
     }
 
-    public void setLedgerId(String ledgerId) {
-        this.ledgerId = ledgerId;
+    public LedgerdeallogPK getLedgerdeallogPK() {
+        return ledgerdeallogPK;
+    }
+
+    public void setLedgerdeallogPK(LedgerdeallogPK ledgerdeallogPK) {
+        this.ledgerdeallogPK = ledgerdeallogPK;
     }
 
     public String getUserId() {
@@ -129,53 +120,29 @@ public class Ledger implements Serializable {
         this.itemId = itemId;
     }
 
-    public long getDealSeq() {
-        return dealSeq;
+    public Date getDealDateTime() {
+        return dealDateTime;
     }
 
-    public void setDealSeq(long dealSeq) {
-        this.dealSeq = dealSeq;
-    }
-
-    public Date getPutLedgerDateTime() {
-        return putLedgerDateTime;
-    }
-
-    public void setPutLedgerDateTime(Date putLedgerDateTime) {
-        this.putLedgerDateTime = putLedgerDateTime;
-    }
-
-    public Date getOperationDateTime() {
-        return operationDateTime;
-    }
-
-    public void setOperationDateTime(Date operationDateTime) {
-        this.operationDateTime = operationDateTime;
-    }
-
-    public int getLedgerStatus() {
-        return ledgerStatus;
-    }
-
-    public void setLedgerStatus(int ledgerStatus) {
-        this.ledgerStatus = ledgerStatus;
+    public void setDealDateTime(Date dealDateTime) {
+        this.dealDateTime = dealDateTime;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ledgerId != null ? ledgerId.hashCode() : 0);
+        hash += (ledgerdeallogPK != null ? ledgerdeallogPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Ledger)) {
+        if (!(object instanceof Ledgerdeallog)) {
             return false;
         }
-        Ledger other = (Ledger) object;
-        if ((this.ledgerId == null && other.ledgerId != null) || (this.ledgerId != null && !this.ledgerId.equals(other.ledgerId))) {
+        Ledgerdeallog other = (Ledgerdeallog) object;
+        if ((this.ledgerdeallogPK == null && other.ledgerdeallogPK != null) || (this.ledgerdeallogPK != null && !this.ledgerdeallogPK.equals(other.ledgerdeallogPK))) {
             return false;
         }
         return true;
@@ -183,7 +150,7 @@ public class Ledger implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Ledger[ ledgerId=" + ledgerId + " ]";
+        return "com.smart.smartspay.entity.Ledgerdeallog[ ledgerdeallogPK=" + ledgerdeallogPK + " ]";
     }
     
 }

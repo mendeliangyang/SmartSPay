@@ -16,18 +16,60 @@ public class SignInformationModel {
     public SignInformationModel() {
     }
 
-    public SignInformationModel(String pId, String pMac, String pDeviceType ) {
+    public SignInformationModel(String pId, String pMac, String pDeviceType) {
         this.deviceType = pDeviceType;
-        this.Id = pId;
+        this.userId = pId;
         this.mac = pMac;
         this.signDateTime = new Date().getTime();
     }
 
-    public String token; //encode mac ,deviceType,Id
-    public String mac; //device mac address
-    public String deviceType; //1 pc,2 andorid,3 ios
-    public String Id;// sign user id
-    public long signDateTime;
+    private String token; //encode mac ,deviceType,Id
+    private String mac; //device mac address
+    private String deviceType; //1 pc,2 andorid,3 ios
+    private String userId;// sign user id
+    private long signDateTime;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public long getSignDateTime() {
+        return signDateTime;
+    }
+
+    public void setSignDateTime(long signDateTime) {
+        this.signDateTime = signDateTime;
+    }
+    
+    
 
     /**
      * 加密token id,mac,deviceType 合并计算
@@ -36,7 +78,7 @@ public class SignInformationModel {
      */
     public String encodeToken() {
         //
-        token = Id;
+        token = userId;
         return token;
     }
 

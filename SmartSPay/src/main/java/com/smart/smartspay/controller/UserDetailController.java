@@ -155,7 +155,7 @@ public class UserDetailController {
         //登录成功，返回用户信息
         SignInformationModel signModel = SignCommon.SignIn(userdeatil.getUserId(), null, null);
         Map<String, Object> results = new HashMap<String, Object>();
-        results.put("token", signModel.token);
+        results.put("token", signModel.getToken());
         results.put("userdetail", userdeatil);
         return ResponseFormationJson.FormationResponseSucess(results);
     }

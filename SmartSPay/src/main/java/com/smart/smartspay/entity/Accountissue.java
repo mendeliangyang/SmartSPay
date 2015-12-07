@@ -25,7 +25,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Accountissue.findAll", query = "SELECT a FROM Accountissue a"),
     @NamedQuery(name = "Accountissue.findByAccountIssusId", query = "SELECT a FROM Accountissue a WHERE a.accountIssusId = :accountIssusId"),
-    @NamedQuery(name = "Accountissue.findByIssueDescribe", query = "SELECT a FROM Accountissue a WHERE a.issueDescribe = :issueDescribe")})
+    @NamedQuery(name = "Accountissue.findByIssueDescribe", query = "SELECT a FROM Accountissue a WHERE a.issueDescribe = :issueDescribe"),
+    @NamedQuery(name = "Accountissue.findByItemIdPrivate", query = "SELECT a FROM Accountissue a WHERE a.itemIdPrivate = :itemIdPrivate"),
+    @NamedQuery(name = "Accountissue.findByItemIdPublic", query = "SELECT a FROM Accountissue a WHERE a.itemIdPublic = :itemIdPublic")})
 public class Accountissue implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,6 +37,12 @@ public class Accountissue implements Serializable {
     @Basic(optional = false)
     @Column(name = "IssueDescribe", nullable = false, length = 40)
     private String issueDescribe;
+    @Basic(optional = false)
+    @Column(name = "ItemIdPrivate", nullable = false, length = 20)
+    private String itemIdPrivate;
+    @Basic(optional = false)
+    @Column(name = "ItemIdPublic", nullable = false, length = 20)
+    private String itemIdPublic;
 
     public Accountissue() {
     }
@@ -43,9 +51,11 @@ public class Accountissue implements Serializable {
         this.accountIssusId = accountIssusId;
     }
 
-    public Accountissue(String accountIssusId, String issueDescribe) {
+    public Accountissue(String accountIssusId, String issueDescribe, String itemIdPrivate, String itemIdPublic) {
         this.accountIssusId = accountIssusId;
         this.issueDescribe = issueDescribe;
+        this.itemIdPrivate = itemIdPrivate;
+        this.itemIdPublic = itemIdPublic;
     }
 
     public String getAccountIssusId() {
@@ -62,6 +72,22 @@ public class Accountissue implements Serializable {
 
     public void setIssueDescribe(String issueDescribe) {
         this.issueDescribe = issueDescribe;
+    }
+
+    public String getItemIdPrivate() {
+        return itemIdPrivate;
+    }
+
+    public void setItemIdPrivate(String itemIdPrivate) {
+        this.itemIdPrivate = itemIdPrivate;
+    }
+
+    public String getItemIdPublic() {
+        return itemIdPublic;
+    }
+
+    public void setItemIdPublic(String itemIdPublic) {
+        this.itemIdPublic = itemIdPublic;
     }
 
     @Override

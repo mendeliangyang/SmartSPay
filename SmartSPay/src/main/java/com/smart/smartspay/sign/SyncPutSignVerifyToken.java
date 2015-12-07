@@ -23,8 +23,8 @@ public class SyncPutSignVerifyToken implements Runnable {
     public void run() {
         synchronized (SignCommon.SignRecords) {
             for (SignInformationModel SignRecord : SignCommon.SignRecords) {
-                if (SignRecord.token.equals(signModel.token)) {
-                    SignRecord.signDateTime = new Date().getTime();
+                if (SignRecord.getToken().equals(signModel.getToken())) {
+                    SignRecord.setSignDateTime(new Date().getTime());
                     return;
                 }
             }

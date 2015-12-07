@@ -6,12 +6,14 @@
 package com.smart.smartspay.repository;
 
 import com.smart.smartspay.entity.Myaccount;
-import org.springframework.data.repository.Repository;
+import java.util.List;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Administrator
  */
-public interface MyaccountRepository extends Repository<Myaccount, String> {
-    
+public interface MyaccountRepository extends PagingAndSortingRepository<Myaccount, String> {
+
+    List<Myaccount> findByUserId(String userId);
 }

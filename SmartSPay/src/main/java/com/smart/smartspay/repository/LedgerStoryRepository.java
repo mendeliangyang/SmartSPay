@@ -5,13 +5,13 @@
  */
 package com.smart.smartspay.repository;
 
-import com.smart.smartspay.entity.Ledgerlog;
-import org.springframework.data.repository.Repository;
+import com.smart.smartspay.entity.Ledgerstory;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Administrator
  */
-public interface LedgerLogRepository extends Repository<Ledgerlog, String>{
+public interface LedgerStoryRepository extends PagingAndSortingRepository<Ledgerstory, String>{
     
 }

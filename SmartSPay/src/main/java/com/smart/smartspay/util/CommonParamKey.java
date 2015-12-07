@@ -14,4 +14,6 @@ public class CommonParamKey {
     public final static String ParamKey_PageIndex = "pageIndex";
     
     public final static String ParamKey_PageSize = "pageSize";
+    
+    public final static String ParamKey_token="token";
 }

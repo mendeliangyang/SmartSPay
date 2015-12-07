@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,13 +25,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "item", catalog = "smartpay", schema = "")
+@Table(name = "itemstory", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")})
-public class Item implements Serializable {
+    @NamedQuery(name = "Itemstory.findAll", query = "SELECT i FROM Itemstory i")})
+public class Itemstory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ItemStoryId", nullable = false)
+    private Integer itemStoryId;
     @Basic(optional = false)
     @Column(name = "ItemId", nullable = false, length = 40)
     private String itemId;
@@ -60,14 +66,15 @@ public class Item implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date operationDateTime;
 
-    public Item() {
+    public Itemstory() {
     }
 
-    public Item(String itemId) {
-        this.itemId = itemId;
+    public Itemstory(Integer itemStoryId) {
+        this.itemStoryId = itemStoryId;
     }
 
-    public Item(String itemId, int itemlevel, String parentItemId, double balance, int accountSeq, Date putItemDate, String itemName) {
+    public Itemstory(Integer itemStoryId, String itemId, int itemlevel, String parentItemId, double balance, int accountSeq, Date putItemDate, String itemName) {
+        this.itemStoryId = itemStoryId;
         this.itemId = itemId;
         this.itemlevel = itemlevel;
         this.parentItemId = parentItemId;
@@ -75,6 +82,14 @@ public class Item implements Serializable {
         this.accountSeq = accountSeq;
         this.putItemDate = putItemDate;
         this.itemName = itemName;
+    }
+
+    public Integer getItemStoryId() {
+        return itemStoryId;
+    }
+
+    public void setItemStoryId(Integer itemStoryId) {
+        this.itemStoryId = itemStoryId;
     }
 
     public String getItemId() {
@@ -160,18 +175,18 @@ public class Item implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (itemId != null ? itemId.hashCode() : 0);
+        hash += (itemStoryId != null ? itemStoryId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Item)) {
+        if (!(object instanceof Itemstory)) {
             return false;
         }
-        Item other = (Item) object;
-        if ((this.itemId == null && other.itemId != null) || (this.itemId != null && !this.itemId.equals(other.itemId))) {
+        Itemstory other = (Itemstory) object;
+        if ((this.itemStoryId == null && other.itemStoryId != null) || (this.itemStoryId != null && !this.itemStoryId.equals(other.itemStoryId))) {
             return false;
         }
         return true;
@@ -179,7 +194,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Item[ itemId=" + itemId + " ]";
+        return "com.smart.smartspay.entity.Itemstory[ itemStoryId=" + itemStoryId + " ]";
     }
     
 }

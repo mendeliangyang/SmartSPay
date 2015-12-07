@@ -19,7 +19,9 @@ public enum ResponseResultCode {
     ErrorFileUnExistOnDB("1204"),//文件类型错误
     ErrorUserOrPwd("2002"), ErrorUserName("2003"), ErrorExistAccount("2004"), ErrorExistUser("2005"), ErrorUnExistAccount("2006"), ErrorExistAccountBind("2007"),
     ErrorExistUserNickName("2008"), ErrorExistVerifyPhone("2009"),
-    ErrorNotFound("4001") //指定资源没有找到
+    ErrorNotFound("4001"), //指定资源没有找到
+    ErrorAccountIssueLackItem("6001"),//账户渠道没有配置对应的科目
+    ErrorAccountInfoFail("6002")//账户信息错误，需要联系管理员，查看后台数据
     ;
 
     private String describe;

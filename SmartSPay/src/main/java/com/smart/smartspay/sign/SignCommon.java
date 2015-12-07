@@ -22,7 +22,7 @@ public class SignCommon {
 
     public final static Set<SignInformationModel> SignRecords = Collections.synchronizedSet(new HashSet<SignInformationModel>());
 
-    public static final int SignVerifyTimeOut = 30;
+    public static final int SignVerifyTimeOut = (30*60);
 
     public static boolean initialSignVerify() {
 
@@ -70,7 +70,7 @@ public class SignCommon {
             public void run() {
                 SignInformationModel tempModel = null;
                 for (SignInformationModel SignRecord : SignRecords) {
-                    if (SignRecord.token.equals(token)) {
+                    if (SignRecord.getToken().equals(token)) {
                         tempModel = SignRecord;
                         break;
                     }
@@ -84,8 +84,7 @@ public class SignCommon {
 
     /**
      * //occur=ture 验证失败会引发异常
-     * rsSvc.SignVerify.SignCommon.verifySign(mamageSysAnalyze.getToken(),true);
-     * try catch 判断是否登录
+     * SignCommon.verifySign(mamageSysAnalyze.getToken(),true); try catch 判断是否登录
      *
      *
      * // occur = false 通过返回值判断是否登录成功 boolean isSignIn =
@@ -109,7 +108,7 @@ public class SignCommon {
             }
 
             for (SignInformationModel SignRecord : SignRecords) {
-                if (SignRecord.token.equals(token)) {
+                if (SignRecord.getToken().equals(token)) {
                     tempEvm = SignRecord;
                     break;
                 }
@@ -120,7 +119,7 @@ public class SignCommon {
                 }
                 return tempEvm;
             }
-            boolean isTimeout = new Date().getTime() - tempEvm.signDateTime < (1000 * SignVerifyTimeOut);
+            boolean isTimeout = new Date().getTime() - tempEvm.getSignDateTime() < (1000 * SignVerifyTimeOut);
             if (!isTimeout && occurException) {
                 throw new Exception("会话无效，请您重新登录。");
             }
@@ -129,7 +128,7 @@ public class SignCommon {
         } finally {
             if (tempEvm != null) {
                 synchronized (SignRecords) {
-                    tempEvm.signDateTime = new Date().getTime();
+                    tempEvm.setSignDateTime(new Date().getTime());
                 }
             }
         }
