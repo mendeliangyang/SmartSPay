@@ -5,6 +5,7 @@
  */
 package com.smart.smartspay.util;
 
+import java.io.File;
 import org.apache.log4j.Logger;
 
 /**
@@ -21,7 +22,7 @@ public class SmartLog4j {
     public static void initializeLog4j() throws Exception {
         //读取配置文件
         System.setProperty("log4jdir", String.format("%s", DeployConfigInfo.getDeployLogPath()));
-        org.apache.log4j.PropertyConfigurator.configure(String.format("%s%s", DeployConfigInfo.getDelplyRootPath(), "log4j.properties"));
+        org.apache.log4j.PropertyConfigurator.configure(String.format("%s%s%s%s", DeployConfigInfo.getDelplyRootPath(), "WEB-INF",File.separator,"log4j.properties"));
 
         log4jErrLog = Logger.getLogger("errorLog");
         log4jNormalLog = Logger.getLogger("normalLog");

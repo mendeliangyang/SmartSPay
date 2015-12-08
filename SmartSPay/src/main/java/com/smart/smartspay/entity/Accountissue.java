@@ -10,8 +10,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -22,13 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "accountissue", catalog = "smartpay", schema = "")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Accountissue.findAll", query = "SELECT a FROM Accountissue a"),
-    @NamedQuery(name = "Accountissue.findByAccountIssusId", query = "SELECT a FROM Accountissue a WHERE a.accountIssusId = :accountIssusId"),
-    @NamedQuery(name = "Accountissue.findByIssueDescribe", query = "SELECT a FROM Accountissue a WHERE a.issueDescribe = :issueDescribe"),
-    @NamedQuery(name = "Accountissue.findByItemIdPrivate", query = "SELECT a FROM Accountissue a WHERE a.itemIdPrivate = :itemIdPrivate"),
-    @NamedQuery(name = "Accountissue.findByItemIdPublic", query = "SELECT a FROM Accountissue a WHERE a.itemIdPublic = :itemIdPublic")})
-public class Accountissue implements Serializable {
+public class Accountissue implements Serializable, SmartReponseFormation {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -114,5 +107,5 @@ public class Accountissue implements Serializable {
     public String toString() {
         return "com.smart.smartspay.entity.Accountissue[ accountIssusId=" + accountIssusId + " ]";
     }
-    
+
 }

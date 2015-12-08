@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonElement;
 import com.smart.smartscommon.util.gsonsmart.GsonUtilSmart;
 import com.smart.smartspay.entity.SmartReponseFormation;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,10 @@ public class ResponseFormationJson {
     public static <T extends SmartReponseFormation> String FormationResponseSucess(List<T> jsonObject) {
         return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(jsonObject));
     }
+
+//    public static <T extends SmartReponseFormation> String FormationResponseSucess(Iterator<T> jsonObject) {
+//        return FormationResponse(ResponseResultCode.Success, "", GsonUtilSmart.GsonBuild().toJsonTree(jsonObject));
+//    }
 
     public static String FormationResponseSucess(Map<String, Object> objects) {
         JsonObject jsonObject = new JsonObject();

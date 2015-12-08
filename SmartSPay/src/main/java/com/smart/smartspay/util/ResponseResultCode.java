@@ -21,7 +21,10 @@ public enum ResponseResultCode {
     ErrorExistUserNickName("2008"), ErrorExistVerifyPhone("2009"),
     ErrorNotFound("4001"), //指定资源没有找到
     ErrorAccountIssueLackItem("6001"),//账户渠道没有配置对应的科目
-    ErrorAccountInfoFail("6002")//账户信息错误，需要联系管理员，查看后台数据
+    ErrorAccountInfoFail("6002"),//账户信息错误，需要联系管理员，查看后台数据
+    ErrorAccountLength("6003"),//银行卡长度不正确
+    ErrorAccountPattern("6004"),//银行卡格式不正确
+    ErrorAccountIssueUnSupport("6005"),//银行卡格式不正确
     ;
 
     private String describe;
