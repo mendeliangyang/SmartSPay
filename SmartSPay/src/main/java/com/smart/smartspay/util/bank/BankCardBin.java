@@ -27,13 +27,9 @@ public class BankCardBin {
      * @return 1卡号尾数不正确 2卡号输入有误
      */
     public static int checkBankCard(String cardId) {
-        if (cardId.length() == 16 || cardId.length() == 19) {
-
-        } else {
-            System.out.println("卡号位数无效");
+        if (cardId.length() < 15 || cardId.length() > 19) {
             return 1;
         }
-
         char bit = getBankCardCheckCode(cardId.substring(0, cardId.length() - 1));
         if (bit == 'N') {
             return 2;

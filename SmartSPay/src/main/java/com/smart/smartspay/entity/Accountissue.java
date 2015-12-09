@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -20,6 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "accountissue", catalog = "smartpay", schema = "")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Accountissue.findAll", query = "SELECT a FROM Accountissue a")})
 public class Accountissue implements Serializable, SmartReponseFormation {
 
     private static final long serialVersionUID = 1L;
@@ -36,6 +40,9 @@ public class Accountissue implements Serializable, SmartReponseFormation {
     @Basic(optional = false)
     @Column(name = "ItemIdPublic", nullable = false, length = 20)
     private String itemIdPublic;
+    @Basic(optional = false)
+    @Column(name = "BankIssueNum", nullable = false, length = 20)
+    private String bankIssueNum;
 
     public Accountissue() {
     }
@@ -44,11 +51,12 @@ public class Accountissue implements Serializable, SmartReponseFormation {
         this.accountIssusId = accountIssusId;
     }
 
-    public Accountissue(String accountIssusId, String issueDescribe, String itemIdPrivate, String itemIdPublic) {
+    public Accountissue(String accountIssusId, String issueDescribe, String itemIdPrivate, String itemIdPublic, String bankIssueNum) {
         this.accountIssusId = accountIssusId;
         this.issueDescribe = issueDescribe;
         this.itemIdPrivate = itemIdPrivate;
         this.itemIdPublic = itemIdPublic;
+        this.bankIssueNum = bankIssueNum;
     }
 
     public String getAccountIssusId() {
@@ -81,6 +89,14 @@ public class Accountissue implements Serializable, SmartReponseFormation {
 
     public void setItemIdPublic(String itemIdPublic) {
         this.itemIdPublic = itemIdPublic;
+    }
+
+    public String getBankIssueNum() {
+        return bankIssueNum;
+    }
+
+    public void setBankIssueNum(String bankIssueNum) {
+        this.bankIssueNum = bankIssueNum;
     }
 
     @Override

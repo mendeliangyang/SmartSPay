@@ -9,8 +9,10 @@ import com.smart.smartscommon.util.AnalyzeParam;
 import com.smart.smartscommon.util.UtileSmart;
 import com.smart.smartspay.entity.Accountissue;
 import com.smart.smartspay.entity.Advice;
+import com.smart.smartspay.entity.Bankissue;
 import com.smart.smartspay.entity.Userdetail;
 import com.smart.smartspay.repository.AccountIssueRepository;
+import com.smart.smartspay.repository.BankIssueRepository;
 import com.smart.smartspay.util.ResponseFormationJson;
 import com.smart.smartspay.util.ResponseResultCode;
 import com.smart.smartspay.util.bank.BankCardBin;
@@ -35,6 +37,9 @@ public class DealBasisContorller {
 
     @Resource
     AccountIssueRepository accountIssueRepository;
+
+    @Resource
+    BankIssueRepository bankIssueRepository;
 
     @RequestMapping(value = "/getAccountIssue", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -63,18 +68,19 @@ public class DealBasisContorller {
         } else if (checkResult == 2) {
             return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorAccountLength, "accountNum pattern.");
         }
-        String accountIssueName = BankCardBin.getNameOfBank(accountNum.substring(0, 6));
-        if (accountIssueName == null) {
-            return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorAccountLength, "accountNum pattern.");
+        Bankissue bankIssue = bankIssueRepository.findOne(accountNum.substring(0, 6));
+
+        if (bankIssue == null || bankIssue.getBankBin() == null) {
+            return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorAccountIssueUnSupport, "account issue unsupport.bankIssue not found.");
         }
-        Accountissue accountIssue = accountIssueRepository.findByIssueDescribe(accountIssueName.substring(0, accountIssueName.indexOf(".")));
+        Accountissue accountIssue = accountIssueRepository.findByBankIssueNum(bankIssue.getBankIssueNum());
         if (accountIssue == null) {
-            return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorAccountIssueUnSupport, "account issue unsupport.");
+            return ResponseFormationJson.FormationResponse(ResponseResultCode.ErrorAccountIssueUnSupport, "account issue unsupport. accountIssue not found.");
         }
-//        Map<String, Object> results = new HashMap<String, Object>();
-//        results.put("accountIssueNo", signModel.getToken());
-//        results.put("accountIssueName", accountIssueName);
-        return ResponseFormationJson.FormationResponseSucess(accountIssue);
+        Map<String, Object> results = new HashMap<String, Object>();
+        results.put("accountIssue", accountIssue);
+        results.put("bankIssue", bankIssue);
+        return ResponseFormationJson.FormationResponseSucess(results);
 
     }
 

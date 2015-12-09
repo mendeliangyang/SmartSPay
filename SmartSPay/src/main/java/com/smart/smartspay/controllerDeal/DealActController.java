@@ -70,7 +70,8 @@ public class DealActController {
             myaccount.setMasterVerifyPhone(masterVerifyPhone);
         }
         dealActService.putPrivateAccount(myaccount);
-
+        
+        myaccount = myaccountRepository.findOne(myaccount.getAccountId());
         return ResponseFormationJson.FormationResponseSucess(myaccount);
 
     }
