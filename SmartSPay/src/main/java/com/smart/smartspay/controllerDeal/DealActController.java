@@ -16,11 +16,15 @@ import com.smart.smartspay.sign.SignInformationModel;
 import com.smart.smartspay.util.ResponseFormationJson;
 import com.smart.smartspay.util.alipay.config.AlipayConfig;
 import com.smart.smartspay.util.alipay.util.AlipaySubmit;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -70,7 +74,7 @@ public class DealActController {
             myaccount.setMasterVerifyPhone(masterVerifyPhone);
         }
         dealActService.putPrivateAccount(myaccount);
-        
+
         myaccount = myaccountRepository.findOne(myaccount.getAccountId());
         return ResponseFormationJson.FormationResponseSucess(myaccount);
 
@@ -99,8 +103,8 @@ public class DealActController {
         String paramKey_toAccountId = "toAccountId";
         String paramKey_fromAccountId = "fromAccountId";
         String paramKey_total = "total";
-
-        //调用不同的接口实现充值
+        actAlipay(generateActNo(), "actNo", "100", "act");
+//调用不同的接口实现充值
         //dealActService.invalidPrivateAccount(UtileSmart.getStringFromMap(paramMap, paramKey_accountId));
         return ResponseFormationJson.FormationResponseSucess();
     }
@@ -108,69 +112,63 @@ public class DealActController {
     /**
      * generate act no
      */
-    private void generateActNo() {
-        UtileSmart.getCurrentDate("yyyyMMddHHmmss");
+    private String generateActNo() {
+        return UtileSmart.getCurrentDate("yyyyMMddHHmmss");
     }
 
-    private void actAlipay(String actNo, String actName, Double actMoney, String actDescribe) {
-        //支付类型
-        String payment_type = "1";
-        //必填，不能修改
-        //服务器异步通知页面路径
-        String notify_url = "http://商户网关地址/create_direct_pay_by_user-JAVA-UTF-8/notify_url.jsp";
-		//需http://格式的完整路径，不能加?id=123这类自定义参数
-
-        //页面跳转同步通知页面路径
-        String return_url = "http://商户网关地址/create_direct_pay_by_user-JAVA-UTF-8/return_url.jsp";
-		//需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-
-        //商户订单号
-        String out_trade_no = actNo;
-		//商户网站订单系统中唯一订单号，必填
-
-        //订单名称
-        String subject = actName;
-		//必填
-
-        //付款金额
-        String total_fee = actMoney.toString();
-		//必填
-
-        //订单描述
-        String body = actDescribe;
-        //商品展示地址
-        String show_url = "http://show_product/actDescribe.html";
-		//需以http://开头的完整路径，例如：http://www.商户网址.com/myorder.html
-
+    private void actAlipay(String actNo, String actName, String actMoney, String actDescribe) {
         //防钓鱼时间戳
         String anti_phishing_key = "";
-		//若要使用请调用类文件submit中的query_timestamp函数
-
+        //若要使用请调用类文件submit中的query_timestamp函数
         //客户端的IP地址
         String exter_invoke_ip = "";
-        //非局域网的外网IP地址，如：221.0.0.1
-
         //把请求参数打包成数组
         Map<String, String> sParaTemp = new HashMap<String, String>();
         sParaTemp.put("service", "create_direct_pay_by_user");
         sParaTemp.put("partner", AlipayConfig.partner);
         sParaTemp.put("seller_email", AlipayConfig.seller_email);
         sParaTemp.put("_input_charset", AlipayConfig.input_charset);
-        sParaTemp.put("payment_type", payment_type);
-        sParaTemp.put("notify_url", notify_url);
-        sParaTemp.put("return_url", return_url);
-        sParaTemp.put("out_trade_no", out_trade_no);
-        sParaTemp.put("subject", subject);
-        sParaTemp.put("total_fee", total_fee);
-        sParaTemp.put("body", body);
-        sParaTemp.put("show_url", show_url);
+        //支付类型 默认1
+        sParaTemp.put("payment_type", "1");
+        //服务器异步通知页面路径
+        sParaTemp.put("notify_url", "http://220.231.153.66:8007/SmartSPay/pages/notfiyAlipay.jsp");
+        //页面跳转同步通知页面路径
+        sParaTemp.put("return_url", "http://220.231.153.66:8007/SmartSPay/pages/returnAlipay.jsp");
+        //商户订单号
+        sParaTemp.put("out_trade_no", actNo);
+        //订单名称
+        sParaTemp.put("subject", actName);
+        //付款金额
+        sParaTemp.put("total_fee", actMoney);
+        //订单描述
+        sParaTemp.put("body", actDescribe);
+        //商品展示地址
+        sParaTemp.put("show_url", "http://220.231.153.66:8007/SmartSPay/pages/ActDescribe.html");
         sParaTemp.put("anti_phishing_key", anti_phishing_key);
         sParaTemp.put("exter_invoke_ip", exter_invoke_ip);
 
         //建立请求
         String sHtmlText = AlipaySubmit.buildRequest(sParaTemp, "get", "确认");
-
-//                out.println(sHtmlText);
+        Map<String, String> paramMap = AlipaySubmit.buildRequestPara(sParaTemp);
+        getMethodAlipay(paramMap);
     }
 
+    private void getMethodAlipay(Map<String, String> paramMap) {
+        HttpClient httpClient = new HttpClient();
+
+        PostMethod postMethod = new PostMethod(AlipaySubmit.ALIPAY_GATEWAY_CHARSET);
+        for (String keySet : paramMap.keySet()) {
+            postMethod.addParameter(keySet, paramMap.get(keySet));
+        }
+        try {
+            httpClient.executeMethod(postMethod);
+            postMethod.getStatusCode();
+            String resp = postMethod.getResponseBodyAsString();
+            System.out.println(resp);
+        } catch (HttpException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
