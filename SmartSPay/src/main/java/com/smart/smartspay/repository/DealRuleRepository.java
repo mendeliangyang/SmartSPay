@@ -5,13 +5,13 @@
  */
 package com.smart.smartspay.repository;
 
-import com.smart.smartspay.entity.FiledepotLs;
-import org.springframework.data.repository.CrudRepository;
+import com.smart.smartspay.entity.Dealrule;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Administrator
  */
-public interface FileDepotLSRepository extends CrudRepository<FiledepotLs, String> {
-    
+public interface DealRuleRepository extends PagingAndSortingRepository<Dealrule, String> {
+
 }

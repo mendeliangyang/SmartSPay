@@ -6,22 +6,34 @@
 package com.smart.smartspay.service;
 
 import com.smart.smartscommon.util.UtileSmart;
+import com.smart.smartspay.entity.Accountbind;
 import com.smart.smartspay.entity.Accountissue;
+import com.smart.smartspay.entity.Actchannel;
+import com.smart.smartspay.entity.Acton;
+import com.smart.smartspay.entity.Actonrecord;
+import com.smart.smartspay.entity.Dealinterface;
 import com.smart.smartspay.entity.Myaccountstory;
 import com.smart.smartspay.entity.Ledger;
 import com.smart.smartspay.entity.Ledgerstory;
 import com.smart.smartspay.entity.Myaccount;
 import com.smart.smartspay.exception.AccountInfoFailException;
+import com.smart.smartspay.exception.CustomErrorCodeException;
 import com.smart.smartspay.exception.NotFoundException;
 import com.smart.smartspay.exception.NotFoundItemLedgerException;
+import com.smart.smartspay.repository.AccountBindRepository;
 import com.smart.smartspay.repository.AccountIssueRepository;
+import com.smart.smartspay.repository.ActChannelRepository;
+import com.smart.smartspay.repository.DealInterfaceRepository;
+import com.smart.smartspay.repository.DealRuleRepository;
 import com.smart.smartspay.repository.DealTypeRepository;
 import com.smart.smartspay.repository.LedgerStoryRepository;
 import com.smart.smartspay.repository.LedgerRepository;
 import com.smart.smartspay.repository.MyaccountRepository;
 import com.smart.smartspay.repository.MyaccountStoryRepository;
+import com.smart.smartspay.util.DealUtil;
 import com.smart.smartspay.util.ResponseResultCode;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +62,97 @@ public class DealActService {
 
     @Resource
     LedgerRepository ledgerRepository;
+
+    @Resource
+    ActChannelRepository actChannelRepository;
+
+    @Resource
+    DealInterfaceRepository dealInterfaceRepository;
+
+    @Resource
+    DealRuleRepository dealRuleRepository;
+    @Resource
+    AccountBindRepository accountBindRepository;
+
+    @Transactional
+    public void ActAccount(String toAccountId, String fromAccountId, String totalMoney, String userId) throws NotFoundException, CustomErrorCodeException {
+        //查找对应的交易编号渠道
+        Ledger toLedger = ledgerRepository.findOne(toAccountId);
+        if (toLedger == null) {
+            throw new NotFoundException(String.format("ToAccountNotFound:'%s'", toAccountId));
+        }
+        Ledger fromLedger = ledgerRepository.findOne(fromAccountId);
+        if (fromLedger == null) {
+            throw new NotFoundException(String.format("FromAccountNotFound:'%s'", fromAccountId));
+        }
+        // 获取交易渠道
+        Actchannel actChannel = actChannelRepository.findByAccountToIssueAndAccountFromIssue(toLedger.getUserAccountIssue(), fromLedger.getUserAccountIssue());
+        if (actChannel == null) {
+            throw new CustomErrorCodeException(ResponseResultCode.ErrorUndefinedActChannel, "Undefined actChannel.");
+        }
+        Accountbind accountBind = null;
+        //需要绑定验证绑定关系
+        if (actChannel.getBindMust() == 2) {
+            //验证绑定
+            accountBind = verifyAccountBind(fromLedger.getLedgerId(), toLedger.getLedgerId());
+            if (accountBind == null) {
+                throw new CustomErrorCodeException(ResponseResultCode.ErrorDealAccountUnBind, "deal accoun UnBind");
+            }
+        }
+
+        //根据交易渠道获取 交易规则 和交易接口定义
+        List<Dealinterface> dealInterface_list = dealInterfaceRepository.findByDealinterfacePK_DealRuleNo(actChannel.getDealRuleNo());
+        if (dealInterface_list == null || dealInterface_list.isEmpty()) {
+            throw new CustomErrorCodeException(ResponseResultCode.ErrorUndefinedDealInterface, "undefined dealInterface");
+        }
+        //invoke pay interface 
+        if (actChannel.getAccountToIssue().equals("01") && actChannel.getDealType().equals("01")) {
+            //invoke alipay 
+
+            //if result error ,record and repose error;
+            //if result success, record and contiune;
+        }
+        //generate act no
+
+        Date currentDate = new Date();
+        //写交易记录 
+        Acton acton = buildActOn(DealUtil.generateActNo(), userId, fromLedger.getLedgerId(), toLedger.getLedgerId(), totalMoney, currentDate, 1, accountBind == null ? null : accountBind.getAccountBindId());
+        Actonrecord actonRecord = buildActOnRecord(acton);
+    }
+
+    private Acton buildActOn(String actNo, String userId, String fromAccount, String toAccount, String money, Date operationDate, int actOnStatus, String accountBind) {
+        Acton acton = new Acton();
+        acton.setActOnId(actNo);
+        acton.setUserId(userId);
+        acton.setFromAccountId(fromAccount);
+        acton.setToAccountId(toAccount);
+        acton.setActOnDateTime(operationDate);
+        acton.setMoney(money);
+        acton.setOperationTime(operationDate);
+        acton.setActOnStatus(actOnStatus);
+        acton.setAccountBindId(accountBind);
+        return acton;
+
+    }
+
+    private Actonrecord buildActOnRecord(Acton acton) {
+        Actonrecord actonRecord = new Actonrecord();
+        actonRecord.setActOnId(acton.getActOnId());
+        actonRecord.setUserId(acton.getUserId());
+        actonRecord.setFromAccountId(acton.getFromAccountId());
+        actonRecord.setToAccountId(acton.getToAccountId());
+        actonRecord.setActOnDateTime(acton.getActOnDateTime());
+        actonRecord.setMoney(acton.getMoney());
+        actonRecord.setOperationTime(acton.getOperationTime());
+        actonRecord.setActOnStatus(acton.getActOnStatus());
+        actonRecord.setAccountBindId(acton.getAccountBindId());
+        return actonRecord;
+
+    }
+
+    private Accountbind verifyAccountBind(String fromAccount, String toAccount) {
+        return accountBindRepository.findByFromAccountIdAndToAccountId(fromAccount, toAccount);
+    }
 
     @Transactional
     public void putPrivateAccount(Myaccount myaccount) throws NotFoundItemLedgerException, NotFoundException {
@@ -149,4 +252,5 @@ public class DealActService {
         ledgerRepository.delete(ledger);
         myaccountRepository.delete(myaccount.getAccountId());
     }
+
 }

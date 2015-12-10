@@ -15,20 +15,20 @@ import javax.persistence.Embeddable;
  * @author Administrator
  */
 @Embeddable
-public class DealrulePK implements Serializable {
+public class DealinterfacestoryPK implements Serializable {
     @Basic(optional = false)
     @Column(name = "DealRuleNo", nullable = false, length = 20)
     private String dealRuleNo;
     @Basic(optional = false)
-    @Column(name = "SeqId", nullable = false)
-    private int seqId;
+    @Column(name = "DealSeq", nullable = false)
+    private int dealSeq;
 
-    public DealrulePK() {
+    public DealinterfacestoryPK() {
     }
 
-    public DealrulePK(String dealRuleNo, int seqId) {
+    public DealinterfacestoryPK(String dealRuleNo, int dealSeq) {
         this.dealRuleNo = dealRuleNo;
-        this.seqId = seqId;
+        this.dealSeq = dealSeq;
     }
 
     public String getDealRuleNo() {
@@ -39,33 +39,33 @@ public class DealrulePK implements Serializable {
         this.dealRuleNo = dealRuleNo;
     }
 
-    public int getSeqId() {
-        return seqId;
+    public int getDealSeq() {
+        return dealSeq;
     }
 
-    public void setSeqId(int seqId) {
-        this.seqId = seqId;
+    public void setDealSeq(int dealSeq) {
+        this.dealSeq = dealSeq;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (dealRuleNo != null ? dealRuleNo.hashCode() : 0);
-        hash += (int) seqId;
+        hash += (int) dealSeq;
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DealrulePK)) {
+        if (!(object instanceof DealinterfacestoryPK)) {
             return false;
         }
-        DealrulePK other = (DealrulePK) object;
+        DealinterfacestoryPK other = (DealinterfacestoryPK) object;
         if ((this.dealRuleNo == null && other.dealRuleNo != null) || (this.dealRuleNo != null && !this.dealRuleNo.equals(other.dealRuleNo))) {
             return false;
         }
-        if (this.seqId != other.seqId) {
+        if (this.dealSeq != other.dealSeq) {
             return false;
         }
         return true;
@@ -73,7 +73,7 @@ public class DealrulePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.DealrulePK[ dealRuleNo=" + dealRuleNo + ", seqId=" + seqId + " ]";
+        return "com.smart.smartspay.entity.DealinterfacestoryPK[ dealRuleNo=" + dealRuleNo + ", dealSeq=" + dealSeq + " ]";
     }
     
 }

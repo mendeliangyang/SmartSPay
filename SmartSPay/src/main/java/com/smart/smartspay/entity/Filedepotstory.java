@@ -25,44 +25,37 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "filedepot_ls", catalog = "smartpay", schema = "")
+@Table(name = "filedepotstory", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FiledepotLs.findAll", query = "SELECT f FROM FiledepotLs f"),
-    @NamedQuery(name = "FiledepotLs.findByLogId", query = "SELECT f FROM FiledepotLs f WHERE f.logId = :logId"),
-    @NamedQuery(name = "FiledepotLs.findByFileId", query = "SELECT f FROM FiledepotLs f WHERE f.fileId = :fileId"),
-    @NamedQuery(name = "FiledepotLs.findByFName", query = "SELECT f FROM FiledepotLs f WHERE f.fName = :fName"),
-    @NamedQuery(name = "FiledepotLs.findByFPath", query = "SELECT f FROM FiledepotLs f WHERE f.fPath = :fPath"),
-    @NamedQuery(name = "FiledepotLs.findByFSummary", query = "SELECT f FROM FiledepotLs f WHERE f.fSummary = :fSummary"),
-    @NamedQuery(name = "FiledepotLs.findByOwnId", query = "SELECT f FROM FiledepotLs f WHERE f.ownId = :ownId"),
-    @NamedQuery(name = "FiledepotLs.findByOwnFileType", query = "SELECT f FROM FiledepotLs f WHERE f.ownFileType = :ownFileType"),
-    @NamedQuery(name = "FiledepotLs.findByUploadDate", query = "SELECT f FROM FiledepotLs f WHERE f.uploadDate = :uploadDate")})
-public class FiledepotLs implements Serializable {
+    @NamedQuery(name = "Filedepotstory.findAll", query = "SELECT f FROM Filedepotstory f")})
+public class Filedepotstory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "logId", nullable = false)
     private Integer logId;
-    @Column(length = 40)
+    @Column(name = "FileId", length = 40)
     private String fileId;
-    @Column(length = 200)
+    @Column(name = "FName", length = 200)
     private String fName;
-    @Column(length = 400)
+    @Column(name = "FPath", length = 400)
     private String fPath;
-    @Column(length = 60)
+    @Column(name = "FSummary", length = 60)
     private String fSummary;
-    @Column(length = 40)
+    @Column(name = "OwnId", length = 40)
     private String ownId;
-    @Column(length = 60)
+    @Column(name = "OwnFileType", length = 60)
     private String ownFileType;
+    @Column(name = "UploadDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date uploadDate;
 
-    public FiledepotLs() {
+    public Filedepotstory() {
     }
 
-    public FiledepotLs(Integer logId) {
+    public Filedepotstory(Integer logId) {
         this.logId = logId;
     }
 
@@ -140,10 +133,10 @@ public class FiledepotLs implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof FiledepotLs)) {
+        if (!(object instanceof Filedepotstory)) {
             return false;
         }
-        FiledepotLs other = (FiledepotLs) object;
+        Filedepotstory other = (Filedepotstory) object;
         if ((this.logId == null && other.logId != null) || (this.logId != null && !this.logId.equals(other.logId))) {
             return false;
         }
@@ -152,7 +145,7 @@ public class FiledepotLs implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.FiledepotLs[ logId=" + logId + " ]";
+        return "com.smart.smartspay.entity.Filedepotstory[ logId=" + logId + " ]";
     }
     
 }

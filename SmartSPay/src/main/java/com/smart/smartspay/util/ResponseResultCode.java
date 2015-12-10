@@ -25,6 +25,9 @@ public enum ResponseResultCode {
     ErrorAccountLength("6003"),//银行卡长度不正确
     ErrorAccountPattern("6004"),//银行卡格式不正确
     ErrorAccountIssueUnSupport("6005"),//银行卡格式不正确
+    ErrorUndefinedActChannel("6006"),//未定义交易渠道
+    ErrorDealAccountUnBind("6007"),//交易帐号，没有绑定
+    ErrorUndefinedDealInterface("6008")//交易接口规则未定义
     ;
 
     private String describe;

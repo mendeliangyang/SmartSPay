@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,7 +17,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -27,30 +25,32 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "actchannel", catalog = "smartpay", schema = "")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Actchannel.findAll", query = "SELECT a FROM Actchannel a")})
 public class Actchannel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "ActChannelId", nullable = false, length = 40)
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @GeneratedValue(generator = "system-uuid")
     private String actChannelId;
     @Basic(optional = false)
-    @Column(name = "Account1Type", nullable = false, length = 2)
-    private String account1Type;
+    @Column(name = "AccountToIssue", nullable = false, length = 2)
+    private String accountToIssue;
     @Basic(optional = false)
-    @Column(name = "Account2Type", nullable = false, length = 2)
-    private String account2Type;
+    @Column(name = "AccountFromIssue", nullable = false, length = 2)
+    private String accountFromIssue;
     @Basic(optional = false)
     @Column(name = "DealType", nullable = false, length = 2)
     private String dealType;
     @Basic(optional = false)
-    @Column(name = "DealRuleId", nullable = false, length = 20)
-    private String dealRuleId;
+    @Column(name = "DealRuleNo", nullable = false, length = 20)
+    private String dealRuleNo;
     @Basic(optional = false)
     @Column(name = "PutDate", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date putDate;
+    @Column(name = "BindMust")
+    private Integer bindMust;
 
     public Actchannel() {
     }
@@ -59,12 +59,12 @@ public class Actchannel implements Serializable {
         this.actChannelId = actChannelId;
     }
 
-    public Actchannel(String actChannelId, String account1Type, String account2Type, String dealType, String dealRuleId, Date putDate) {
+    public Actchannel(String actChannelId, String accountToIssue, String accountFromIssue, String dealType, String dealRuleNo, Date putDate) {
         this.actChannelId = actChannelId;
-        this.account1Type = account1Type;
-        this.account2Type = account2Type;
+        this.accountToIssue = accountToIssue;
+        this.accountFromIssue = accountFromIssue;
         this.dealType = dealType;
-        this.dealRuleId = dealRuleId;
+        this.dealRuleNo = dealRuleNo;
         this.putDate = putDate;
     }
 
@@ -76,20 +76,20 @@ public class Actchannel implements Serializable {
         this.actChannelId = actChannelId;
     }
 
-    public String getAccount1Type() {
-        return account1Type;
+    public String getAccountToIssue() {
+        return accountToIssue;
     }
 
-    public void setAccount1Type(String account1Type) {
-        this.account1Type = account1Type;
+    public void setAccountToIssue(String accountToIssue) {
+        this.accountToIssue = accountToIssue;
     }
 
-    public String getAccount2Type() {
-        return account2Type;
+    public String getAccountFromIssue() {
+        return accountFromIssue;
     }
 
-    public void setAccount2Type(String account2Type) {
-        this.account2Type = account2Type;
+    public void setAccountFromIssue(String accountFromIssue) {
+        this.accountFromIssue = accountFromIssue;
     }
 
     public String getDealType() {
@@ -100,12 +100,12 @@ public class Actchannel implements Serializable {
         this.dealType = dealType;
     }
 
-    public String getDealRuleId() {
-        return dealRuleId;
+    public String getDealRuleNo() {
+        return dealRuleNo;
     }
 
-    public void setDealRuleId(String dealRuleId) {
-        this.dealRuleId = dealRuleId;
+    public void setDealRuleNo(String dealRuleNo) {
+        this.dealRuleNo = dealRuleNo;
     }
 
     public Date getPutDate() {
@@ -114,6 +114,14 @@ public class Actchannel implements Serializable {
 
     public void setPutDate(Date putDate) {
         this.putDate = putDate;
+    }
+
+    public Integer getBindMust() {
+        return bindMust;
+    }
+
+    public void setBindMust(Integer bindMust) {
+        this.bindMust = bindMust;
     }
 
     @Override

@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Administrator
  */
 @Embeddable
-public class DealrulePK implements Serializable {
+public class DealrulestroryPK implements Serializable {
     @Basic(optional = false)
     @Column(name = "DealRuleNo", nullable = false, length = 20)
     private String dealRuleNo;
@@ -23,10 +23,10 @@ public class DealrulePK implements Serializable {
     @Column(name = "SeqId", nullable = false)
     private int seqId;
 
-    public DealrulePK() {
+    public DealrulestroryPK() {
     }
 
-    public DealrulePK(String dealRuleNo, int seqId) {
+    public DealrulestroryPK(String dealRuleNo, int seqId) {
         this.dealRuleNo = dealRuleNo;
         this.seqId = seqId;
     }
@@ -58,10 +58,10 @@ public class DealrulePK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DealrulePK)) {
+        if (!(object instanceof DealrulestroryPK)) {
             return false;
         }
-        DealrulePK other = (DealrulePK) object;
+        DealrulestroryPK other = (DealrulestroryPK) object;
         if ((this.dealRuleNo == null && other.dealRuleNo != null) || (this.dealRuleNo != null && !this.dealRuleNo.equals(other.dealRuleNo))) {
             return false;
         }
@@ -73,7 +73,7 @@ public class DealrulePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.DealrulePK[ dealRuleNo=" + dealRuleNo + ", seqId=" + seqId + " ]";
+        return "com.smart.smartspay.entity.DealrulestroryPK[ dealRuleNo=" + dealRuleNo + ", seqId=" + seqId + " ]";
     }
     
 }

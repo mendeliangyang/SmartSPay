@@ -15,42 +15,42 @@ import javax.persistence.Embeddable;
  * @author Administrator
  */
 @Embeddable
-public class LedgerdeallogPK implements Serializable {
+public class DealinterfacePK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "LedgerId", nullable = false, length = 40)
-    private String ledgerId;
+    @Column(name = "DealRuleNo", nullable = false, length = 20)
+    private String dealRuleNo;
     @Basic(optional = false)
     @Column(name = "DealSeq", nullable = false)
-    private long dealSeq;
+    private int dealSeq;
 
-    public LedgerdeallogPK() {
+    public DealinterfacePK() {
     }
 
-    public LedgerdeallogPK(String ledgerId, long dealSeq) {
-        this.ledgerId = ledgerId;
+    public DealinterfacePK(String dealRuleNo, int dealSeq) {
+        this.dealRuleNo = dealRuleNo;
         this.dealSeq = dealSeq;
     }
 
-    public String getLedgerId() {
-        return ledgerId;
+    public String getDealRuleNo() {
+        return dealRuleNo;
     }
 
-    public void setLedgerId(String ledgerId) {
-        this.ledgerId = ledgerId;
+    public void setDealRuleNo(String dealRuleNo) {
+        this.dealRuleNo = dealRuleNo;
     }
 
-    public long getDealSeq() {
+    public int getDealSeq() {
         return dealSeq;
     }
 
-    public void setDealSeq(long dealSeq) {
+    public void setDealSeq(int dealSeq) {
         this.dealSeq = dealSeq;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ledgerId != null ? ledgerId.hashCode() : 0);
+        hash += (dealRuleNo != null ? dealRuleNo.hashCode() : 0);
         hash += (int) dealSeq;
         return hash;
     }
@@ -58,11 +58,11 @@ public class LedgerdeallogPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LedgerdeallogPK)) {
+        if (!(object instanceof DealinterfacePK)) {
             return false;
         }
-        LedgerdeallogPK other = (LedgerdeallogPK) object;
-        if ((this.ledgerId == null && other.ledgerId != null) || (this.ledgerId != null && !this.ledgerId.equals(other.ledgerId))) {
+        DealinterfacePK other = (DealinterfacePK) object;
+        if ((this.dealRuleNo == null && other.dealRuleNo != null) || (this.dealRuleNo != null && !this.dealRuleNo.equals(other.dealRuleNo))) {
             return false;
         }
         if (this.dealSeq != other.dealSeq) {
@@ -73,7 +73,7 @@ public class LedgerdeallogPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.LedgerdeallogPK[ ledgerId=" + ledgerId + ", dealSeq=" + dealSeq + " ]";
+        return "com.smart.smartspay.entity.DealinterfacePK[ dealRuleNo=" + dealRuleNo + ", dealSeq=" + dealSeq + " ]";
     }
     
 }

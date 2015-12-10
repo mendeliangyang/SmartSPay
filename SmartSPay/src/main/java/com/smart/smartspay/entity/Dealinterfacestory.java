@@ -20,12 +20,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "dealinterface", catalog = "smartpay", schema = "")
+@Table(name = "dealinterfacestory", catalog = "smartpay", schema = "")
 @XmlRootElement
-public class Dealinterface implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "Dealinterfacestory.findAll", query = "SELECT d FROM Dealinterfacestory d")})
+public class Dealinterfacestory implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected DealinterfacePK dealinterfacePK;
+    protected DealinterfacestoryPK dealinterfacestoryPK;
     @Basic(optional = false)
     @Column(name = "Scale", nullable = false)
     private double scale;
@@ -51,29 +53,29 @@ public class Dealinterface implements Serializable {
     @Column(name = "DealParameter9", length = 400)
     private String dealParameter9;
 
-    public Dealinterface() {
+    public Dealinterfacestory() {
     }
 
-    public Dealinterface(DealinterfacePK dealinterfacePK) {
-        this.dealinterfacePK = dealinterfacePK;
+    public Dealinterfacestory(DealinterfacestoryPK dealinterfacestoryPK) {
+        this.dealinterfacestoryPK = dealinterfacestoryPK;
     }
 
-    public Dealinterface(DealinterfacePK dealinterfacePK, double scale, String receiveAccount) {
-        this.dealinterfacePK = dealinterfacePK;
+    public Dealinterfacestory(DealinterfacestoryPK dealinterfacestoryPK, double scale, String receiveAccount) {
+        this.dealinterfacestoryPK = dealinterfacestoryPK;
         this.scale = scale;
         this.receiveAccount = receiveAccount;
     }
 
-    public Dealinterface(String dealRuleNo, int dealSeq) {
-        this.dealinterfacePK = new DealinterfacePK(dealRuleNo, dealSeq);
+    public Dealinterfacestory(String dealRuleNo, int dealSeq) {
+        this.dealinterfacestoryPK = new DealinterfacestoryPK(dealRuleNo, dealSeq);
     }
 
-    public DealinterfacePK getDealinterfacePK() {
-        return dealinterfacePK;
+    public DealinterfacestoryPK getDealinterfacestoryPK() {
+        return dealinterfacestoryPK;
     }
 
-    public void setDealinterfacePK(DealinterfacePK dealinterfacePK) {
-        this.dealinterfacePK = dealinterfacePK;
+    public void setDealinterfacestoryPK(DealinterfacestoryPK dealinterfacestoryPK) {
+        this.dealinterfacestoryPK = dealinterfacestoryPK;
     }
 
     public double getScale() {
@@ -167,18 +169,18 @@ public class Dealinterface implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (dealinterfacePK != null ? dealinterfacePK.hashCode() : 0);
+        hash += (dealinterfacestoryPK != null ? dealinterfacestoryPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Dealinterface)) {
+        if (!(object instanceof Dealinterfacestory)) {
             return false;
         }
-        Dealinterface other = (Dealinterface) object;
-        if ((this.dealinterfacePK == null && other.dealinterfacePK != null) || (this.dealinterfacePK != null && !this.dealinterfacePK.equals(other.dealinterfacePK))) {
+        Dealinterfacestory other = (Dealinterfacestory) object;
+        if ((this.dealinterfacestoryPK == null && other.dealinterfacestoryPK != null) || (this.dealinterfacestoryPK != null && !this.dealinterfacestoryPK.equals(other.dealinterfacestoryPK))) {
             return false;
         }
         return true;
@@ -186,7 +188,7 @@ public class Dealinterface implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Dealinterface[ dealinterfacePK=" + dealinterfacePK + " ]";
+        return "com.smart.smartspay.entity.Dealinterfacestory[ dealinterfacestoryPK=" + dealinterfacestoryPK + " ]";
     }
     
 }

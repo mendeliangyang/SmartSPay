@@ -20,14 +20,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "dealrule", catalog = "smartpay", schema = "")
+@Table(name = "dealrulestrory", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Dealrule.findAll", query = "SELECT d FROM Dealrule d")})
-public class Dealrule implements Serializable {
+    @NamedQuery(name = "Dealrulestrory.findAll", query = "SELECT d FROM Dealrulestrory d")})
+public class Dealrulestrory implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected DealrulePK dealrulePK;
+    protected DealrulestroryPK dealrulestroryPK;
     @Basic(optional = false)
     @Column(name = "CreditORDebit", nullable = false)
     private int creditORDebit;
@@ -38,30 +38,30 @@ public class Dealrule implements Serializable {
     @Column(name = "ItemIId", nullable = false, length = 40)
     private String itemIId;
 
-    public Dealrule() {
+    public Dealrulestrory() {
     }
 
-    public Dealrule(DealrulePK dealrulePK) {
-        this.dealrulePK = dealrulePK;
+    public Dealrulestrory(DealrulestroryPK dealrulestroryPK) {
+        this.dealrulestroryPK = dealrulestroryPK;
     }
 
-    public Dealrule(DealrulePK dealrulePK, int creditORDebit, double scale, String itemIId) {
-        this.dealrulePK = dealrulePK;
+    public Dealrulestrory(DealrulestroryPK dealrulestroryPK, int creditORDebit, double scale, String itemIId) {
+        this.dealrulestroryPK = dealrulestroryPK;
         this.creditORDebit = creditORDebit;
         this.scale = scale;
         this.itemIId = itemIId;
     }
 
-    public Dealrule(String dealRuleNo, int seqId) {
-        this.dealrulePK = new DealrulePK(dealRuleNo, seqId);
+    public Dealrulestrory(String dealRuleNo, int seqId) {
+        this.dealrulestroryPK = new DealrulestroryPK(dealRuleNo, seqId);
     }
 
-    public DealrulePK getDealrulePK() {
-        return dealrulePK;
+    public DealrulestroryPK getDealrulestroryPK() {
+        return dealrulestroryPK;
     }
 
-    public void setDealrulePK(DealrulePK dealrulePK) {
-        this.dealrulePK = dealrulePK;
+    public void setDealrulestroryPK(DealrulestroryPK dealrulestroryPK) {
+        this.dealrulestroryPK = dealrulestroryPK;
     }
 
     public int getCreditORDebit() {
@@ -91,18 +91,18 @@ public class Dealrule implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (dealrulePK != null ? dealrulePK.hashCode() : 0);
+        hash += (dealrulestroryPK != null ? dealrulestroryPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Dealrule)) {
+        if (!(object instanceof Dealrulestrory)) {
             return false;
         }
-        Dealrule other = (Dealrule) object;
-        if ((this.dealrulePK == null && other.dealrulePK != null) || (this.dealrulePK != null && !this.dealrulePK.equals(other.dealrulePK))) {
+        Dealrulestrory other = (Dealrulestrory) object;
+        if ((this.dealrulestroryPK == null && other.dealrulestroryPK != null) || (this.dealrulestroryPK != null && !this.dealrulestroryPK.equals(other.dealrulestroryPK))) {
             return false;
         }
         return true;
@@ -110,7 +110,7 @@ public class Dealrule implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Dealrule[ dealrulePK=" + dealrulePK + " ]";
+        return "com.smart.smartspay.entity.Dealrulestrory[ dealrulestroryPK=" + dealrulestroryPK + " ]";
     }
     
 }

@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
  * @author Administrator
  */
 @Embeddable
-public class ItemdeallogPK implements Serializable {
+public class ItemdealrecordPK implements Serializable {
     @Basic(optional = false)
     @Column(name = "ItemId", nullable = false, length = 20)
     private String itemId;
@@ -23,10 +23,10 @@ public class ItemdeallogPK implements Serializable {
     @Column(name = "AccountSeq", nullable = false)
     private int accountSeq;
 
-    public ItemdeallogPK() {
+    public ItemdealrecordPK() {
     }
 
-    public ItemdeallogPK(String itemId, int accountSeq) {
+    public ItemdealrecordPK(String itemId, int accountSeq) {
         this.itemId = itemId;
         this.accountSeq = accountSeq;
     }
@@ -58,10 +58,10 @@ public class ItemdeallogPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemdeallogPK)) {
+        if (!(object instanceof ItemdealrecordPK)) {
             return false;
         }
-        ItemdeallogPK other = (ItemdeallogPK) object;
+        ItemdealrecordPK other = (ItemdealrecordPK) object;
         if ((this.itemId == null && other.itemId != null) || (this.itemId != null && !this.itemId.equals(other.itemId))) {
             return false;
         }
@@ -73,7 +73,7 @@ public class ItemdeallogPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.ItemdeallogPK[ itemId=" + itemId + ", accountSeq=" + accountSeq + " ]";
+        return "com.smart.smartspay.entity.ItemdealrecordPK[ itemId=" + itemId + ", accountSeq=" + accountSeq + " ]";
     }
     
 }

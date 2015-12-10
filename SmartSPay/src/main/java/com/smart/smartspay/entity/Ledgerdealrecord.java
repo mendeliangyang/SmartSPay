@@ -23,14 +23,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "ledgerdeallog", catalog = "smartpay", schema = "")
+@Table(name = "ledgerdealrecord", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ledgerdeallog.findAll", query = "SELECT l FROM Ledgerdeallog l")})
-public class Ledgerdeallog implements Serializable {
+    @NamedQuery(name = "Ledgerdealrecord.findAll", query = "SELECT l FROM Ledgerdealrecord l")})
+public class Ledgerdealrecord implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected LedgerdeallogPK ledgerdeallogPK;
+    protected LedgerdealrecordPK ledgerdealrecordPK;
     @Basic(optional = false)
     @Column(name = "UserId", nullable = false, length = 40)
     private String userId;
@@ -51,15 +51,15 @@ public class Ledgerdeallog implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dealDateTime;
 
-    public Ledgerdeallog() {
+    public Ledgerdealrecord() {
     }
 
-    public Ledgerdeallog(LedgerdeallogPK ledgerdeallogPK) {
-        this.ledgerdeallogPK = ledgerdeallogPK;
+    public Ledgerdealrecord(LedgerdealrecordPK ledgerdealrecordPK) {
+        this.ledgerdealrecordPK = ledgerdealrecordPK;
     }
 
-    public Ledgerdeallog(LedgerdeallogPK ledgerdeallogPK, String userId, String userAccountNum, String userAccountIssue, double accountBalance, String itemId, Date dealDateTime) {
-        this.ledgerdeallogPK = ledgerdeallogPK;
+    public Ledgerdealrecord(LedgerdealrecordPK ledgerdealrecordPK, String userId, String userAccountNum, String userAccountIssue, double accountBalance, String itemId, Date dealDateTime) {
+        this.ledgerdealrecordPK = ledgerdealrecordPK;
         this.userId = userId;
         this.userAccountNum = userAccountNum;
         this.userAccountIssue = userAccountIssue;
@@ -68,16 +68,16 @@ public class Ledgerdeallog implements Serializable {
         this.dealDateTime = dealDateTime;
     }
 
-    public Ledgerdeallog(String ledgerId, long dealSeq) {
-        this.ledgerdeallogPK = new LedgerdeallogPK(ledgerId, dealSeq);
+    public Ledgerdealrecord(String ledgerId, long dealSeq) {
+        this.ledgerdealrecordPK = new LedgerdealrecordPK(ledgerId, dealSeq);
     }
 
-    public LedgerdeallogPK getLedgerdeallogPK() {
-        return ledgerdeallogPK;
+    public LedgerdealrecordPK getLedgerdealrecordPK() {
+        return ledgerdealrecordPK;
     }
 
-    public void setLedgerdeallogPK(LedgerdeallogPK ledgerdeallogPK) {
-        this.ledgerdeallogPK = ledgerdeallogPK;
+    public void setLedgerdealrecordPK(LedgerdealrecordPK ledgerdealrecordPK) {
+        this.ledgerdealrecordPK = ledgerdealrecordPK;
     }
 
     public String getUserId() {
@@ -131,18 +131,18 @@ public class Ledgerdeallog implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ledgerdeallogPK != null ? ledgerdeallogPK.hashCode() : 0);
+        hash += (ledgerdealrecordPK != null ? ledgerdealrecordPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Ledgerdeallog)) {
+        if (!(object instanceof Ledgerdealrecord)) {
             return false;
         }
-        Ledgerdeallog other = (Ledgerdeallog) object;
-        if ((this.ledgerdeallogPK == null && other.ledgerdeallogPK != null) || (this.ledgerdeallogPK != null && !this.ledgerdeallogPK.equals(other.ledgerdeallogPK))) {
+        Ledgerdealrecord other = (Ledgerdealrecord) object;
+        if ((this.ledgerdealrecordPK == null && other.ledgerdealrecordPK != null) || (this.ledgerdealrecordPK != null && !this.ledgerdealrecordPK.equals(other.ledgerdealrecordPK))) {
             return false;
         }
         return true;
@@ -150,7 +150,7 @@ public class Ledgerdeallog implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Ledgerdeallog[ ledgerdeallogPK=" + ledgerdeallogPK + " ]";
+        return "com.smart.smartspay.entity.Ledgerdealrecord[ ledgerdealrecordPK=" + ledgerdealrecordPK + " ]";
     }
     
 }

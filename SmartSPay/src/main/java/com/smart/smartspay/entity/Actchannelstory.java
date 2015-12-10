@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,7 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -28,52 +28,59 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "actchannelstory", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Actchannelstory.findAll", query = "SELECT a FROM Actchannelstory a"),
-    @NamedQuery(name = "Actchannelstory.findByActChannelId", query = "SELECT a FROM Actchannelstory a WHERE a.actChannelId = :actChannelId"),
-    @NamedQuery(name = "Actchannelstory.findByAccount1Type", query = "SELECT a FROM Actchannelstory a WHERE a.account1Type = :account1Type"),
-    @NamedQuery(name = "Actchannelstory.findByAccount2Type", query = "SELECT a FROM Actchannelstory a WHERE a.account2Type = :account2Type"),
-    @NamedQuery(name = "Actchannelstory.findByDealType", query = "SELECT a FROM Actchannelstory a WHERE a.dealType = :dealType"),
-    @NamedQuery(name = "Actchannelstory.findByDealRuleId", query = "SELECT a FROM Actchannelstory a WHERE a.dealRuleId = :dealRuleId"),
-    @NamedQuery(name = "Actchannelstory.findByPutDate", query = "SELECT a FROM Actchannelstory a WHERE a.putDate = :putDate")})
+    @NamedQuery(name = "Actchannelstory.findAll", query = "SELECT a FROM Actchannelstory a")})
 public class Actchannelstory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ActChannelStoryId", nullable = false)
+    private Integer actChannelStoryId;
     @Basic(optional = false)
     @Column(name = "ActChannelId", nullable = false, length = 40)
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @GeneratedValue(generator = "system-uuid")
     private String actChannelId;
     @Basic(optional = false)
-    @Column(name = "Account1Type", nullable = false, length = 2)
-    private String account1Type;
+    @Column(name = "AccountToIssue", nullable = false, length = 2)
+    private String accountToIssue;
     @Basic(optional = false)
-    @Column(name = "Account2Type", nullable = false, length = 2)
-    private String account2Type;
+    @Column(name = "AccountFromIssue", nullable = false, length = 2)
+    private String accountFromIssue;
     @Basic(optional = false)
     @Column(name = "DealType", nullable = false, length = 2)
     private String dealType;
     @Basic(optional = false)
-    @Column(name = "DealRuleId", nullable = false, length = 20)
-    private String dealRuleId;
+    @Column(name = "DealRuleNo", nullable = false, length = 20)
+    private String dealRuleNo;
     @Basic(optional = false)
     @Column(name = "PutDate", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date putDate;
+    @Column(name = "BindMust")
+    private Integer bindMust;
 
     public Actchannelstory() {
     }
 
-    public Actchannelstory(String actChannelId) {
-        this.actChannelId = actChannelId;
+    public Actchannelstory(Integer actChannelStoryId) {
+        this.actChannelStoryId = actChannelStoryId;
     }
 
-    public Actchannelstory(String actChannelId, String account1Type, String account2Type, String dealType, String dealRuleId, Date putDate) {
+    public Actchannelstory(Integer actChannelStoryId, String actChannelId, String accountToIssue, String accountFromIssue, String dealType, String dealRuleNo, Date putDate) {
+        this.actChannelStoryId = actChannelStoryId;
         this.actChannelId = actChannelId;
-        this.account1Type = account1Type;
-        this.account2Type = account2Type;
+        this.accountToIssue = accountToIssue;
+        this.accountFromIssue = accountFromIssue;
         this.dealType = dealType;
-        this.dealRuleId = dealRuleId;
+        this.dealRuleNo = dealRuleNo;
         this.putDate = putDate;
+    }
+
+    public Integer getActChannelStoryId() {
+        return actChannelStoryId;
+    }
+
+    public void setActChannelStoryId(Integer actChannelStoryId) {
+        this.actChannelStoryId = actChannelStoryId;
     }
 
     public String getActChannelId() {
@@ -84,20 +91,20 @@ public class Actchannelstory implements Serializable {
         this.actChannelId = actChannelId;
     }
 
-    public String getAccount1Type() {
-        return account1Type;
+    public String getAccountToIssue() {
+        return accountToIssue;
     }
 
-    public void setAccount1Type(String account1Type) {
-        this.account1Type = account1Type;
+    public void setAccountToIssue(String accountToIssue) {
+        this.accountToIssue = accountToIssue;
     }
 
-    public String getAccount2Type() {
-        return account2Type;
+    public String getAccountFromIssue() {
+        return accountFromIssue;
     }
 
-    public void setAccount2Type(String account2Type) {
-        this.account2Type = account2Type;
+    public void setAccountFromIssue(String accountFromIssue) {
+        this.accountFromIssue = accountFromIssue;
     }
 
     public String getDealType() {
@@ -108,12 +115,12 @@ public class Actchannelstory implements Serializable {
         this.dealType = dealType;
     }
 
-    public String getDealRuleId() {
-        return dealRuleId;
+    public String getDealRuleNo() {
+        return dealRuleNo;
     }
 
-    public void setDealRuleId(String dealRuleId) {
-        this.dealRuleId = dealRuleId;
+    public void setDealRuleNo(String dealRuleNo) {
+        this.dealRuleNo = dealRuleNo;
     }
 
     public Date getPutDate() {
@@ -124,10 +131,18 @@ public class Actchannelstory implements Serializable {
         this.putDate = putDate;
     }
 
+    public Integer getBindMust() {
+        return bindMust;
+    }
+
+    public void setBindMust(Integer bindMust) {
+        this.bindMust = bindMust;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (actChannelId != null ? actChannelId.hashCode() : 0);
+        hash += (actChannelStoryId != null ? actChannelStoryId.hashCode() : 0);
         return hash;
     }
 
@@ -138,7 +153,7 @@ public class Actchannelstory implements Serializable {
             return false;
         }
         Actchannelstory other = (Actchannelstory) object;
-        if ((this.actChannelId == null && other.actChannelId != null) || (this.actChannelId != null && !this.actChannelId.equals(other.actChannelId))) {
+        if ((this.actChannelStoryId == null && other.actChannelStoryId != null) || (this.actChannelStoryId != null && !this.actChannelStoryId.equals(other.actChannelStoryId))) {
             return false;
         }
         return true;
@@ -146,7 +161,7 @@ public class Actchannelstory implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Actchannelstory[ actChannelId=" + actChannelId + " ]";
+        return "com.smart.smartspay.entity.Actchannelstory[ actChannelStoryId=" + actChannelStoryId + " ]";
     }
     
 }

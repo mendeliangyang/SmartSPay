@@ -7,9 +7,9 @@ package com.smart.smartspay.service;
 
 import com.smart.smartspay.entity.BaseFileDepot;
 import com.smart.smartspay.entity.Filedepot;
-import com.smart.smartspay.entity.FiledepotLs;
+import com.smart.smartspay.entity.Filedepotstory;
 import com.smart.smartspay.exception.NotFoundException;
-import com.smart.smartspay.repository.FileDepotLSRepository;
+import com.smart.smartspay.repository.FileDepotStoryRepository;
 import com.smart.smartspay.repository.FileDepotRepository;
 import com.smart.smartspay.task.WebSiteConfig;
 import com.smart.smartspay.util.ResponseResultCode;
@@ -32,7 +32,7 @@ public class FileDepotService {
     FileDepotRepository fileDepotRepository;
 
     @Resource
-    FileDepotLSRepository fileDepotLsRepository;
+    FileDepotStoryRepository fileDepotStoryRepository;
 
     @Resource
     WebSiteConfig webSiteConfig;
@@ -40,14 +40,14 @@ public class FileDepotService {
     @Transactional
     public void saveFiles(Set<Filedepot> fileDepots) throws NotFoundException {
         Filedepot tempFileDepot = null;
-        FiledepotLs tempFiledepotLs = null;
+        Filedepotstory tempFiledepotLs = null;
         for (Filedepot fileDepot : fileDepots) {
             if (fileDepot.getFileId() != null && !fileDepot.getFileId().isEmpty()) {
                 tempFileDepot = fileDepotRepository.findOne(fileDepot.getFileId());
                 if (tempFileDepot == null) {
                     throw new NotFoundException(ResponseResultCode.ErrorFileUnExistOnDB, String.format("fileId '%s' does not exist.", fileDepot.getFileId()));
                 }
-                tempFiledepotLs = new FiledepotLs();
+                tempFiledepotLs = new Filedepotstory();
                 tempFiledepotLs.setFName(tempFileDepot.getFName());
                 tempFiledepotLs.setFPath(tempFileDepot.getFPath());
                 tempFiledepotLs.setFSummary(tempFileDepot.getFSummary());
@@ -55,7 +55,7 @@ public class FileDepotService {
                 tempFiledepotLs.setOwnFileType(tempFileDepot.getOwnFileType());
                 tempFiledepotLs.setOwnId(tempFileDepot.getOwnId());
                 tempFiledepotLs.setUploadDate(tempFileDepot.getUploadDate());
-                fileDepotLsRepository.save(tempFiledepotLs);
+                fileDepotStoryRepository.save(tempFiledepotLs);
             }
             fileDepot.setUploadDate(new Date());
             fileDepotRepository.save(fileDepot);

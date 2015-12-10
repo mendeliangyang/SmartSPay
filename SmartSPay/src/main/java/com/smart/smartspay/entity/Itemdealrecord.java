@@ -23,14 +23,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "itemdeallog", catalog = "smartpay", schema = "")
+@Table(name = "itemdealrecord", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Itemdeallog.findAll", query = "SELECT i FROM Itemdeallog i")})
-public class Itemdeallog implements Serializable {
+    @NamedQuery(name = "Itemdealrecord.findAll", query = "SELECT i FROM Itemdealrecord i")})
+public class Itemdealrecord implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected ItemdeallogPK itemdeallogPK;
+    protected ItemdealrecordPK itemdealrecordPK;
     @Basic(optional = false)
     @Column(name = "ParentItemId", nullable = false, length = 20)
     private String parentItemId;
@@ -45,31 +45,31 @@ public class Itemdeallog implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dealDealTime;
 
-    public Itemdeallog() {
+    public Itemdealrecord() {
     }
 
-    public Itemdeallog(ItemdeallogPK itemdeallogPK) {
-        this.itemdeallogPK = itemdeallogPK;
+    public Itemdealrecord(ItemdealrecordPK itemdealrecordPK) {
+        this.itemdealrecordPK = itemdealrecordPK;
     }
 
-    public Itemdeallog(ItemdeallogPK itemdeallogPK, String parentItemId, int creditORDebit, double balance, Date dealDealTime) {
-        this.itemdeallogPK = itemdeallogPK;
+    public Itemdealrecord(ItemdealrecordPK itemdealrecordPK, String parentItemId, int creditORDebit, double balance, Date dealDealTime) {
+        this.itemdealrecordPK = itemdealrecordPK;
         this.parentItemId = parentItemId;
         this.creditORDebit = creditORDebit;
         this.balance = balance;
         this.dealDealTime = dealDealTime;
     }
 
-    public Itemdeallog(String itemId, int accountSeq) {
-        this.itemdeallogPK = new ItemdeallogPK(itemId, accountSeq);
+    public Itemdealrecord(String itemId, int accountSeq) {
+        this.itemdealrecordPK = new ItemdealrecordPK(itemId, accountSeq);
     }
 
-    public ItemdeallogPK getItemdeallogPK() {
-        return itemdeallogPK;
+    public ItemdealrecordPK getItemdealrecordPK() {
+        return itemdealrecordPK;
     }
 
-    public void setItemdeallogPK(ItemdeallogPK itemdeallogPK) {
-        this.itemdeallogPK = itemdeallogPK;
+    public void setItemdealrecordPK(ItemdealrecordPK itemdealrecordPK) {
+        this.itemdealrecordPK = itemdealrecordPK;
     }
 
     public String getParentItemId() {
@@ -107,18 +107,18 @@ public class Itemdeallog implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (itemdeallogPK != null ? itemdeallogPK.hashCode() : 0);
+        hash += (itemdealrecordPK != null ? itemdealrecordPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Itemdeallog)) {
+        if (!(object instanceof Itemdealrecord)) {
             return false;
         }
-        Itemdeallog other = (Itemdeallog) object;
-        if ((this.itemdeallogPK == null && other.itemdeallogPK != null) || (this.itemdeallogPK != null && !this.itemdeallogPK.equals(other.itemdeallogPK))) {
+        Itemdealrecord other = (Itemdealrecord) object;
+        if ((this.itemdealrecordPK == null && other.itemdealrecordPK != null) || (this.itemdealrecordPK != null && !this.itemdealrecordPK.equals(other.itemdealrecordPK))) {
             return false;
         }
         return true;
@@ -126,7 +126,7 @@ public class Itemdeallog implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Itemdeallog[ itemdeallogPK=" + itemdeallogPK + " ]";
+        return "com.smart.smartspay.entity.Itemdealrecord[ itemdealrecordPK=" + itemdealrecordPK + " ]";
     }
     
 }
