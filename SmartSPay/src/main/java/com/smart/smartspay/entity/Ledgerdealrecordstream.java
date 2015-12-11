@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,13 +25,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 @Entity
-@Table(name = "ledgerdealrecord", catalog = "smartpay", schema = "")
+@Table(name = "ledgerdealrecordstream", catalog = "smartpay", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ledgerdealrecord.findAll", query = "SELECT l FROM Ledgerdealrecord l")})
-public class Ledgerdealrecord implements Serializable {
+    @NamedQuery(name = "Ledgerdealrecordstream.findAll", query = "SELECT l FROM Ledgerdealrecordstream l")})
+public class Ledgerdealrecordstream implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "LedgerStreamId", nullable = false)
+    private Integer ledgerStreamId;
     @Basic(optional = false)
     @Column(name = "LedgerId", nullable = false, length = 40)
     private String ledgerId;
@@ -40,8 +46,8 @@ public class Ledgerdealrecord implements Serializable {
     @Column(name = "UserAccountNum", nullable = false, length = 40)
     private String userAccountNum;
     @Basic(optional = false)
-    @Column(name = "Balance", nullable = false, length = 20)
-    private String balance;
+    @Column(name = "AccountBalance", nullable = false, length = 20)
+    private String accountBalance;
     @Basic(optional = false)
     @Column(name = "ItemId", nullable = false, length = 20)
     private String itemId;
@@ -49,21 +55,32 @@ public class Ledgerdealrecord implements Serializable {
     @Column(name = "DealDateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dealDateTime;
+    @Column(name = "DealId", length = 40)
+    private String dealId;
 
-    public Ledgerdealrecord() {
+    public Ledgerdealrecordstream() {
     }
 
-    public Ledgerdealrecord(String ledgerId) {
-        this.ledgerId = ledgerId;
+    public Ledgerdealrecordstream(Integer ledgerStreamId) {
+        this.ledgerStreamId = ledgerStreamId;
     }
 
-    public Ledgerdealrecord(String ledgerId, String userId, String userAccountNum, String balance, String itemId, Date dealDateTime) {
+    public Ledgerdealrecordstream(Integer ledgerStreamId, String ledgerId, String userId, String userAccountNum, String accountBalance, String itemId, Date dealDateTime) {
+        this.ledgerStreamId = ledgerStreamId;
         this.ledgerId = ledgerId;
         this.userId = userId;
         this.userAccountNum = userAccountNum;
-        this.balance = balance;
+        this.accountBalance = accountBalance;
         this.itemId = itemId;
         this.dealDateTime = dealDateTime;
+    }
+
+    public Integer getLedgerStreamId() {
+        return ledgerStreamId;
+    }
+
+    public void setLedgerStreamId(Integer ledgerStreamId) {
+        this.ledgerStreamId = ledgerStreamId;
     }
 
     public String getLedgerId() {
@@ -90,12 +107,12 @@ public class Ledgerdealrecord implements Serializable {
         this.userAccountNum = userAccountNum;
     }
 
-    public String getBalance() {
-        return balance;
+    public String getAccountBalance() {
+        return accountBalance;
     }
 
-    public void setBalance(String balance) {
-        this.balance = balance;
+    public void setAccountBalance(String accountBalance) {
+        this.accountBalance = accountBalance;
     }
 
     public String getItemId() {
@@ -114,21 +131,29 @@ public class Ledgerdealrecord implements Serializable {
         this.dealDateTime = dealDateTime;
     }
 
+    public String getDealId() {
+        return dealId;
+    }
+
+    public void setDealId(String dealId) {
+        this.dealId = dealId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ledgerId != null ? ledgerId.hashCode() : 0);
+        hash += (ledgerStreamId != null ? ledgerStreamId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Ledgerdealrecord)) {
+        if (!(object instanceof Ledgerdealrecordstream)) {
             return false;
         }
-        Ledgerdealrecord other = (Ledgerdealrecord) object;
-        if ((this.ledgerId == null && other.ledgerId != null) || (this.ledgerId != null && !this.ledgerId.equals(other.ledgerId))) {
+        Ledgerdealrecordstream other = (Ledgerdealrecordstream) object;
+        if ((this.ledgerStreamId == null && other.ledgerStreamId != null) || (this.ledgerStreamId != null && !this.ledgerStreamId.equals(other.ledgerStreamId))) {
             return false;
         }
         return true;
@@ -136,7 +161,7 @@ public class Ledgerdealrecord implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Ledgerdealrecord[ ledgerId=" + ledgerId + " ]";
+        return "com.smart.smartspay.entity.Ledgerdealrecordstream[ ledgerStreamId=" + ledgerStreamId + " ]";
     }
     
 }

@@ -12,8 +12,13 @@ import com.smart.smartspay.entity.Actchannel;
 import com.smart.smartspay.entity.Acton;
 import com.smart.smartspay.entity.Actonrecord;
 import com.smart.smartspay.entity.Dealinterface;
+import com.smart.smartspay.entity.Dealrule;
+import com.smart.smartspay.entity.Item;
+import com.smart.smartspay.entity.Itemdealrecord;
+import com.smart.smartspay.entity.Itemdealrecordstream;
 import com.smart.smartspay.entity.Myaccountstory;
 import com.smart.smartspay.entity.Ledger;
+import com.smart.smartspay.entity.Ledgerdealrecordstream;
 import com.smart.smartspay.entity.Ledgerstory;
 import com.smart.smartspay.entity.Myaccount;
 import com.smart.smartspay.exception.AccountInfoFailException;
@@ -26,12 +31,14 @@ import com.smart.smartspay.repository.ActChannelRepository;
 import com.smart.smartspay.repository.DealInterfaceRepository;
 import com.smart.smartspay.repository.DealRuleRepository;
 import com.smart.smartspay.repository.DealTypeRepository;
+import com.smart.smartspay.repository.ItemRepository;
 import com.smart.smartspay.repository.LedgerStoryRepository;
 import com.smart.smartspay.repository.LedgerRepository;
 import com.smart.smartspay.repository.MyaccountRepository;
 import com.smart.smartspay.repository.MyaccountStoryRepository;
 import com.smart.smartspay.util.DealUtil;
 import com.smart.smartspay.util.ResponseResultCode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
@@ -73,6 +80,8 @@ public class DealActService {
     DealRuleRepository dealRuleRepository;
     @Resource
     AccountBindRepository accountBindRepository;
+    @Resource
+    ItemRepository itemRepository;
 
     @Transactional
     public void ActAccount(String toAccountId, String fromAccountId, String totalMoney, String userId) throws NotFoundException, CustomErrorCodeException {
@@ -85,8 +94,8 @@ public class DealActService {
         if (fromLedger == null) {
             throw new NotFoundException(String.format("FromAccountNotFound:'%s'", fromAccountId));
         }
-        // 获取交易渠道
-        Actchannel actChannel = actChannelRepository.findByAccountToIssueAndAccountFromIssue(toLedger.getUserAccountIssue(), fromLedger.getUserAccountIssue());
+        // 根据 from to dealType（充值交易01） 获取交易渠道
+        Actchannel actChannel = actChannelRepository.findByAccountToIssueAndAccountFromIssueAndDealType(toLedger.getAccountIssue(), fromLedger.getAccountIssue(), "01");
         if (actChannel == null) {
             throw new CustomErrorCodeException(ResponseResultCode.ErrorUndefinedActChannel, "Undefined actChannel.");
         }
@@ -100,24 +109,85 @@ public class DealActService {
             }
         }
 
-        //根据交易渠道获取 交易规则 和交易接口定义
+        //根据交易渠道获取  交易接口定义 
         List<Dealinterface> dealInterface_list = dealInterfaceRepository.findByDealinterfacePK_DealRuleNo(actChannel.getDealRuleNo());
         if (dealInterface_list == null || dealInterface_list.isEmpty()) {
             throw new CustomErrorCodeException(ResponseResultCode.ErrorUndefinedDealInterface, "undefined dealInterface");
         }
         //invoke pay interface 
-        if (actChannel.getAccountToIssue().equals("01") && actChannel.getDealType().equals("01")) {
+        // from account issue 01 alipay ,
+        if (actChannel.getAccountFromIssue().equals("01")) {
             //invoke alipay 
 
             //if result error ,record and repose error;
             //if result success, record and contiune;
+            
         }
         //generate act no
-
+        String actNo = DealUtil.generateActNo();
         Date currentDate = new Date();
-        //写交易记录 
-        Acton acton = buildActOn(DealUtil.generateActNo(), userId, fromLedger.getLedgerId(), toLedger.getLedgerId(), totalMoney, currentDate, 1, accountBind == null ? null : accountBind.getAccountBindId());
+        //交易记录 
+        Acton acton = buildActOn(actNo, userId, fromLedger.getLedgerId(), toLedger.getLedgerId(), totalMoney, currentDate, 1, accountBind == null ? null : accountBind.getAccountBindId());
         Actonrecord actonRecord = buildActOnRecord(acton);
+
+        //账目, 分户账 记录
+        List<Itemdealrecordstream> list_ItemDealRecordStream = new ArrayList<Itemdealrecordstream>();
+        List<Ledgerdealrecordstream> list_ItemLedgerDealRecordStream = new ArrayList<Ledgerdealrecordstream>();
+        buildItemDealRecord(list_ItemDealRecordStream, list_ItemLedgerDealRecordStream, actChannel.getDealRuleNo(), totalMoney, currentDate, actNo, userId, toLedger, fromLedger);
+        if (list_ItemDealRecordStream.isEmpty()) {
+            throw new CustomErrorCodeException(ResponseResultCode.ErrorBuildItemDealStreamEmpty, "build item deal record stream empty.");
+        }
+        if (list_ItemDealRecordStream.isEmpty()) {
+            throw new CustomErrorCodeException(ResponseResultCode.ErrorBuildLedgerDealStreamEmpty, "build ledger deal record stream empty.");
+        }
+
+        //TODO save to db . deal success.
+    }
+
+//    private List<Ledgerdealrecordstream> buildLedgerDealRecordStream() {
+//        
+//    }
+    private void buildItemDealRecord(List<Itemdealrecordstream> list_itemDealRecordStream, List<Ledgerdealrecordstream> list_ItemLedgerDealRecordStream, String dealRuleNo, String balance, Date dealDate, String dealId, String userId, Ledger toLedger, Ledger fromLedger) throws CustomErrorCodeException {
+        List<Dealrule> list_dealRule = dealRuleRepository.findByDealrulePK_DealRuleNo(dealRuleNo);
+        if (list_dealRule == null || list_dealRule.isEmpty()) {
+            throw new CustomErrorCodeException(ResponseResultCode.ErrorUndefinedDealRule, "undefined DealRule.");
+        }
+        Itemdealrecordstream itemDealRecordStream = null;
+        Item item = null;
+//        Ledger ledger = null;
+        Ledgerdealrecordstream ledgerDealRecordStream = null;
+        String calcBalance = null;
+//        List<Itemdealrecordstream> list_itemDealRecordStream = new ArrayList<Itemdealrecordstream>();
+//        List<Ledgerdealrecordstream> list_ItemLedgerDealRecordStream = new ArrayList<Ledgerdealrecordstream>();
+
+        for (Dealrule dealRule : list_dealRule) {
+            item = itemRepository.findOne(dealRule.getItemIId());
+            if (item == null) {
+                throw new CustomErrorCodeException(ResponseResultCode.ErrorUndefinedItem, "undefined item");
+            }
+            calcBalance = UtileSmart.multiply(balance, dealRule.getScale());
+
+            itemDealRecordStream = new Itemdealrecordstream();
+            itemDealRecordStream.setDealDealTime(dealDate);
+            itemDealRecordStream.setDealId(dealId);
+            itemDealRecordStream.setCreditORDebit(item.getCreditORDebit());
+            itemDealRecordStream.setItemId(item.getItemId());
+            itemDealRecordStream.setBalance(calcBalance);
+            list_itemDealRecordStream.add(itemDealRecordStream);
+
+            if (item.getItemId().equals(fromLedger.getItemId()) || item.getItemId().equals(toLedger.getItemId())) {
+                ledgerDealRecordStream = new Ledgerdealrecordstream();
+                ledgerDealRecordStream.setAccountBalance(calcBalance);
+                ledgerDealRecordStream.setDealDateTime(dealDate);
+                ledgerDealRecordStream.setItemId(item.getItemId());
+                ledgerDealRecordStream.setUserId(userId);
+                ledgerDealRecordStream.setDealId(dealId);
+                ledgerDealRecordStream.setLedgerId(item.getItemId().equals(fromLedger.getItemId()) ? fromLedger.getLedgerId() : toLedger.getLedgerId());
+                ledgerDealRecordStream.setUserAccountNum(item.getItemId().equals(fromLedger.getItemId()) ? fromLedger.getAccountNum() : toLedger.getAccountNum());
+                list_ItemLedgerDealRecordStream.add(ledgerDealRecordStream);
+            }
+
+        }
     }
 
     private Acton buildActOn(String actNo, String userId, String fromAccount, String toAccount, String money, Date operationDate, int actOnStatus, String accountBind) {
@@ -173,8 +243,8 @@ public class DealActService {
         ledger.setAccountBalance(0);
         ledger.setDealSeq(0);
         ledger.setPutLedgerDateTime(myaccount.getPutTime());
-        ledger.setUserAccountNum(myaccount.getAccountNum());
-        ledger.setUserAccountIssue(myaccount.getAccountIssue());
+        ledger.setAccountNum(myaccount.getAccountNum());
+        ledger.setAccountIssue(myaccount.getAccountIssue());
         ledger.setUserId(myaccount.getUserId());
         ledger.setItemId(myaccount.getItemId());
         ledger.setLedgerId(myaccount.getAccountId());
@@ -185,8 +255,8 @@ public class DealActService {
         ledgerStory.setAccountBalance(ledger.getAccountBalance());
         ledgerStory.setDealSeq(ledger.getDealSeq());
         ledgerStory.setPutLedgerDateTime(ledger.getPutLedgerDateTime());
-        ledgerStory.setUserAccountNum(ledger.getUserAccountNum());
-        ledgerStory.setUserAccountIssue(ledger.getUserAccountIssue());
+        ledgerStory.setAccountNum(ledger.getAccountNum());
+        ledgerStory.setAccountIssue(ledger.getAccountIssue());
         ledgerStory.setUserId(ledger.getUserId());
         ledgerStory.setItemId(ledger.getItemId());
         ledgerStory.setLedgerId(ledger.getLedgerId());
@@ -240,8 +310,8 @@ public class DealActService {
         ledgerStory.setDealSeq(ledger.getDealSeq());
         ledgerStory.setItemId(ledger.getItemId());
         ledgerStory.setPutLedgerDateTime(ledger.getPutLedgerDateTime());
-        ledgerStory.setUserAccountIssue(ledger.getUserAccountIssue());
-        ledgerStory.setUserAccountNum(ledger.getUserAccountNum());
+        ledgerStory.setAccountIssue(ledger.getAccountIssue());
+        ledgerStory.setAccountNum(ledger.getAccountNum());
         ledgerStory.setUserId(ledger.getUserId());
         ledgerStory.setLedgerId(ledger.getLedgerId());
         ledgerStory.setLedgerStatus(2);

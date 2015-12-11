@@ -12,6 +12,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  *
  * @author Administrator
  */
-public interface LedgerRepository extends PagingAndSortingRepository<Ledger, String>{
-    
+public interface LedgerRepository extends PagingAndSortingRepository<Ledger, String> {
+
+    Ledger findByUserIdAndUserAccountNumAndItemId(String userId, String userAccountNum, String itemId);
 }

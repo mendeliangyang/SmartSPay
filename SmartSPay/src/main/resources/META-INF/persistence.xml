@@ -31,8 +31,6 @@
     <class>com.smart.smartspay.entity.Accountbindstory</class>
     <class>com.smart.smartspay.entity.Itemstory</class>
     <class>com.smart.smartspay.entity.Item</class>
-    <class>com.smart.smartspay.entity.Ledgerstory</class>
-    <class>com.smart.smartspay.entity.Ledger</class>
     <class>com.smart.smartspay.entity.Accountissue</class>
     <class>com.smart.smartspay.entity.Bankissue</class>
     <class>com.smart.smartspay.entity.Actchannelstory</class>
@@ -40,11 +38,15 @@
     <class>com.smart.smartspay.entity.Itemdealrecord</class>
     <class>com.smart.smartspay.entity.Dealrulestrory</class>
     <class>com.smart.smartspay.entity.Actonrecord</class>
-    <class>com.smart.smartspay.entity.Ledgerdealrecord</class>
     <class>com.smart.smartspay.entity.Actchannel</class>
     <class>com.smart.smartspay.entity.Dealinterface</class>
     <class>com.smart.smartspay.entity.Dealinterfacestory</class>
     <class>com.smart.smartspay.entity.Filedepotstory</class>
+    <class>com.smart.smartspay.entity.Itemdealrecordstream</class>
+    <class>com.smart.smartspay.entity.Ledgerdealrecordstream</class>
+    <class>com.smart.smartspay.entity.Ledgerdealrecord</class>
+    <class>com.smart.smartspay.entity.Ledgerstory</class>
+    <class>com.smart.smartspay.entity.Ledger</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://220.231.153.66:8006/smartpay?zeroDateTimeBehavior=convertToNull"/>

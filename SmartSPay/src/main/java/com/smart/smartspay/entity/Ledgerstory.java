@@ -34,8 +34,8 @@ public class Ledgerstory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "LedgerStoryId", nullable = false)
-    private Integer ledgerStoryId;
+    @Column(name = "LedgerStory", nullable = false)
+    private Integer ledgerStory;
     @Basic(optional = false)
     @Column(name = "LedgerId", nullable = false, length = 40)
     private String ledgerId;
@@ -43,11 +43,11 @@ public class Ledgerstory implements Serializable {
     @Column(name = "UserId", nullable = false, length = 40)
     private String userId;
     @Basic(optional = false)
-    @Column(name = "UserAccountNum", nullable = false, length = 40)
-    private String userAccountNum;
+    @Column(name = "AccountNum", nullable = false, length = 40)
+    private String accountNum;
     @Basic(optional = false)
-    @Column(name = "UserAccountIssue", nullable = false, length = 20)
-    private String userAccountIssue;
+    @Column(name = "AccountIssue", nullable = false, length = 2)
+    private String accountIssue;
     @Basic(optional = false)
     @Column(name = "AccountBalance", nullable = false)
     private double accountBalance;
@@ -61,7 +61,8 @@ public class Ledgerstory implements Serializable {
     @Column(name = "PutLedgerDateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date putLedgerDateTime;
-    @Column(name = "OperationDateTime")
+    @Basic(optional = false)
+    @Column(name = "OperationDateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date operationDateTime;
     @Basic(optional = false)
@@ -71,29 +72,30 @@ public class Ledgerstory implements Serializable {
     public Ledgerstory() {
     }
 
-    public Ledgerstory(Integer ledgerStoryId) {
-        this.ledgerStoryId = ledgerStoryId;
+    public Ledgerstory(Integer ledgerStory) {
+        this.ledgerStory = ledgerStory;
     }
 
-    public Ledgerstory(Integer ledgerStoryId, String ledgerId, String userId, String userAccountNum, String userAccountIssue, double accountBalance, String itemId, long dealSeq, Date putLedgerDateTime, int ledgerStatus) {
-        this.ledgerStoryId = ledgerStoryId;
+    public Ledgerstory(Integer ledgerStory, String ledgerId, String userId, String accountNum, String accountIssue, double accountBalance, String itemId, long dealSeq, Date putLedgerDateTime, Date operationDateTime, int ledgerStatus) {
+        this.ledgerStory = ledgerStory;
         this.ledgerId = ledgerId;
         this.userId = userId;
-        this.userAccountNum = userAccountNum;
-        this.userAccountIssue = userAccountIssue;
+        this.accountNum = accountNum;
+        this.accountIssue = accountIssue;
         this.accountBalance = accountBalance;
         this.itemId = itemId;
         this.dealSeq = dealSeq;
         this.putLedgerDateTime = putLedgerDateTime;
+        this.operationDateTime = operationDateTime;
         this.ledgerStatus = ledgerStatus;
     }
 
-    public Integer getLedgerStoryId() {
-        return ledgerStoryId;
+    public Integer getLedgerStory() {
+        return ledgerStory;
     }
 
-    public void setLedgerStoryId(Integer ledgerStoryId) {
-        this.ledgerStoryId = ledgerStoryId;
+    public void setLedgerStory(Integer ledgerStory) {
+        this.ledgerStory = ledgerStory;
     }
 
     public String getLedgerId() {
@@ -112,20 +114,20 @@ public class Ledgerstory implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserAccountNum() {
-        return userAccountNum;
+    public String getAccountNum() {
+        return accountNum;
     }
 
-    public void setUserAccountNum(String userAccountNum) {
-        this.userAccountNum = userAccountNum;
+    public void setAccountNum(String accountNum) {
+        this.accountNum = accountNum;
     }
 
-    public String getUserAccountIssue() {
-        return userAccountIssue;
+    public String getAccountIssue() {
+        return accountIssue;
     }
 
-    public void setUserAccountIssue(String userAccountIssue) {
-        this.userAccountIssue = userAccountIssue;
+    public void setAccountIssue(String accountIssue) {
+        this.accountIssue = accountIssue;
     }
 
     public double getAccountBalance() {
@@ -179,7 +181,7 @@ public class Ledgerstory implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ledgerStoryId != null ? ledgerStoryId.hashCode() : 0);
+        hash += (ledgerStory != null ? ledgerStory.hashCode() : 0);
         return hash;
     }
 
@@ -190,7 +192,7 @@ public class Ledgerstory implements Serializable {
             return false;
         }
         Ledgerstory other = (Ledgerstory) object;
-        if ((this.ledgerStoryId == null && other.ledgerStoryId != null) || (this.ledgerStoryId != null && !this.ledgerStoryId.equals(other.ledgerStoryId))) {
+        if ((this.ledgerStory == null && other.ledgerStory != null) || (this.ledgerStory != null && !this.ledgerStory.equals(other.ledgerStory))) {
             return false;
         }
         return true;
@@ -198,7 +200,7 @@ public class Ledgerstory implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smart.smartspay.entity.Ledgerstory[ ledgerStoryId=" + ledgerStoryId + " ]";
+        return "com.smart.smartspay.entity.Ledgerstory[ ledgerStory=" + ledgerStory + " ]";
     }
     
 }

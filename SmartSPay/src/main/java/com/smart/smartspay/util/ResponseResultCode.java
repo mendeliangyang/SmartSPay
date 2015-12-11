@@ -27,7 +27,12 @@ public enum ResponseResultCode {
     ErrorAccountIssueUnSupport("6005"),//银行卡格式不正确
     ErrorUndefinedActChannel("6006"),//未定义交易渠道
     ErrorDealAccountUnBind("6007"),//交易帐号，没有绑定
-    ErrorUndefinedDealInterface("6008")//交易接口规则未定义
+    ErrorUndefinedDealInterface("6008"),//交易接口规则未定义
+    ErrorUndefinedDealRule("6009"),//交易规则未定义 DealRule
+    ErrorUndefinedItem("6010"),//交易科目
+    ErrorUndefinedLedger("6011"),//未定义分户账
+    ErrorBuildItemDealStreamEmpty("6012"),//生成科目流水帐为空
+    ErrorBuildLedgerDealStreamEmpty("6013"),//生成分户账流水为空
     ;
 
     private String describe;

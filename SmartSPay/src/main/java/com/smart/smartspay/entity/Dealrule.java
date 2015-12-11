@@ -32,8 +32,8 @@ public class Dealrule implements Serializable {
     @Column(name = "CreditORDebit", nullable = false)
     private int creditORDebit;
     @Basic(optional = false)
-    @Column(name = "Scale", nullable = false)
-    private double scale;
+    @Column(name = "Scale", nullable = false, length = 8)
+    private String scale;
     @Basic(optional = false)
     @Column(name = "ItemIId", nullable = false, length = 40)
     private String itemIId;
@@ -45,7 +45,7 @@ public class Dealrule implements Serializable {
         this.dealrulePK = dealrulePK;
     }
 
-    public Dealrule(DealrulePK dealrulePK, int creditORDebit, double scale, String itemIId) {
+    public Dealrule(DealrulePK dealrulePK, int creditORDebit, String scale, String itemIId) {
         this.dealrulePK = dealrulePK;
         this.creditORDebit = creditORDebit;
         this.scale = scale;
@@ -72,11 +72,11 @@ public class Dealrule implements Serializable {
         this.creditORDebit = creditORDebit;
     }
 
-    public double getScale() {
+    public String getScale() {
         return scale;
     }
 
-    public void setScale(double scale) {
+    public void setScale(String scale) {
         this.scale = scale;
     }
 

@@ -6,12 +6,15 @@
 package com.smart.smartspay.repository;
 
 import com.smart.smartspay.entity.Dealrule;
+import com.smart.smartspay.entity.DealrulePK;
+import java.util.List;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Administrator
  */
-public interface DealRuleRepository extends PagingAndSortingRepository<Dealrule, String> {
+public interface DealRuleRepository extends PagingAndSortingRepository<Dealrule, DealrulePK> {
 
+    List<Dealrule> findByDealrulePK_DealRuleNo(String dealRuleNo);
 }

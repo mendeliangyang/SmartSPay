@@ -14,5 +14,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface ActChannelRepository extends PagingAndSortingRepository<Actchannel, String> {
 
-    Actchannel findByAccountToIssueAndAccountFromIssue(String accountToIssue, String accountFromIssue);
+    Actchannel findByAccountToIssueAndAccountFromIssueAndDealType(String accountToIssue, String accountFromIssue, String dealType);
 }

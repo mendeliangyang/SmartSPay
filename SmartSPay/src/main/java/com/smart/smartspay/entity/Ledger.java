@@ -37,11 +37,11 @@ public class Ledger implements Serializable {
     @Column(name = "UserId", nullable = false, length = 40)
     private String userId;
     @Basic(optional = false)
-    @Column(name = "UserAccountNum", nullable = false, length = 40)
-    private String userAccountNum;
+    @Column(name = "AccountNum", nullable = false, length = 40)
+    private String accountNum;
     @Basic(optional = false)
-    @Column(name = "UserAccountIssue", nullable = false, length = 20)
-    private String userAccountIssue;
+    @Column(name = "AccountIssue", nullable = false, length = 2)
+    private String accountIssue;
     @Basic(optional = false)
     @Column(name = "AccountBalance", nullable = false)
     private double accountBalance;
@@ -55,7 +55,8 @@ public class Ledger implements Serializable {
     @Column(name = "PutLedgerDateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date putLedgerDateTime;
-    @Column(name = "OperationDateTime")
+    @Basic(optional = false)
+    @Column(name = "OperationDateTime", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date operationDateTime;
     @Basic(optional = false)
@@ -69,15 +70,16 @@ public class Ledger implements Serializable {
         this.ledgerId = ledgerId;
     }
 
-    public Ledger(String ledgerId, String userId, String userAccountNum, String userAccountIssue, double accountBalance, String itemId, long dealSeq, Date putLedgerDateTime, int ledgerStatus) {
+    public Ledger(String ledgerId, String userId, String accountNum, String accountIssue, double accountBalance, String itemId, long dealSeq, Date putLedgerDateTime, Date operationDateTime, int ledgerStatus) {
         this.ledgerId = ledgerId;
         this.userId = userId;
-        this.userAccountNum = userAccountNum;
-        this.userAccountIssue = userAccountIssue;
+        this.accountNum = accountNum;
+        this.accountIssue = accountIssue;
         this.accountBalance = accountBalance;
         this.itemId = itemId;
         this.dealSeq = dealSeq;
         this.putLedgerDateTime = putLedgerDateTime;
+        this.operationDateTime = operationDateTime;
         this.ledgerStatus = ledgerStatus;
     }
 
@@ -97,20 +99,20 @@ public class Ledger implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserAccountNum() {
-        return userAccountNum;
+    public String getAccountNum() {
+        return accountNum;
     }
 
-    public void setUserAccountNum(String userAccountNum) {
-        this.userAccountNum = userAccountNum;
+    public void setAccountNum(String accountNum) {
+        this.accountNum = accountNum;
     }
 
-    public String getUserAccountIssue() {
-        return userAccountIssue;
+    public String getAccountIssue() {
+        return accountIssue;
     }
 
-    public void setUserAccountIssue(String userAccountIssue) {
-        this.userAccountIssue = userAccountIssue;
+    public void setAccountIssue(String accountIssue) {
+        this.accountIssue = accountIssue;
     }
 
     public double getAccountBalance() {
