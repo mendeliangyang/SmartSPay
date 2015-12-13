@@ -79,4 +79,9 @@ public class FileDepotService {
         }
         return owns;
     }
+
+    public <T extends BaseFileDepot> T getFilesByOwn(T own) {
+        own.setFileDetail(getFilesByOwnId(own.getFileOwnId()));
+        return own;
+    }
 }

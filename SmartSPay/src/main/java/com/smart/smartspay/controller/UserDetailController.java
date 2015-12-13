@@ -10,6 +10,7 @@ import com.smart.smartscommon.util.UtileSmart;
 import com.smart.smartscommon.util.gsonsmart.SmartExclusionStrategy;
 import com.smart.smartspay.entity.Userdetail;
 import com.smart.smartspay.repository.UserDetailRepository;
+import com.smart.smartspay.service.FileDepotService;
 import com.smart.smartspay.service.UserService;
 import com.smart.smartspay.sign.SignCommon;
 import com.smart.smartspay.sign.SignInformationModel;
@@ -41,6 +42,9 @@ public class UserDetailController {
 
     @Resource
     UserService userService;
+
+    @Resource
+    FileDepotService fileDepotService;
 
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -155,6 +159,7 @@ public class UserDetailController {
         //登录成功，返回用户信息
         SignInformationModel signModel = SignCommon.SignIn(userdeatil.getUserId(), null, null);
         Map<String, Object> results = new HashMap<String, Object>();
+        fileDepotService.getFilesByOwn(userdeatil);
         results.put("token", signModel.getToken());
         results.put("userdetail", userdeatil);
         return ResponseFormationJson.FormationResponseSucess(results);
